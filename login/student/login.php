@@ -36,15 +36,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                     break;
 
                 case 'registered':
-                    header("Location: enrollment_process.html");
+                    header("Location: ../../student/enrollment.html");
                     break;
 
                 case 'enrolled':
-                    header("Location: student.html");
+                    header("Location: ../../studentdashboard.html");
                     break;
 
                 case 'not-enrolled':
-                    header("Location: enrollment_process.html");
+                    header("Location: ../../student/enrollment.html");
                     break;
 
                 default:
