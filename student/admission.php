@@ -10,7 +10,7 @@ include '../php/conn.php';
 
 $studentNumber = $_SESSION['student_number'];
 
-$sql = "SELECT st.first_name, st.surname, st.middle_name, si.status, ed.course, ci.city, ci.mobile_number, ci.email
+$sql = "SELECT st.first_name, st.surname, st.middle_name, st.suffix, si.status, ed.course, ci.city, ci.mobile_number, ci.email
         FROM student_number sn 
         JOIN school_account sa ON sn.student_number_id = sa.student_number_id
         JOIN student_information si ON sa.school_account_id = si.school_account_id
@@ -44,6 +44,7 @@ if ($result->num_rows == 1) {
     $city = $row['city'];
     $mobile_number = $row['mobile_number'];
     $email = $row['email'];
+    $suffix = $row['suffix'];
 
     $stmt->close();
 } else {
@@ -245,7 +246,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])){
                                 <div class="flex justify-start items-center grid grid-cols-2 gap-1">
                                     <div>Suffix:</div>
                                     <div>
-                                        <div><select name="suffix" id="suffixMenu" class="text-sm p-1 border border-blue-200 rounded-md"></select></div>
+                                        <div><?php echo htmlspecialchars($suffix, ENT_QUOTES, 'UTF-8'); ?></div>
                                     </div>
                                 </div>
                             </div>
