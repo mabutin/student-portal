@@ -205,16 +205,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/custom.css">
     <title>Admission Page</title>
 </head>
 <body>
-    <div>
+    <div style="background: radial-gradient(at center, rgba(118, 163, 224, 0.3  ), #FFFFFF);">
         <div>
-            <?php include '../php/topbar.php'; ?>
+            <?php include './topbar.php'; ?>
         </div>
         <form action="./admission.php" method="post">
             <div class="w-full inline-flex justify-center">
-                <div class="w-1/2 border border-blue-100 shadow-md p-4">
+                <div class="w-1/2 border border-blue-100 shadow-md p-4 bg-white">
                     <div class="italic mb-6">Welcome to our admission form! We're excited to have you on board. <br><br>To make the process quick and easy, we just need some basic personal information, 
                         contact information, educational attainment, and family record. Your privacy is important to us, and all information provided will be kept confidential. 
                         <br><br>Let's get started on this journey together - fill out the form, and you'll be on your way to enrolling with us!
