@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                     </div>
                     <div class="my-4">
                     <form action="/ollcInformationSystem/login.php" method="post">
-                        <div class='text-xl text-center font-medium'>ADMIN LOGIN</div>
+                        <div class='text-xl text-center font-medium'>STUDENT LOGIN</div>
                         <div class='text-lg py-2 font-medium'>Username:</div>
                         <div class='text-lg p-1 border border-blue-200 rounded-md'><input type="text" id='student_number' name='student_number' autoComplete='none' class='w-full p-1' placeholder='Enter your Username'/></div>
                         <div class='text-lg py-2 font-medium'>Password:</div>
