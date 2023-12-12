@@ -1,4 +1,4 @@
-fetch('./topbar.html')
+fetch('./website/topbar.html')
     .then(response => response.text())
     .then(data => {
         document.getElementById('topbarContainer').innerHTML = data;
