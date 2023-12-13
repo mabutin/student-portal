@@ -89,12 +89,28 @@ if ($result->num_rows == 1) {
                     <div class="mt-4 w-full">
                         <div class="flex justify-start items-center w-full gap-2">
                             <div class="font-bold text-lg w-auto">
-                                You're applying for: 
+                                You applied for: 
                             </div>
                             <div class="w-3/4">
                                 <div><select name="course" id="courseMenu" class="text-sm p-1 border border-blue-200 rounded-md"></select></div>
                             </div>
-                        </div>
+                        </div><br>
+                        <div class="flex justify-start items-center w-full gap-2">
+                            <div class="font-bold text-lg w-auto">
+                                Please select your semester: 
+                            </div>
+                            <div class="w-3/4">
+                                <div><select name="course" id="courseMenu" class="text-sm p-1 border border-blue-200 rounded-md"></select></div>
+                            </div>
+                        </div><br>
+                        <div class="flex justify-start items-center w-full gap-2">
+                            <div class="font-bold text-lg w-auto">
+                                Please select your Year Level: 
+                            </div>
+                            <div class="w-3/4">
+                                <div><select name="course" id="courseMenu" class="text-sm p-1 border border-blue-200 rounded-md"></select></div>
+                            </div>
+                        </div><br>
                     </div>
                     <div class="mt-4">
                         <div class="inline-flex justify-start items-center gap-2 mt-2">
@@ -136,6 +152,33 @@ if ($result->num_rows == 1) {
                         <div class="inline-flex justify-start items-center gap-2 mt-2">
                             <div><img src="../assets/svg/three-lines.svg" class="w-5 h-5" alt=""></div>
                             <div class="font-bold text-xl">Contact Information</div>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex justify-between items-center gap-2 w-full">
+                                <div class="w-full">
+                                    <div>City </div>
+                                    <div><select name="stdCity" id="cityMenu" class="text-sm p-1 border border-blue-200 rounded-md w-full"></select></div>
+                                </div>
+                                <div class="w-full">
+                                    <div>Email</div>
+                                    <div class="text-sm p-1 border border-blue-200 rounded-md w-full flex justify-between items-center relative gap-2">
+                                        <input type="text" name="email" id="email" class="w-full" autocomplete="email" onblur="validateEmail()">
+                                        <p id="emailError" class="text-red-500 hidden absolute top-full left-0 bg-white p-2 border border-red-500 rounded-md w-full">
+                                            Invalid email format. Example: example@gmail.com
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="w-full">
+                                    <div>Cellphone</div>
+                                    <div class="text-sm p-1 border border-blue-200 rounded-md inline-flex w-full"><span class="border-r border-blue-200 pr-2">+63</span><span class="w-full"><input type="text" name="stdMobile" id="stdMobile" class="w-full px-1" required></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="inline-flex justify-start items-center gap-2 mt-2">
+                            <div><img src="../assets/svg/three-lines.svg" class="w-5 h-5" alt=""></div>
+                            <div class="font-bold text-xl">Choose Subjects to enroll</div>
                         </div>
                         <div class="p-4">
                             <div class="flex justify-between items-center gap-2 w-full">
