@@ -13,15 +13,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     if ($result->num_rows == 1) {
         $row = $result->fetch_assoc();
         $_SESSION['user_id'] = $row['id'];
-        $_SESSION['username'] = $row['user_name'];
+        $_SESSION['username'] = $row['username'];
         $_SESSION['usertype'] = $row['usertype'];
 
         if ($row['usertype'] === "admin") {
             header("Location: ../../admin/admin_dash.php");
             exit();
+        } elseif ($row['usertype'] === "dean") {
+            header("Location: ../../admin/admin_dash.php");
+            exit();
         } else {
-
-            header("Location: student_dashboard.php");
+            header("Location: ../student/dashboard.hmtl");
             exit();
         }
     } else {
