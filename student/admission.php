@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['student_number'])) {
-    header("Location: ../../login.php");
+    header("Location: ../login/student/login.php");
     exit();
 }
 
@@ -209,7 +209,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])){
     <title>Admission Page</title>
 </head>
 <body>
-    <div style="background: radial-gradient(at center, rgba(118, 163, 224, 0.3  ), #FFFFFF);">
+    <div style="background: radial-gradient(at center, rgba(118, 163, 224, 0.5  ), #FFFFFF);">
         <div>
             <?php include './topbar.php'; ?>
         </div>

@@ -25,3 +25,6 @@
 .bg-admission-banner {
     background-image: url('../img/admission-banner.png');
 }
+.expanded {
+    width: 240px !important; 
+}
