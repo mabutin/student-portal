@@ -10,27 +10,54 @@ $usertype = $_SESSION['usertype'];
 
 include '../php/conn.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = mysqli_real_escape_string($conn, $_POST['username']);
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
+// Handle search
+$search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
+$selectQuery = "SELECT id, username, email, userType FROM usertbl";
 
-    $insertQuery = "INSERT INTO usertbl (username, email, userType) VALUES ('$username', '$email', 'user')";
-    $result = mysqli_query($conn, $insertQuery);
-
-    if ($result) {
-        header('Location: success.php'); 
-        exit();
-    } else {
-        $error = "Error: " . mysqli_error($conn);
-    }
+if (!empty($search)) {
+    $selectQuery .= " WHERE username LIKE '%$search%' OR email LIKE '%$search%'";
 }
 
-$selectQuery = "SELECT id, username, email, userType FROM usertbl";
 $result = mysqli_query($conn, $selectQuery);
 
 $users = [];
 if ($result) {
     $users = mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
+
+// Handle form submission for saving to the database
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+
+    // Example of using prepared statements
+    $stmt = $conn->prepare("INSERT INTO usertbl (username, email, userType) VALUES (?, ?, 'user')");
+    $stmt->bind_param("ss", $username, $email);
+    $stmt->execute();
+    $stmt->close();
+
+    if ($result) {
+        // Add history entry
+        $historyEntry = mysqli_real_escape_string($conn, "Username '$username' added with role of admission by admin");
+        $insertHistoryQuery = "INSERT INTO history (entry, date_time) VALUES ('$historyEntry', NOW())";
+        mysqli_query($conn, $insertHistoryQuery);
+
+        header('Location: account-management.php');
+        exit();
+    } else {
+        // Example of improved error handling
+        $error = "Error: Unable to add user. Please try again later.";
+        error_log("SQL Error: " . mysqli_error($conn));
+    }
+}
+
+// Fetch history entries
+$historyEntries = [];
+$historyQuery = "SELECT entry, date_time FROM history ORDER BY date_time DESC LIMIT 5";
+$historyResult = mysqli_query($conn, $historyQuery);
+
+if ($historyResult) {
+    $historyEntries = mysqli_fetch_all($historyResult, MYSQLI_ASSOC);
 }
 
 mysqli_close($conn);
@@ -61,7 +88,9 @@ mysqli_close($conn);
                 <div>
                     <form action="" method="post">
                         <div class="flex justify-start items-center gap-2 text-base">
-                            <form action="" method="post">
+                        <form action="" method="post" onsubmit="return validateAndDisplayError()">
+   <!-- ... other form elements ... -->
+
                                 <div class="flex justify-start items-center gap-2 text-base">
                                     <div>
                                         Username:
@@ -86,6 +115,13 @@ mysqli_close($conn);
                         </div>
                     </form>
                     <div class="w-1/2 mt-4">
+                    <div class="mt-4">
+    <form action="" method="get" class="flex items-center">
+        <label for="search" class="mr-2">Search:</label>
+        <input type="text" id="search" name="search" class="p-1 border border-blue-200 rounded-md" placeholder="Enter username or email">
+        <button type="submit" class="p-2 bg-blue-500 rounded-md text-xs text-white hover:bg-blue-700">Search</button>
+    </form>
+</div>
                         <div class="grid grid-cols-4 px-2" style="background: #8EAFDC;">
                             <div class="flex justify-center">ID</div>
                             <div class="flex justify-center">Username</div>
@@ -101,10 +137,19 @@ mysqli_close($conn);
                             </div>
                         <?php endforeach; ?>
                     </div>
+                     <!-- History Section -->
+                     <div class="mt-4">
+                            <h2 class="text-lg font-semibold mb-2">History</h2>
+                            <?php
+                            foreach ($historyEntries as $entry) {
+                                echo "<p>{$entry['entry']} - {$entry['date_time']}</p>";
+                            }
+                            ?>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div>s
     <script src="../assets/js/adminSidebar.js"></script>
     <script src="../assets/js/account-management.js"></script>
 </body>
