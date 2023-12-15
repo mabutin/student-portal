@@ -10,7 +10,8 @@ include '../php/conn.php';
 
 $studentNumber = $_SESSION['student_number'];
 
-$sql = "SELECT st.first_name, st.surname, st.middle_name, st.suffix, si.status, ed.course, ci.city, ci.mobile_number, ci.email
+// Fetch student information
+$sqlStudent = "SELECT st.first_name, st.surname, st.middle_name, st.suffix, si.status, ed.course, ci.city, ci.mobile_number, ci.email
         FROM student_number sn 
         JOIN school_account sa ON sn.student_number_id = sa.student_number_id
         JOIN student_information si ON sa.school_account_id = si.school_account_id
@@ -19,43 +20,88 @@ $sql = "SELECT st.first_name, st.surname, st.middle_name, st.suffix, si.status, 
         JOIN contact_information ci ON si.contact_information_id = ci.contact_information_id
         WHERE sn.student_number = ?";
 
-$stmt = $conn->prepare($sql);
+$stmtStudent = $conn->prepare($sqlStudent);
 
-if (!$stmt) {
+if (!$stmtStudent) {
     die("Error in SQL query: " . $conn->error);
 }
 
-$stmt->bind_param("s", $studentNumber);
-$stmt->execute();
-$result = $stmt->get_result();
+$stmtStudent->bind_param("s", $studentNumber);
+$stmtStudent->execute();
+$resultStudent = $stmtStudent->get_result();
 
-if ($result === false) {
-    die("Error in query execution: " . $stmt->error);
+if ($resultStudent === false) {
+    die("Error in query execution: " . $stmtStudent->error);
 }
 
-if ($result->num_rows == 1) {
-    $row = $result->fetch_assoc();
+if ($resultStudent->num_rows == 1) {
+    $rowStudent = $resultStudent->fetch_assoc();
 
-    $firstName = $row['first_name'];
-    $surname = $row['surname'];
-    $middleName = $row['middle_name'] ?? '';
-    $status = $row['status'];
-    $course = $row['course'];
-    $city = $row['city'];
-    $mobile_number = $row['mobile_number'];
-    $email = $row['email'];
-    $suffix = $row['suffix'];
+    $firstName = $rowStudent['first_name'];
+    $surname = $rowStudent['surname'];
+    $middleName = $rowStudent['middle_name'] ?? '';
+    $status = $rowStudent['status'];
+    $course = $rowStudent['course'];
+    $city = $rowStudent['city'];
+    $mobile_number = $rowStudent['mobile_number'];
+    $email = $rowStudent['email'];
+    $suffix = $rowStudent['suffix'];
 
-    $stmt->close();
+    $stmtStudent->close();
 } else {
     header("Location: ../../login.php");
     exit();
+}
+
+// Fetch subjects
+$sqlSubjects = "SELECT * FROM subject";
+
+$stmtSubjects = $conn->prepare($sqlSubjects);
+
+if (!$stmtSubjects) {
+    die("Error in SQL query: " . $conn->error);
+}
+
+$stmtSubjects->execute();
+$resultSubjects = $stmtSubjects->get_result();
+
+if ($resultSubjects === false) {
+    die("Error in query execution: " . $stmtSubjects->error);
+}
+
+$subjects = [];
+
+while ($rowSubjects = $resultSubjects->fetch_assoc()) {
+    $subjects[] = $rowSubjects;
+}
+
+$stmtSubjects->close();
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Check if selected subjects are submitted
+    if (isset($_POST['selectedSubjects']) && is_array($_POST['selectedSubjects'])) {
+        $selectedSubjects = $_POST['selectedSubjects'];
+
+        // Insert selected subjects into the database
+        $sqlInsertSubjects = "INSERT INTO enrolled_subjects (student_number, subject_id) VALUES (?, ?)";
+        $stmtInsertSubjects = $conn->prepare($sqlInsertSubjects);
+
+        foreach ($selectedSubjects as $subjectId) {
+            $stmtInsertSubjects->bind_param("si", $studentNumber, $subjectId);
+            $stmtInsertSubjects->execute();
+        }
+
+        $stmtInsertSubjects->close();
+    }
+
+    // ... your existing code for other form processing ...
 }
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -64,6 +110,7 @@ if ($result->num_rows == 1) {
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="../assets/svg/ollcLogoNoName.svg" type="image/x-icon">
 </head>
+
 <body>
     <div class="font-[roboto-serif]">
         <div>
@@ -74,44 +121,74 @@ if ($result->num_rows == 1) {
             <div class="w-full flex justify-center items-center ">
                 <div class="w-1/2 p-4 border border-blue-800 border-opacity-20 p-2 my-4 rounded-md drop-shadow-md">
                     <div class="font-bold text-2xl mb-4">
-                        Enrollment 
+                        Enrollment
                     </div>
                     <div class="text-base">
-                        We warmly welcome  senior high school graduates, college transferees, second coursers, and foreign applicants to our campus.
+                        We warmly welcome senior high school graduates, college transferees, second coursers, and foreign applicants to our campus.
                         Kindly choose-out the enrollement form for a fast and efficient admissions procedure.
                     </div><br>
                     <div class="text-base">
                         By submitting this etc etc
                     </div>
                     <div class="text-base">
-                       uhaw uhaw
+                        uhaw uhaw
                     </div>
                     <div class="mt-4 w-full">
                         <div class="flex justify-start items-center w-full gap-2">
                             <div class="font-bold text-lg w-auto">
-                                You applied for: 
+                                You are applying for:
                             </div>
-                            <div class="w-3/4">
-                                <div><select name="course" id="courseMenu" class="text-sm p-1 border border-blue-200 rounded-md"></select></div>
-                            </div>
-                        </div><br>
-                        <div class="flex justify-start items-center w-full gap-2">
-                            <div class="font-bold text-lg w-auto">
-                                Please select your semester: 
-                            </div>
-                            <div class="w-3/4">
-                                <div><select name="course" id="courseMenu" class="text-sm p-1 border border-blue-200 rounded-md"></select></div>
+                            <div class="w-1/2">
+                                <div><select name="course" class="text-sm p-1 border border-blue-200 rounded-md">
+                                        <option value="BSIT">Bachelor of Science in Information Technology</option>
+                                        <option value="BSED">Bachelor of Education Major in Math</option>
+                                        <option value="BSHM">Bachelor of Science in Hospitality Management</option>
+                                        <option value="BSBA">Bachelor of Science in Business Administration</option>
+                                    </select></div>
                             </div>
                         </div><br>
                         <div class="flex justify-start items-center w-full gap-2">
                             <div class="font-bold text-lg w-auto">
-                                Please select your Year Level: 
+                                Please select your semester:
                             </div>
-                            <div class="w-3/4">
-                                <div><select name="course" id="courseMenu" class="text-sm p-1 border border-blue-200 rounded-md"></select></div>
+                            <div class="w-1/2">
+                                <div><select name="semester" class="text-sm p-1 border border-blue-200 rounded-md">
+                                        <option value="1st">First Semester</option>
+                                        <option value="2nd">Second Semester</option>
+                                    </select></div>
+                            </div>
+                        </div><br>
+                        <div class="flex justify-start items-center w-full gap-2">
+                            <div class="font-bold text-lg w-auto">
+                                Please select your Year Level:
+                            </div>
+                            <div class="w-1/2">
+                                <div><select name="year" class="text-sm p-1 border border-blue-200 rounded-md">
+                                        <option value="Year 1">Year 1</option>
+                                        <option value="Year 2">Year 2</option>
+                                        <option value="Year 3">Year 3</option>
+                                        <option value="Year 4">Year 4</option>
+                                    </select></div>
                             </div>
                         </div><br>
                     </div>
+                    <div class="w-full flex justify-center items-center ">
+                        <button type="submit" name="submit" value="Submit" class="bg-blue-400 mt-2 py-2 px-8 shadow inline-flex gap-2 text-white rounded-full hover:bg-blue-600 hover:font-semibold">Submit</button>
+                    </div>
+                    <?php
+                    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
+                        // Check if selectedSubjects is set in the POST data
+                        if (isset($_POST['selectedSubjects']) && is_array($_POST['selectedSubjects'])) {
+                            $selectedSubjects = $_POST['selectedSubjects'];
+
+                            // Now you can use $selectedSubjects to insert data into your database
+                            // Insert code goes here...
+                        } else {
+                            // No subjects selected
+                            echo "Please select at least one subject.";
+                        }
+                    }
+                    ?>
                     <div class="mt-4">
                         <div class="inline-flex justify-start items-center gap-2 mt-2">
                             <div><img src="../assets/svg/three-lines.svg" class="w-5 h-5" alt=""></div>
@@ -148,59 +225,72 @@ if ($result->num_rows == 1) {
                             </div>
                         </div>
                     </div>
+
                     <div class="mt-4">
                         <div class="inline-flex justify-start items-center gap-2 mt-2">
                             <div><img src="../assets/svg/three-lines.svg" class="w-5 h-5" alt=""></div>
-                            <div class="font-bold text-xl">Contact Information</div>
+                            <div class="font-bold text-xl">Student Information</div>
                         </div>
-                        <div class="p-4">
-                            <div class="flex justify-between items-center gap-2 w-full">
-                                <div class="w-full">
-                                    <div>City </div>
-                                    <div><select name="stdCity" id="cityMenu" class="text-sm p-1 border border-blue-200 rounded-md w-full"></select></div>
-                                </div>
-                                <div class="w-full">
-                                    <div>Email</div>
-                                    <div class="text-sm p-1 border border-blue-200 rounded-md w-full flex justify-between items-center relative gap-2">
-                                        <input type="text" name="email" id="email" class="w-full" autocomplete="email" onblur="validateEmail()">
-                                        <p id="emailError" class="text-red-500 hidden absolute top-full left-0 bg-white p-2 border border-red-500 rounded-md w-full">
-                                            Invalid email format. Example: example@gmail.com
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="w-full">
-                                    <div>Cellphone</div>
-                                    <div class="text-sm p-1 border border-blue-200 rounded-md inline-flex w-full"><span class="border-r border-blue-200 pr-2">+63</span><span class="w-full"><input type="text" name="stdMobile" id="stdMobile" class="w-full px-1" required></span></div>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Display student information -->
+                        <table class="border-collapse border border-slate-500 w-full mx-auto">
+                            <thead>
+                                <tr>
+                                    <th class="border border-slate-500">Field</th>
+                                    <th class="border border-slate-500">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border border-slate-700">First Name</td>
+                                    <td class="border border-slate-700"><?php echo $firstName; ?></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-slate-700">Surname</td>
+                                    <td class="border border-slate-700"><?php echo $surname; ?></td>
+                                </tr>
+                                <!-- Add more rows for other fields as needed -->
+                            </tbody>
+                        </table>
                     </div>
+                   
                     <div class="mt-4">
                         <div class="inline-flex justify-start items-center gap-2 mt-2">
                             <div><img src="../assets/svg/three-lines.svg" class="w-5 h-5" alt=""></div>
-                            <div class="font-bold text-xl">Choose Subjects to enroll</div>
+                            <div class="font-bold text-xl"> Please choose a Subjects</div>
                         </div>
-                        <div class="p-4">
-                            <div class="flex justify-between items-center gap-2 w-full">
-                                <div class="w-full">
-                                    <div>City </div>
-                                    <div><select name="stdCity" id="cityMenu" class="text-sm p-1 border border-blue-200 rounded-md w-full"></select></div>
-                                </div>
-                                <div class="w-full">
-                                    <div>Email</div>
-                                    <div class="text-sm p-1 border border-blue-200 rounded-md w-full flex justify-between items-center relative gap-2">
-                                        <input type="text" name="email" id="email" class="w-full" autocomplete="email" onblur="validateEmail()">
-                                        <p id="emailError" class="text-red-500 hidden absolute top-full left-0 bg-white p-2 border border-red-500 rounded-md w-full">
-                                            Invalid email format. Example: example@gmail.com
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="w-full">
-                                    <div>Cellphone</div>
-                                    <div class="text-sm p-1 border border-blue-200 rounded-md inline-flex w-full"><span class="border-r border-blue-200 pr-2">+63</span><span class="w-full"><input type="text" name="stdMobile" id="stdMobile" class="w-full px-1" required></span></div>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Display subjects -->
+                        <table class="border-collapse border border-slate-500 w-full mx-auto">
+                            <thead>
+                                <tr>
+                                    <th class="border border-slate-500"></th>
+                                    <th class="border border-slate-500">Subject Name</th>
+                                    <th class="border border-slate-500">Subject Code</th>
+                                    <th class="border border-slate-500">Subject Unit</th>
+                                    <th class="border border-slate-500">Course</th>
+                                    <th class="border border-slate-500">Semester</th>
+                                    <th class="border border-slate-500">Year</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($subjects as $subject) : ?>
+                                    <tr class="text-center">
+                                        <td class="border border-slate-700 w-6">
+                                            <?php echo "Before Line 288";
+                                            var_dump($selectedSubjects); ?>
+                                            <input type="checkbox" name="selectedSubjects[]" value="<?php echo $subject['sub_id']; ?>">
+                                            <?php echo "After Line 288"; ?>
+                                        </td>
+                                        <td class="border border-slate-700 "><?php echo $subject['sub_name']; ?></td>
+                                        <td class="border border-slate-700 "><?php echo $subject['sub_code']; ?></td>
+                                        <td class="border border-slate-700"><?php echo $subject['sub_unit']; ?></td>
+                                        <td class="border border-slate-700 p-5"><?php echo $subject['course']; ?></td>
+                                        <td class="border border-slate-700"><?php echo $subject['semester']; ?></td>
+                                        <td class="border border-slate-700 "><?php echo $subject['year']; ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
                     <div class="w-full flex justify-center items-center ">
                         <button type="submit" name="submit" value="Submit" class="bg-blue-400 mt-2 py-2 px-8 shadow inline-flex gap-2 text-white rounded-full hover:bg-blue-600 hover:font-semibold">Submit</button>
@@ -221,7 +311,7 @@ if ($result->num_rows == 1) {
                         <b>Welcome to Our Lady of Lourdes College - Your Next Steps!</b>
                     </div>
                     <div>
-                        Congratulations on completing the pre-registration process for Our Lady of Lourdes College! 
+                        Congratulations on completing the pre-registration process for Our Lady of Lourdes College!
                         <br>
                         We are thrilled to welcome you to our academic community.
                     </div>
@@ -271,14 +361,15 @@ if ($result->num_rows == 1) {
                     </div>
                 </div>
                 <div class="w-full flex justify-center items-center">
-                    <button class="bg-blue-400 mt-2 py-2 px-8 shadow inline-flex gap-2 text-white rounded-full hover:bg-blue-600 hover:font-semibold" onclick="goToLoginPage()">Proceed to Login</button>	
+                    <button class="bg-blue-400 mt-2 py-2 px-8 shadow inline-flex gap-2 text-white rounded-full hover:bg-blue-600 hover:font-semibold" onclick="goToLoginPage()">Proceed to Login</button>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <script src="../assets/js/pre-registration-menu.js"></script>
     <script src="../assets/js/topbar.js"></script>
     <script src="../assets/js/pre-registration.js"></script>
 </body>
+
 </html>
