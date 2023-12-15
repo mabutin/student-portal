@@ -58,12 +58,22 @@
                         </a>
                     </div>
                     <div class="ml-2">
-                        <a href="student-information.html" class="px-2 flex items-center justify-start h-10 gap-3">
+                        <a href="faculty.php" class="px-2 flex items-center justify-start h-10 gap-3">
                             <div class="logo-container">
                                 <img src="../assets/svg/professor.svg" class="logo w-6 h-6" alt="">
                             </div>
                             <div class="tracking-wide justify-start items-center text-center text-white text-xs hidden" id="faculty" style="letter-spacing: 2px;"> 
                                 Faculty
+                            </div>
+                        </a>
+                    </div>
+                    <div class="ml-2">
+                        <a href="enrollment-list.php" class="px-2 flex items-center justify-start h-10 gap-3">
+                            <div class="logo-container">
+                                <img src="../assets/svg/enrollment-list.svg" class="logo w-6 h-6" alt="">
+                            </div>
+                            <div class="tracking-wide justify-start items-center text-center text-white text-xs hidden" id="enrollmentList" style="letter-spacing: 2px;"> 
+                                Enrollment List
                             </div>
                         </a>
                     </div>

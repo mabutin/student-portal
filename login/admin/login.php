@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
         if ($row['usertype'] === "admin") {
             header("Location: ../../admin/dashboard.php");
             exit();
-        } elseif ($row['usertype'] === "dean") {
+        } elseif ($row['usertype'] === "admission") {
             header("Location: ../../admin/dashboard.php");
             exit();
         } else {

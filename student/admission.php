@@ -7,6 +7,8 @@ if (!isset($_SESSION['student_number'])) {
 }
 
 include '../php/conn.php';
+    
+date_default_timezone_set('Asia/Manila');
 
 $studentNumber = $_SESSION['student_number'];
 
@@ -152,6 +154,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])){
 
                                                         $sqlStudentInformation = "UPDATE student_information SET personal_information_id = '$personalInformationId', educational_attainment_id = '$educationalAttainmentId', family_record_id = '$familyRecordId', status = 'registered' WHERE personal_information_id IS NULL AND educational_attainment_id IS NULL AND family_record_id IS NULL AND status = 'pre-registered'";
                                                         if ($conn->query($sqlStudentInformation) === TRUE) {
+
+                                                            $notificationMessage = "$firstName $surname submitted an admission form";
+                                                            $notificationDatetime = date('Y-m-d H:i:s');
+
+                                                            $sqlUpdateNotification = "UPDATE notifications SET message = '$notificationMessage', datetime = '$notificationDatetime' WHERE message LIKE '%$firstName $surname%'";
+                                                            if ($conn->query($sqlUpdateNotification) === TRUE) {
+                                                                echo json_encode(["status" => "error", "message" => "Error updating notification: " . $conn->error]);
+                                                            }
+
                                                             header("Location: enrollment.php");
                                                             exit();
                                                         } else {
@@ -260,12 +271,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])){
                                 </div>
                                 <div class="inline-flex justify-start items-center gap-2">
                                     <div class="w-full">Date of Birth:</div>
-                                    <div class="text-sm p-1 border border-blue-200 rounded-md w-full"><input required type="date" name="birthDate" id="birthDate" onchange="calculateAge()"></div>
+                                    <div class="text-sm p-1 border border-blue-200 rounded-md w-full">
+                                        <input required type="date" name="birthDate" id="birthDate" onchange="calculateAge()">
+                                    </div>
                                 </div>
                                 <div class="inline-flex justify-start items-center gap-2">
                                     <div>Age:</div>
                                     <div class="text-sm p-1 border border-blue-200 rounded-md w-full">
-                                        <input required type="number" name="stdAge" id="stdAge" class="w-8">
+                                        <input required type="number" name="stdAge" id="stdAge" class="w-8" readonly>
                                     </div>
                                 </div>
                                 <div class="inline-flex justify-start items-center gap-2">

@@ -38,3 +38,17 @@ document.addEventListener("DOMContentLoaded", function () {
     populateSelect("relationshipMenu", relationship);
 });
 
+function calculateAge() {
+    var birthDate = new Date(document.getElementById("birthDate").value);
+
+    var currentDate = new Date();
+
+    var age = currentDate.getFullYear() - birthDate.getFullYear();
+
+    if (currentDate.getMonth() < birthDate.getMonth() || 
+        (currentDate.getMonth() === birthDate.getMonth() && currentDate.getDate() < birthDate.getDate())) {
+        age--;
+    }
+
+    document.getElementById("stdAge").value = age;
+}
