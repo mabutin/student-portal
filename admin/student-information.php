@@ -48,16 +48,22 @@
         $status_condition = "AND si.status = '$selected_status'";
     }
 
-    $queryNotification = "SELECT * FROM notifications ORDER BY datetime DESC LIMIT 1";
+    $queryNotification = "SELECT * FROM notifications ORDER BY datetime DESC";
     $resultNotification = mysqli_query($conn, $queryNotification);
-
+    
     if (!$resultNotification) {
         die("Query failed: " . mysqli_error($conn));
     }
-
-    $latestNotification = mysqli_fetch_assoc($resultNotification);
-
+    
+    $notifications = mysqli_fetch_all($resultNotification, MYSQLI_ASSOC);
+    
     mysqli_free_result($resultNotification);
+    
+    $groupedNotifications = [];
+    foreach ($notifications as $notification) {
+        $date = date('Y-m-d', strtotime($notification['datetime']));
+        $groupedNotifications[$date][] = $notification;
+    }
 
 
     $query = "SELECT sn.student_number, s.surname, s.first_name, s.middle_name, s.suffix, ed.course, ed.year_level, si.status, s.suffix
@@ -204,8 +210,16 @@
                         </div>
                         <div class="border-l-2 border-blue-300">
                             <div id="tabsContainer" class="pl-2 h-full">
-                            <div id="studentDetailsContainer" class="w-auto">
-                                
+                            <div id="studentDetailsContainer" class="overflow-y-auto mt-2 shadow-md" style="width: 816px; height: 700px; display: none;">
+                                <script>
+                                    function printStudentDetails() {
+                                        var printContents = document.getElementById('printable_div_id').innerHTML;
+                                        var originalContents = document.body.innerHTML;
+                                        document.body.innerHTML = '<div id="printable_div_id">' + printContents + '</div>';
+                                        window.print();
+                                        document.body.innerHTML = originalContents;
+                                    }
+                                </script>
                             </div>
                                 <div class="h-1/2">
                                     <div class="flex">
@@ -217,13 +231,33 @@
                                         </div>
                                     </div>
                                     <div id="notificationTabContent" class="tab-content p-4">
-                                        <?php if (isset($latestNotification['message'])): ?>
-                                            <div><?= $latestNotification['message']; ?></div>
-                                            <div class="text-xs text-gray-500"><?= date('F j, Y, g:i a', strtotime($latestNotification['datetime'])); ?></div>
+                                        <?php if (!empty($groupedNotifications)): ?>
+                                            <?php foreach ($groupedNotifications as $date => $dateNotifications): ?>
+                                                <div class="font-semibold mt-2"><?= formatDateHeading($date) ?></div>
+                                                <?php foreach ($dateNotifications as $notification): ?>
+                                                    <div><?= $notification['message']; ?></div>
+                                                    <div class="text-xs text-gray-500"><?= date('F j, Y, g:i a', strtotime($notification['datetime'])); ?></div>
+                                                    <hr class="my-2">
+                                                <?php endforeach; ?>
+                                            <?php endforeach; ?>
                                         <?php else: ?>
                                             <div>No new notifications</div>
                                         <?php endif; ?>
                                     </div>
+                                    <?php
+                                        function formatDateHeading($date) {
+                                            $today = date('Y-m-d');
+                                            $yesterday = date('Y-m-d', strtotime('-1 day'));
+
+                                            if ($date === $today) {
+                                                return 'Today';
+                                            } elseif ($date === $yesterday) {
+                                                return 'Yesterday';
+                                            } else {
+                                                return date('F j, Y', strtotime($date));
+                                            }
+                                        }
+                                    ?>
                                     <div id="requestsTabContent" class="tab-content p-4 hidden">
                                         <div>
                                             <div class="">
@@ -242,5 +276,4 @@
     </div>
     <script src="../assets/js/adminSidebar.js"></script>
     <script src="../assets/js/student-information-tab.js"></script>
-</body>
 </html>
