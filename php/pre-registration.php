@@ -1,6 +1,7 @@
     <?php
 
     include 'conn.php';
+    date_default_timezone_set('Asia/Manila');
 
     header('Content-Type: application/json'); 
 
@@ -21,6 +22,15 @@
         $studentNumber = strtoupper($firstLetterFirstName . date("His") . $firstLetterSurname);
 
         $password = substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+
+        $notificationMessage = "$first_name $surname filled up a pre-registration form";
+        $notificationDatetime = date('Y-m-d H:i:s');
+
+        $sqlNotification = "INSERT INTO notifications (message, datetime) VALUES ('$notificationMessage', '$notificationDatetime')";
+        if ($conn->query($sqlNotification) !== TRUE) {
+            echo json_encode(["status" => "error", "message" => "Error inserting notification: " . $conn->error]);
+            exit;
+        }
 
         $sqlStudentNumber = "INSERT INTO student_number (student_number) VALUES ('$studentNumber')";
             if ($conn->query($sqlStudentNumber) === TRUE) {

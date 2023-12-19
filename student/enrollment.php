@@ -2,21 +2,35 @@
 session_start();
 
 if (!isset($_SESSION['student_number'])) {
+<<<<<<< HEAD
     header("Location: ../../login.php");
+=======
+    header("Location: ../login/student/login.php");
+>>>>>>> ed00ba626c9b38d48fa12bcc0fb3fda4e7f1e3ce
     exit();
 }
 
 include '../php/conn.php';
+<<<<<<< HEAD
 
 $studentNumber = $_SESSION['student_number'];
 
 // Fetch student information
 $sqlStudent = "SELECT st.first_name, st.surname, st.middle_name, st.suffix, si.status, ed.course, ci.city, ci.mobile_number, ci.email
+=======
+    
+date_default_timezone_set('Asia/Manila');
+
+$studentNumber = $_SESSION['student_number'];
+
+$sql = "SELECT st.first_name, st.surname, st.middle_name, st.suffix, si.status, ed.course
+>>>>>>> ed00ba626c9b38d48fa12bcc0fb3fda4e7f1e3ce
         FROM student_number sn 
         JOIN school_account sa ON sn.student_number_id = sa.student_number_id
         JOIN student_information si ON sa.school_account_id = si.school_account_id
         JOIN students st ON si.students_id = st.students_id
         JOIN enrollment_details ed ON si.enrollment_details_id = ed.enrollment_details_id
+<<<<<<< HEAD
         JOIN contact_information ci ON si.contact_information_id = ci.contact_information_id
         WHERE sn.student_number = ?";
 
@@ -48,11 +62,41 @@ if ($resultStudent->num_rows == 1) {
     $suffix = $rowStudent['suffix'];
 
     $stmtStudent->close();
+=======
+        WHERE sn.student_number = ?";
+
+$stmt = $conn->prepare($sql);
+
+if (!$stmt) {
+    die("Error in SQL query: " . $conn->error);
+}
+
+$stmt->bind_param("s", $studentNumber);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result === false) {
+    die("Error in query execution: " . $stmt->error);
+}
+
+if ($result->num_rows == 1) {
+    $row = $result->fetch_assoc();
+
+    $firstName = $row['first_name'];
+    $surname = $row['surname'];
+    $middleName = $row['middle_name'] ?? '';
+    $status = $row['status'];
+    $course = $row['course'];
+    $suffix = $row['suffix'];
+
+    $stmt->close();
+>>>>>>> ed00ba626c9b38d48fa12bcc0fb3fda4e7f1e3ce
 } else {
     header("Location: ../../login.php");
     exit();
 }
 
+<<<<<<< HEAD
 // Fetch subjects
 $sqlSubjects = "SELECT * FROM subject";
 
@@ -99,19 +143,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 ?>
 
+=======
+?>
+>>>>>>> ed00ba626c9b38d48fa12bcc0fb3fda4e7f1e3ce
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <title>Enrollment</title>
     <link rel="icon" type="image/x-icon" href="../assets/svg/ollcLogoNoName.svg">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="../assets/svg/ollcLogoNoName.svg" type="image/x-icon">
+=======
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <title>Enrollment</title>
+>>>>>>> ed00ba626c9b38d48fa12bcc0fb3fda4e7f1e3ce
 </head>
 
 <body>
+<<<<<<< HEAD
     <div class="font-[roboto-serif]">
         <div>
             <?php include './topbar.php'; ?>
@@ -359,3 +412,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </body>
 
 </html>
+=======
+    <div style="background: radial-gradient(at center, rgba(118, 163, 224, 0.5  ), #FFFFFF);">
+        <div>
+            <?php include './topbar.php'; ?>
+        </div>
+        
+    </div>
+    <script src="../assets/js/admission-menu.js"></script>
+</body>
+</html>
+>>>>>>> ed00ba626c9b38d48fa12bcc0fb3fda4e7f1e3ce
