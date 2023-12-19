@@ -1,5 +1,5 @@
 <?php
-session_start();
+    session_start();
 
     if (!isset($_SESSION['username'])) {
         header('Location: ../login/admin/login.php');
@@ -32,45 +32,89 @@ session_start();
         $email = mysqli_real_escape_string($conn, $_POST['email']);
         $usertype = mysqli_real_escape_string($conn, $_POST['usertype']);
 
-    $stmt = $conn->prepare("INSERT INTO usertbl (username, email, userType) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $username, $email, $usertype);
-    $stmt->execute();
-    $stmt->close();
+        if (empty($username) || empty($email) || empty($usertype)) {
+            echo "Please fill in all fields.";
+        } else {
+            $password = generateRandomPassword(8);
 
-    if ($result) {
-        $historyEntry = mysqli_real_escape_string($conn, "Username '$username' added with role of $usertype by admin");
-        $insertHistoryQuery = "INSERT INTO history (entry, date_time) VALUES ('$historyEntry', NOW())";
-        mysqli_query($conn, $insertHistoryQuery);
+            $query = "INSERT INTO usertbl (username, email, usertype, password) VALUES (?, ?, ?, ?)";
+            $stmt = mysqli_prepare($conn, $query);
+            mysqli_stmt_bind_param($stmt, "ssss", $username, $email, $usertype, $password);
 
-        header('Location: account-management.php');
-        exit();
-    } else {
-        $error = "Error: Unable to add user. Please try again later.";
-        error_log("SQL Error: " . mysqli_error($conn));
+            if (mysqli_stmt_execute($stmt)) {
+                $historyEntry = "<strong>{$_SESSION['username']}</strong> created a new user account named '<strong>$username</strong>' with the role of '<strong>$usertype</strong>'";
+                recordHistory($conn, $_SESSION['username'], $username, $usertype);
+
+                header("Location: {$_SERVER['PHP_SELF']}");
+                exit();
+            } else {
+                echo "Error: " . mysqli_stmt_error($stmt);
+            }
+
+            mysqli_stmt_close($stmt);
+        }
     }
-}
 
-$historyEntries = [];
-$historyQuery = "SELECT entry, date_time FROM history ORDER BY date_time DESC LIMIT 5";
-$historyResult = mysqli_query($conn, $historyQuery);
+    function recordHistory($conn, $performerUsername, $createdUsername, $createdUsertype) {
+        $entry = "'$performerUsername' created a new user account named '<strong>$createdUsername</strong>' with the role of '$createdUsertype'";
+        $query = "INSERT INTO historytbl (username, action, timestamp) VALUES (?, ?, NOW())";
+        $stmt = mysqli_prepare($conn, $query);
 
-if ($historyResult) {
-    $historyEntries = mysqli_fetch_all($historyResult, MYSQLI_ASSOC);
-}
+        if ($stmt === false) {
+            die('Error preparing statement: ' . mysqli_error($conn));
+        }
 
-mysqli_close($conn);
+        mysqli_stmt_bind_param($stmt, "ss", $performerUsername, $entry);
+
+        if (mysqli_stmt_execute($stmt)) {
+            mysqli_stmt_close($stmt);
+        } else {
+            die('Error executing statement: ' . mysqli_stmt_error($stmt));
+        }
+    }
+
+    $historyQuery = "SELECT id, username, action, timestamp FROM historytbl ORDER BY timestamp DESC";
+    $historyResult = mysqli_query($conn, $historyQuery);
+    $historyEntries = $historyResult ? mysqli_fetch_all($historyResult, MYSQLI_ASSOC) : [];
+
+    mysqli_close($conn);
+
+    $groupedHistory = [];
+    foreach ($historyEntries as $entry) {
+        $date = date('Y-m-d', strtotime($entry['timestamp']));
+        $time = date('g:i a', strtotime($entry['timestamp']));
+        $groupedHistory[$date][] = ['action' => $entry['action'], 'datetime' => $entry['timestamp']];
+    }
+
+    function generateRandomPassword($length = 8) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $password = '';
+        for ($i = 0; $i < $length; $i++) {
+            $password .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        return $password;
+    }
+
+    if (isset($_GET['search'])) {
+        $searchValue = htmlspecialchars($_GET['search']);
+    } else {
+        $searchValue = '';
+    }
+
+    if (isset($_GET['clearSearch'])) {
+        header('Location: ' . strtok($_SERVER["REQUEST_URI"], '?'));
+        exit();
+    }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <title>Account Management</title>
 </head>
-
 <body class="font-[roboto-serif]" style="background: rgba(118, 163, 224, 0.1);">
     <div class="w-full flex justify-start">
         <div>
@@ -169,14 +213,20 @@ mysqli_close($conn);
                                 <div>No new history entries</div>
                             <?php endif; ?>
                         </div>
-                        <div class="w-1/2 ml-4">
-                            <h2 class="text-lg font-semibold mb-2">History</h2>
-                            <?php
-                            foreach ($historyEntries as $entry) {
-                                echo "<p>{$entry['entry']} - {$entry['date_time']}</p>";
+                        <?php
+                            function formatDateHeading($date) {
+                                $today = date('Y-m-d');
+                                $yesterday = date('Y-m-d', strtotime('-1 day'));
+
+                                if ($date === $today) {
+                                    return 'Today';
+                                } elseif ($date === $yesterday) {
+                                    return 'Yesterday';
+                                } else {
+                                    return date('F j, Y', strtotime($date));
+                                }
                             }
-                            ?>
-                        </div>
+                        ?>
                     </div>
                 </div>
             </div>
@@ -186,5 +236,4 @@ mysqli_close($conn);
     <script src="../assets/js/adminSidebar.js"></script>
     <script src="../assets/js/account-management.js"></script>
 </body>
-
 </html>
