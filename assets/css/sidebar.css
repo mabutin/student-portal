@@ -1,0 +1,95 @@
+
+
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    transition: margin-left 0.5s;
+}
+
+#top-bar {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    transition: margin-left 0.5s;
+}
+
+#side-bar {
+    width: 250px;
+    background-color: #648EC7;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    padding-top: 60px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    transition: width 0.5s;
+}
+
+#side-bar.closed {
+    width: 60px; /* Set a smaller width when closed */
+     display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#logo {
+    padding: 5px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+#logo img {
+    max-width: 100%;
+    height: auto;
+    transition: opacity 0.5s;
+}
+
+#content {
+    margin-left: 250px;
+    padding: 20px;
+    transition: margin-left 0.5s;
+}
+
+    #side-bar a i {
+    margin-right: 10px;
+      margin-left: auto;
+}
+
+
+#side-bar a {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+    text-align: justify;
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 5px;
+}
+
+#side-bar a:hover {
+    background-color: #ECF4FF;
+}
+
+body.closed #top-bar {
+    margin-left: 60px;
+}
+
+body.closed #content {
+    margin-left: 60px;
+}
+
+body.closed #side-bar {
+    width: 60px; /* Adjust width when closed */
+}
+
+body.closed #side-bar a .text {
+    display: none; /* Hide text when sidebar is closed */
+}
+
+body.closed #side-bar a .text.hidden {
+    display: block; /* Show text when sidebar is closed and hovered */
+}

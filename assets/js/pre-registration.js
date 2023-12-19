@@ -4,7 +4,6 @@ function validateEmail(email) {
 }
 
 function displayError(message) {
-    // Show error message to the user, e.g., in a popup or an error message container
     const errorContainer = document.getElementById('errorContainer');
     errorContainer.textContent = message;
     errorContainer.classList.remove('hidden');
