@@ -31,27 +31,41 @@
         $username = mysqli_real_escape_string($conn, $_POST['username']);
         $email = mysqli_real_escape_string($conn, $_POST['email']);
         $usertype = mysqli_real_escape_string($conn, $_POST['usertype']);
-
+    
+        $errorMessage = ""; // Initialize an empty string to store error messages
+    
         if (empty($username) || empty($email) || empty($usertype)) {
-            echo "Please fill in all fields.";
+            $errorMessage = "Please fill in all fields.";
         } else {
-            $password = generateRandomPassword(8);
-
-            $query = "INSERT INTO usertbl (username, email, usertype, password) VALUES (?, ?, ?, ?)";
-            $stmt = mysqli_prepare($conn, $query);
-            mysqli_stmt_bind_param($stmt, "ssss", $username, $email, $usertype, $password);
-
-            if (mysqli_stmt_execute($stmt)) {
-                $historyEntry = "<strong>{$_SESSION['username']}</strong> created a new user account named '<strong>$username</strong>' with the role of '<strong>$usertype</strong>'";
-                recordHistory($conn, $_SESSION['username'], $username, $usertype);
-
-                header("Location: {$_SERVER['PHP_SELF']}");
-                exit();
+            $checkQuery = "SELECT id FROM usertbl WHERE username = ?";
+            $checkStmt = mysqli_prepare($conn, $checkQuery);
+            mysqli_stmt_bind_param($checkStmt, "s", $username);
+            mysqli_stmt_execute($checkStmt);
+            mysqli_stmt_store_result($checkStmt);
+    
+            if (mysqli_stmt_num_rows($checkStmt) > 0) {
+                $errorMessage = "Username '$username' already exists. Please choose a different username.";
             } else {
-                echo "Error: " . mysqli_stmt_error($stmt);
+                $password = generateRandomPassword(8);
+    
+                $query = "INSERT INTO usertbl (username, email, usertype, password) VALUES (?, ?, ?, ?)";
+                $stmt = mysqli_prepare($conn, $query);
+                mysqli_stmt_bind_param($stmt, "ssss", $username, $email, $usertype, $password);
+    
+                if (mysqli_stmt_execute($stmt)) {
+                    $historyEntry = "<strong>{$_SESSION['username']}</strong> created a new user account named '<strong>$username</strong>' with the role of '<strong>$usertype</strong>'";
+                    recordHistory($conn, $_SESSION['username'], $username, $usertype);
+    
+                    header("Location: {$_SERVER['PHP_SELF']}");
+                    exit();
+                } else {
+                    echo "Error: " . mysqli_stmt_error($stmt);
+                }
+    
+                mysqli_stmt_close($stmt);
             }
-
-            mysqli_stmt_close($stmt);
+    
+            mysqli_stmt_close($checkStmt);
         }
     }
 
@@ -138,7 +152,7 @@
                                         Username:
                                     </div>
                                     <div class="text-sm p-1 border border-blue-200 rounded-md w-64 text-xs">
-                                        <input type="text" id="username" name="username" placeholder="Enter a username" class="px-1 w-full">
+                                        <input type="text" id="username" name="username" autocomplete="username" placeholder="Enter a username" class="px-1 w-full">
                                     </div>
                                     <div class="flex justify-start gap-2 items-center">
                                         <div>Email</div>
@@ -158,6 +172,13 @@
                                     <div>
                                         <button class="p-2 bg-blue-500 rounded-md text-xs text-white hover:bg-blue-700">Add user</button>
                                     </div>
+                                </div>
+                                <div id="message">
+                                    <?php
+                                        if (!empty($errorMessage)) {
+                                            echo '<div id="message" class="text-xs text-red-500">' . $errorMessage . '</div>';
+                                        }
+                                    ?>
                                 </div>
                             </form>
                         </div>
@@ -195,7 +216,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="">
+                    <div class="w-1/4">
                         <div class="font-semibold">
                             History
                         </div>

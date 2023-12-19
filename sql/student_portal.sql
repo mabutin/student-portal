@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 18, 2023 at 07:08 AM
+-- Generation Time: Dec 19, 2023 at 11:14 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -239,6 +239,19 @@ CREATE TABLE `handled_subjects` (
   `handled_subjects_id` int(255) NOT NULL,
   `subject_id` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `historytbl`
+--
+
+CREATE TABLE `historytbl` (
+  `id` int(11) NOT NULL,
+  `action` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -889,8 +902,7 @@ CREATE TABLE `usertbl` (
 --
 
 INSERT INTO `usertbl` (`id`, `username`, `email`, `password`, `usertype`) VALUES
-(1, 'admin', NULL, 'admin123', 'admin'),
-(2, 'mina', 'mina@gmail.com', 'mina123', 'admission');
+(19, 'dev@user', NULL, 'dev123', 'Developer');
 
 -- --------------------------------------------------------
 
@@ -977,6 +989,12 @@ ALTER TABLE `family_record`
 --
 ALTER TABLE `father`
   ADD PRIMARY KEY (`father_id`);
+
+--
+-- Indexes for table `historytbl`
+--
+ALTER TABLE `historytbl`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `kindergarten`
@@ -1114,6 +1132,12 @@ ALTER TABLE `father`
   MODIFY `father_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
+-- AUTO_INCREMENT for table `historytbl`
+--
+ALTER TABLE `historytbl`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `kindergarten`
 --
 ALTER TABLE `kindergarten`
@@ -1177,7 +1201,7 @@ ALTER TABLE `student_number`
 -- AUTO_INCREMENT for table `usertbl`
 --
 ALTER TABLE `usertbl`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Constraints for dumped tables
