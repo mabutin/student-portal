@@ -29,16 +29,17 @@ if ($result) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $usertype = mysqli_real_escape_string($conn, $_POST['usertype']);
 
     // Example of using prepared statements
-    $stmt = $conn->prepare("INSERT INTO usertbl (username, email, userType) VALUES (?, ?, 'user')");
-    $stmt->bind_param("ss", $username, $email);
+    $stmt = $conn->prepare("INSERT INTO usertbl (username, email, userType) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $username, $email, $usertype);
     $stmt->execute();
     $stmt->close();
 
     if ($result) {
         // Add history entry
-        $historyEntry = mysqli_real_escape_string($conn, "Username '$username' added with role of admission by admin");
+        $historyEntry = mysqli_real_escape_string($conn, "Username '$username' added with role of $usertype by admin");
         $insertHistoryQuery = "INSERT INTO history (entry, date_time) VALUES ('$historyEntry', NOW())";
         mysqli_query($conn, $insertHistoryQuery);
 
@@ -86,70 +87,81 @@ mysqli_close($conn);
                 </div>
                 <hr class="w-full h-px my-2 border-0 dark:bg-gray-700" style="background-color: #8EAFDC;">
                 <div>
-                    <form action="" method="post">
-                        <div class="flex justify-start items-center gap-2 text-base">
-                        <form action="" method="post" onsubmit="return validateAndDisplayError()">
-   <!-- ... other form elements ... -->
-
-                                <div class="flex justify-start items-center gap-2 text-base">
-                                    <div>
-                                        Username:
-                                    </div>
-                                    <div class="text-sm p-1 border border-blue-200 rounded-md w-64 text-xs">
-                                        <input type="text" id="username" name="username" placeholder="Enter a username" class="px-1 w-full">
-                                    </div>
-                                    <div class="flex justfiy-start gap-2 items-center">
-                                        <div>Email</div>
-                                        <div class="w-64 text-sm p-1 border border-blue-200 rounded-md flex justify-between items-center relative gap-2">
-                                            <input type="text" name="email" id="email" class="px-1 w-full" autocomplete="email" onblur="validateEmail()" placeholder="Enter email">
-                                            <p id="emailError" class="text-red-500 hidden absolute top-full left-0 bg-white p-2 border border-red-500 rounded-md w-full">
-                                                Invalid email format. Example: example@gmail.com
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <button class="p-2 bg-blue-500 rounded-md text-xs text-white hover:bg-blue-700">Add user</button>
+                    <div class="flex justify-start items-center gap-2 text-base">
+                        <form action="" method="post" onsubmit="return validateForm()">
+                            <div class="flex justify-start items-center gap-2 text-base">
+                                <div>
+                                    Username:
+                                </div>
+                                <div class="text-sm p-1 border border-blue-200 rounded-md w-64 text-xs">
+                                    <input type="text" id="username" name="username" placeholder="Enter a username" class="px-1 w-full">
+                                </div>
+                                <div class="flex justify-start gap-2 items-center">
+                                    <div>Email</div>
+                                    <div class="w-64 text-sm p-1 border border-blue-200 rounded-md flex justify-between items-center relative gap-2">
+                                        <input type="text" name="email" id="email" class="px-1 w-full" autocomplete="email" onblur="validateEmail()" placeholder="Enter email">
+                                        <p id="emailError" class="text-red-500 hidden absolute top-full left-0 bg-white p-2 border border-red-500 rounded-md w-full">
+                                            Invalid email format. Example: example@gmail.com
+                                        </p>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
-                    </form>
-                    <div class="w-1/2 mt-4">
-                    <div class="mt-4">
-    <form action="" method="get" class="flex items-center">
-        <label for="search" class="mr-2">Search:</label>
-        <input type="text" id="search" name="search" class="p-1 border border-blue-200 rounded-md" placeholder="Enter username or email">
-        <button type="submit" class="p-2 bg-blue-500 rounded-md text-xs text-white hover:bg-blue-700">Search</button>
-    </form>
-</div>
-                        <div class="grid grid-cols-4 px-2" style="background: #8EAFDC;">
-                            <div class="flex justify-center">ID</div>
-                            <div class="flex justify-center">Username</div>
-                            <div class="flex justify-center">Email</div>
-                            <div class="flex justify-center">Role</div>
-                        </div>
-                        <?php foreach ($users as $index => $user): ?>
-                            <div class="grid grid-cols-4 px-2 <?= $index % 2 === 0 ? 'bg-white-100' : '#9DBAE1' ?>">
-                                <div class="flex justify-center"><?= $user['id']; ?></div>
-                                <div class="flex justify-center"><?= $user['username']; ?></div>
-                                <div class="flex justify-center"><?= $user['email']; ?></div>
-                                <div class="flex justify-center"><?= $user['userType']; ?></div>
+                                <div class="flex justify-start gap-2 items-center">
+                                    <div>Role:</div>
+                                    <div class="text-sm p-1 border border-blue-200 rounded-md">
+                                        <select name="usertype" id="usertype" class="w-24">
+                                            <option value="admin">Admin</option>
+                                            <option value="admission">Admission</option>
+                                            <option value="faculty">Faculty</option>
+                                            <option value="college_registrar">College Registrar</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="p-2 bg-blue-500 rounded-md text-xs text-white hover:bg-blue-700">Add user</button>
+                                </div>
                             </div>
-                        <?php endforeach; ?>
+                        </form>
                     </div>
-                     <!-- History Section -->
-                     <div class="mt-4">
+                    <div class="flex mt-4">
+                        <div class="w-1/2">
+                            <div class="mt-4">
+                                <form action="" method="get" class="flex items-center">
+                                    <label for="search" class="mr-2">Search:</label>
+                                    <input type="text" id="search" name="search" class="p-1 border border-blue-200 rounded-md" placeholder="Enter username or email">
+                                    <button type="submit" class="p-2 bg-blue-500 rounded-md text-xs text-white hover:bg-blue-700">Search</button>
+                                </form>
+                            </div>
+                            <div class="grid grid-cols-4 px-2" style="background: #8EAFDC; overflow-x: auto;">
+                                <div class="flex justify-center">ID</div>
+                                <div class="flex justify-center">Username</div>
+                                <div class="flex justify-center">Email</div>
+                                <div class="flex justify-center">Role</div>
+                            </div>
+                            <div class="table-container" style="max-height: 300px; overflow-y: auto;">
+                                <?php foreach ($users as $index => $user): ?>
+                                    <div class="grid grid-cols-4 px-2 <?= $index % 2 === 0 ? 'bg-white-100' : '#9DBAE1' ?>">
+                                        <div class="flex justify-center"><?= $user['id']; ?></div>
+                                        <div class="flex justify-center"><?= $user['username']; ?></div>
+                                        <div class="flex justify-center"><?= $user['email']; ?></div>
+                                        <div class="flex justify-center"><?= $user['userType']; ?></div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                        <!-- History Section -->
+                        <div class="w-1/2 ml-4">
                             <h2 class="text-lg font-semibold mb-2">History</h2>
                             <?php
                             foreach ($historyEntries as $entry) {
                                 echo "<p>{$entry['entry']} - {$entry['date_time']}</p>";
                             }
                             ?>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>s
+    </div>
     <script src="../assets/js/adminSidebar.js"></script>
     <script src="../assets/js/account-management.js"></script>
 </body>
