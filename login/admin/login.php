@@ -16,16 +16,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
         $_SESSION['username'] = $row['username'];
         $_SESSION['usertype'] = $row['usertype'];
 
-        if (($row['usertype'] === "admin") || ($row['usertype'] === "Admin")) {
-            header("Location: ../../admin/dashboard.php");
-            exit();
-        } elseif (($row['usertype'] === "admission") || ($row['usertype'] === "Admission")) {
+        if ($row && ($row['usertype'] === "Admin" || $row['usertype'] === "Admission"|| $row['usertype'] === "Developer")) {
             header("Location: ../../admin/dashboard.php");
             exit();
         } else {
-            header("Location: ../student/dashboard.hmtl");
+            header("Location: ./login.php");
             exit();
-        }
+        }        
     } else {
         $error_message = "Invalid username or password";
     }
