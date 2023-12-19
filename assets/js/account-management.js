@@ -1,31 +1,101 @@
-function validateEmail(email) {
-    const regex = /\S+@\S+\.\S+/;
-    return regex.test(email);
-}
+const roles = [
+    "Admin",
+    "Admission",
+    "Faculty",
+    "College Registrar"
+];
 
-function displayError(message) {
-    const errorContainer = document.getElementById('errorContainer');
-    errorContainer.textContent = message;
-    errorContainer.classList.remove('hidden');
-}
-function validateAndDisplayError() {
-    const usernameInput = document.getElementById('username');
-    const emailInput = document.getElementById('email');
-    const username = usernameInput.value.trim();  // Trim to remove leading and trailing whitespaces
-    const email = emailInput.value.trim();
+const genders = [
+    "Female",
+    "Male"
+];
+const relationship = [
+    "Mother",
+    "Father",
+    "Grandmother",
+    "Grandfather",
+    "Aunt",
+    "Child",
+    "Sister",
+    "Brother",
+    "Wife",
+    "Husband",
+    "Uncle"
+];
 
-    // Check if either username or email is empty
-    if (username === '' || email === '') {
-        displayError('Please enter both username and email.');
-    } else if (!validateEmail(email)) {
-        displayError('Invalid email format. Example: example@gmail.com');
-    } else {
-        // If all validations pass, you can clear or hide the error message
-        const errorContainer = document.getElementById('errorContainer');
-        errorContainer.textContent = '';
-        errorContainer.classList.add('hidden');
-        
-        // Now, you can proceed with form submission or any other desired action
-        document.forms[0].submit();  // Assuming the form is the first form on the page
+function populateSelect(selectId, options) {
+    const selectElement = document.getElementById(selectId);
+
+    if (!selectElement) {
+        console.error(`Element with ID '${selectId}' not found.`);
+        return;
     }
+
+    options.forEach(option => {
+        const optionElement = document.createElement("option");
+        optionElement.value = option;
+        optionElement.text = option;
+        selectElement.add(optionElement);
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    populateSelect("roleMenu", roles);
+});
+
+function validateForm() {
+    var username = document.getElementById('username').value;
+    var email = document.getElementById('email').value;
+
+    if (username.trim() === '' || email.trim() === '') {
+        alert('Please fill in both the Username and Email fields.');
+        return false; 
+    }
+
+
+    return true; 
+}
+
+function validateForm() {
+    var username = document.getElementById('username').value;
+    var email = document.getElementById('email').value;
+    var messageDiv = document.getElementById('message');
+
+    messageDiv.innerHTML = '';
+
+    if (username.trim() === '' || email.trim() === '') {
+        displayErrorMessage('Please fill in both the Username and Email fields.');
+        return false;
+    }
+
+    if (/\s/.test(username) || !/^[a-zA-Z0-9_@]+$/.test(username)) {
+        displayErrorMessage('Invalid username. Please use only letters, numbers, _, and @, and avoid spaces.');
+        return false;
+    }
+
+    return true;
+}
+
+function validateForm() {
+    var username = document.getElementById('username').value;
+    var email = document.getElementById('email').value;
+
+    document.getElementById('message').innerHTML = '';
+
+    if (username.trim() === '' || email.trim() === '') {
+        displayErrorMessage('Please fill in both the Username and Email fields.');
+        return false;
+    }
+
+    if (/\s/.test(username) || !/^[a-zA-Z0-9_@]+$/.test(username)) {
+        displayErrorMessage('Invalid username. Please use only letters, numbers, _, and @, and avoid spaces.');
+        return false;
+    }
+
+    return true;
+}
+
+function displayErrorMessage(message) {
+    document.getElementById('message').innerHTML = '<div class="text-red-500 text-xs">' + message + '</div>';
 }
