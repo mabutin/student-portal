@@ -32,26 +32,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <form action="" method="post">
-        <div class="w-screen h-screen inline flex ">
-            <div class="justify-center items-center inline-flex w-full" style="background: url('../../assets/img/school1.png') no-repeat center/cover;">
-                <div class="p-14 bg-white rounded-2xl drop-shadow-xl border border-blue-800 border-opacity-60">
-                    <div class="justify-center items-center inline-flex gap-1">
-                        <div><img src="../../assets/svg/ollcLogoNoName.svg" class="w-[56px]" alt="OLLC Logo"></div>
-                        <div class="text-2xl font-medium">INFORMATION SYSTEM</div>
-                    </div>
-                    <div class="my-4">
-                    <form action="/ollcInformationSystem/login.php" method="post">
+<body class="font-[roboto-serif]">
+    <div class="w-screen h-screen inline flex ">
+        <div class="justify-center items-center inline-flex w-full bg-[url('../../assets/img/school1.png')] bg-no-repeat bg-cover bg-center">
+            <div class="backdrop-blur-sm absolute inset-0 w-full h-full"></div>
+            <div class="p-14 bg-white rounded-2xl drop-shadow-xl border border-blue-800 border-opacity-60">
+                <div class="justify-center items-center inline-flex gap-1">
+                    <div><img src="../../assets/svg/ollcLogoNoName.svg" class="w-[56px]" alt="OLLC Logo"></div>
+                    <div class="text-2xl font-medium">INFORMATION SYSTEM</div>
+                </div>
+                <div class="my-4">
+                    <form action="" method="post">
                         <div class='text-xl text-center font-medium'>ADMIN LOGIN</div>
                         <div class='text-lg py-2 font-medium'>Username:</div>
                         <div class='text-lg p-1 border border-blue-200 rounded-md'><input type="text" id='username' name='username' autoComplete='none' class='w-full p-1' placeholder='Enter your Username'/></div>
@@ -67,9 +66,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                         </div>
                     </form>
                 </div>
-                </div>
             </div>
         </div>
-    </form>
+    </div>
 </body>
 </html>
