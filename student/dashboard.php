@@ -5,68 +5,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/custom.css">
     <title>Student Dashboard</title>
+    <style>
+       section {
+            margin: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #648EC7;
+            color: white;
+        }
+        </style>
 </head>
 
 <body class="font-serif"> 
     <form action="../login/student/logout.php">
-        <div id="sidebar" class="flex flex-col justify-between sidebar w-56 h-screen ease-linear duration-500 cursor-pointer" style="background-color: #4D81C8;">
-            <div>
-                <div class="px-2 py-4 flex items-center justify-start gap-3">
-                    <div class="logo-container">
-                        <img src="../assets/svg/ollcLogoNoName.svg" class="logo w-10 h-10" alt="">
-                    </div>
-                    <div class="tracking-wide justify-center items-center text-center text-white text-xs hidden" id="textDiv" style="letter-spacing: 2px;"> 
-                        <span>OUR LADY OF LOURDES</span> <br>
-                        <span style="letter-spacing: 7.20px;">COLLEGE</span> 
-                    </div>
-                </div>
-                <div>
-                    <div class="mt-14 ml-2">
-                        <a href="dashboard.php" class="px-2 flex items-center justify-start h-10 gap-3">
-                            <div class="logo-container">
-                                <img src="../assets/svg/dashboard.svg" class="logo w-6 h-6" alt="">
-                            </div>
-                            <div class="tracking-wide justify-start items-center text-center text-white text-xs hidden" id="dashboard" style="letter-spacing: 2px;"> 
-                                DASHBOARD
-                            </div>
-                        </a>
-                    </div>
-                    <div class="ml-2">
-                        <a href="account-management.html" class="px-2 flex items-center justify-start h-10 gap-3">
-                            <div class="logo-container">
-                                <img src="../assets/svg/account-management.svg" class="logo w-6 h-6" alt="">
-                            </div>
-                            <div class="tracking-wide justify-start items-center text-center text-white text-xs hidden" id="accountManagement" style="letter-spacing: 2px;"> 
-                               <h1> Classes</h1>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="ml-2">
-                        <a href="student-information.html" class="px-2 flex items-center justify-start h-10 gap-3">
-                            <div class="logo-container">
-                                <img src="../assets/svg/student.svg" class="logo w-6 h-6" alt="">
-                            </div>
-                            <div class="tracking-wide justify-start items-center text-center text-white text-xs hidden" id="studentInformation" style="letter-spacing: 2px;"> 
-                               My Grades
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="ml-2">
-                <button onclick="logout()" class="px-2 flex items-center justify-start h-10 gap-3">
-                    <div class="logo-container px-2 flex items-center justify-start h-10 gap-3">
-                        <img src="../assets/svg/logout.svg" class="logo w-6 h-6" alt="">
-                    </div>
-                    <div class="tracking-wide justify-start items-center text-center text-white text-xs hidden" id="logout" style="letter-spacing: 2px;">
-                        Logout
-                    </div>
-                </button>
-            </div>
+        <div class="flex">
+    <div>
+            <?php include './sidebar.php'; ?>
         </div>
+        <div class="w-full py-4 px-4">
+            <div>
+                <?php include './topbar.php'; ?>
+            </div>
+            <div>
+                <section>
+        <p><strong>Name:</strong> John Doe</p>
+        <p><strong>Student ID:</strong> 123456</p>
+        <p><strong>Program:</strong> Computer Science</p>
+    </section>
+      <section>
+        <h2>Subjects</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Subject Code</th>
+                    <th>Subject Name</th>
+                    <th>Units</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>CSCI101</td>
+                    <td>Introduction to Computer Science</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>MATH201</td>
+                    <td>Calculus II</td>
+                    <td>3</td>
+                </tr>
+                <!-- Add more rows for additional courses -->
+            </tbody>
+        </table>
+    </section>
+            </div>
+            </div>
+</div>
+
+  
+    
+            </div>
     </form>
+
+    
+    <script src="../assets/js/studentSidebar.js"></script>
 </body>
 
 </html>
