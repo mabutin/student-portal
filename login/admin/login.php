@@ -16,10 +16,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
         $_SESSION['username'] = $row['username'];
         $_SESSION['usertype'] = $row['usertype'];
 
-        if ($row['usertype'] === "admin") {
+        if (($row['usertype'] === "admin") || ($row['usertype'] === "Admin")) {
             header("Location: ../../admin/dashboard.php");
             exit();
-        } elseif ($row['usertype'] === "admission") {
+        } elseif (($row['usertype'] === "admission") || ($row['usertype'] === "Admission")) {
             header("Location: ../../admin/dashboard.php");
             exit();
         } else {

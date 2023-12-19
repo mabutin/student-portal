@@ -28,7 +28,7 @@
                 </div>
                 <div>
                     <div class="mt-14 ml-2">
-                        <a href="dashboard.html" class="px-2 flex items-center justify-start h-10 gap-3">
+                        <a href="dashboard.php" class="px-2 flex items-center justify-start h-10 gap-3">
                             <div class="logo-container">
                                 <img src="../assets/svg/dashboard.svg" class="logo w-6 h-6" alt="">
                             </div>

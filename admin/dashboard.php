@@ -31,13 +31,13 @@ $usertype = $_SESSION['usertype'];
             </div>
             <div>
                 <?php
-                    if ($usertype == 'admin') {
-                        echo '<p>Welcome, Admin!</p>';
-                    } elseif ($usertype == 'admission') {
-                        echo '<p>Welcome, Admission User!</p>';
-                    } else {
-                        echo '<p>Error: Unknown usertype</p>';
-                    }
+                if ($usertype === "admin" || $usertype === "Admin") {
+                    echo '<p>Welcome, Admin!</p>';
+                } elseif ($usertype === "admission" || $usertype === "Admission") {
+                    echo '<p>Welcome, Admission User!</p>';
+                } else {
+                    echo '<p>Error: Unknown usertype</p>';
+                }
                 ?>
             </div>
         </div>
