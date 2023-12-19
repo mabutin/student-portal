@@ -1,6 +1,19 @@
 <?php
 session_start();
 
+function formatDateHeading($date) {
+    $today = date('Y-m-d');
+    $yesterday = date('Y-m-d', strtotime('-1 day'));
+
+    if ($date === $today) {
+        return 'Today';
+    } elseif ($date === $yesterday) {
+        return 'Yesterday';
+    } else {
+        return date('F j, Y', strtotime($date));
+    }
+}
+
 if (!isset($_SESSION['username'])) {
     header('Location: ../login/admin/login.php');
     exit();
@@ -39,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result) {
         // Add history entry
-        $historyEntry = mysqli_real_escape_string($conn, "Username '$username' added with role of $usertype by admin");
+        $historyEntry = mysqli_real_escape_string($conn, "'$usertype' created a new user account named '$username' with the role of '$usertype'");
         $insertHistoryQuery = "INSERT INTO history (entry, date_time) VALUES ('$historyEntry', NOW())";
         mysqli_query($conn, $insertHistoryQuery);
 
@@ -66,12 +79,14 @@ mysqli_close($conn);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <title>Account Management</title>
 </head>
+
 <body class="font-[roboto-serif]" style="background: rgba(118, 163, 224, 0.1);">
     <div class="flex justify-start">
         <div>
@@ -152,8 +167,29 @@ mysqli_close($conn);
                         <div class="w-1/2 ml-4">
                             <h2 class="text-lg font-semibold mb-2">History</h2>
                             <?php
+                            $currentDateHeading = null;
+
                             foreach ($historyEntries as $entry) {
-                                echo "<p>{$entry['entry']} - {$entry['date_time']}</p>";
+                                $entryDateTime = new DateTime($entry['date_time']);
+                                $currentDateTime = new DateTime();
+                                $interval = $currentDateTime->diff($entryDateTime);
+
+                                $formattedDateTime = $entryDateTime->format('F j, Y, g:i a');
+                                $entryDate = $entryDateTime->format('Y-m-d');
+                                $timeAgo = formatDateHeading($entryDate);
+
+                                // Display date heading if it's a new date
+                                if ($currentDateHeading !== $entryDate) {
+                                    echo "<p class='font-semibold mt-2'>$timeAgo</p>";
+                                    $currentDateHeading = $entryDate;
+                                }
+
+                                echo "<p class='ml-2'>{$entry['entry']} - $timeAgo at $formattedDateTime</p>";
+                            }
+
+                            // Display 'No new notifications' if there are no history entries
+                            if (empty($historyEntries)) {
+                                echo "<div>No new notifications</div>";
                             }
                             ?>
                         </div>
@@ -165,4 +201,5 @@ mysqli_close($conn);
     <script src="../assets/js/adminSidebar.js"></script>
     <script src="../assets/js/account-management.js"></script>
 </body>
+
 </html>
