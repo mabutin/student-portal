@@ -125,20 +125,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     </div>
                     <div class="text-base">
                         We warmly welcome senior high school graduates, college transferees, second coursers, and foreign applicants to our campus.
-                        Kindly choose-out the enrollement form for a fast and efficient admissions procedure.
+                       
                     </div><br>
                     <div class="text-base">
-                        By submitting this etc etc
+                         Kindly fill-out the online application form for a fast and efficient admissions procedure.
                     </div>
-                    <div class="text-base">
-                        uhaw uhaw
-                    </div>
+                   
                     <div class="mt-4 w-full">
+                    <div class="flex justify-start items-center w-full gap-2">
+                            <div class="font-bold text-lg w-auto">
+                            What type of student are you?
+                            </div>
+                            <div class="w-full">
+                                <div class="w-full"><select name="student_type" class="text-sm p-1 border border-blue-200 rounded-md">
+                                        <option value="newstudent">New Student</option>
+                                        <option value="oldstudent">Old Student</option>
+                                        <option value="ireggular">Ireggular Student</option>
+                                    </select></div>
+                            </div>
+                        </div><br>
                         <div class="flex justify-start items-center w-full gap-2">
                             <div class="font-bold text-lg w-auto">
                                 You are applying for:
                             </div>
-                            <div class="w-1/2">
+                            <div class="w-auto">
                                 <div><select name="course" class="text-sm p-1 border border-blue-200 rounded-md">
                                         <option value="BSIT">Bachelor of Science in Information Technology</option>
                                         <option value="BSED">Bachelor of Education Major in Math</option>
@@ -190,6 +200,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     }
                     ?>
                     <div class="mt-4">
+                    
                         <div class="inline-flex justify-start items-center gap-2 mt-2">
                             <div><img src="../assets/svg/three-lines.svg" class="w-5 h-5" alt=""></div>
                             <div class="font-bold text-xl">Personal Information</div>
@@ -198,19 +209,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             <div class="flex justify-between items-center gap-2 w-full">
                                 <div class="w-full">
                                     <div>Surname</div>
-                                    <div class="text-sm p-1 border border-blue-200 rounded-md w-full"><input type="text" id="stdSurname" name="stdSurname" autocomplete="family-name" required style="text-transform: capitalize;" class="w-full px-1"></div>
+                                    <div class="text-sm p-1 border border-blue-200 rounded-md w-full"><input value="<?php echo $surname; ?>" readonly></div>
                                 </div>
                                 <div class="w-full">
                                     <div>First Name</div>
-                                    <div class="text-sm p-1 border border-blue-200 rounded-md w-full"><input type="text" id="stdFirstname" name="stdFirstname" autocomplete="given-name" required style="text-transform: capitalize;" class="w-full px-1"></div>
+                                    <div class="text-sm p-1 border border-blue-200 rounded-md w-full"><input value="<?php echo $firstName; ?>" readonly></div>
                                 </div>
                                 <div class="w-full">
                                     <div>Middle Name</div>
-                                    <div class="text-sm p-1 border border-blue-200 rounded-md w-full"><input type="text" id="stdMiddlename" name="stdMiddlename" required style="text-transform: capitalize;" class="w-full px-1"></div>
+                                    <div class="text-sm p-1 border border-blue-200 rounded-md w-full"><input value="<?php echo $middleName; ?>" readonly></div>
                                 </div>
                                 <div class="w-full">
                                     <div>Suffix</div>
-                                    <div><select name="stdSuffix" id="suffixMenu" class="text-sm p-1 border border-blue-200 rounded-md w-full"></select></div>
+                                    <div class="text-sm p-1 border border-blue-200 rounded-md w-full"><input value="<?php echo $suffix; ?>" readonly></div>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center gap-2 w-full">
@@ -226,32 +237,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         </div>
                     </div>
 
-                    <div class="mt-4">
-                        <div class="inline-flex justify-start items-center gap-2 mt-2">
-                            <div><img src="../assets/svg/three-lines.svg" class="w-5 h-5" alt=""></div>
-                            <div class="font-bold text-xl">Student Information</div>
-                        </div>
-                        <!-- Display student information -->
-                        <table class="border-collapse border border-slate-500 w-full mx-auto">
-                            <thead>
-                                <tr>
-                                    <th class="border border-slate-500">Field</th>
-                                    <th class="border border-slate-500">Value</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="border border-slate-700">First Name</td>
-                                    <td class="border border-slate-700"><?php echo $firstName; ?></td>
-                                </tr>
-                                <tr>
-                                    <td class="border border-slate-700">Surname</td>
-                                    <td class="border border-slate-700"><?php echo $surname; ?></td>
-                                </tr>
-                                <!-- Add more rows for other fields as needed -->
-                            </tbody>
-                        </table>
-                    </div>
+                
                    
                     <div class="mt-4">
                         <div class="inline-flex justify-start items-center gap-2 mt-2">
