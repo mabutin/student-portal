@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 19, 2023 at 11:14 AM
+-- Generation Time: Dec 20, 2023 at 07:53 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -185,7 +185,8 @@ CREATE TABLE `enrollment_details` (
 --
 
 INSERT INTO `enrollment_details` (`enrollment_details_id`, `course`, `year_level`, `semester`) VALUES
-(82, 'Bachelor of Science in Information Technology', NULL, NULL);
+(82, 'Bachelor of Science in Information Technology', NULL, NULL),
+(83, 'BSIT', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -252,6 +253,13 @@ CREATE TABLE `historytbl` (
   `username` varchar(255) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `historytbl`
+--
+
+INSERT INTO `historytbl` (`id`, `action`, `username`, `timestamp`) VALUES
+(8, '\'dev@user\' created a new user account named \'<strong>admin</strong>\' with the role of \'Admin\'', 'dev@user', '2023-12-19 11:07:04');
 
 -- --------------------------------------------------------
 
@@ -881,7 +889,8 @@ INSERT INTO `subject` (`subject_id`, `sub_name`, `sub_code`, `sub_unit`, `course
 (183, 'Computer Programming 1', 'IT Prog 1', '3', 'BSIT', '2nd', '1st Year'),
 (184, 'Rhythmic Activities', 'PE 2', '2', 'BSIT', '2nd', '1st Year'),
 (185, 'NSTP 2', 'NSTP 2', '3', 'BSIT', '2nd', '1st Year'),
-(186, 'OLLC Culture & Ethics', 'ELEC 2', '2', 'BSIT', '2nd', '1st Year');
+(186, 'OLLC Culture & Ethics', 'ELEC 2', '2', 'BSIT', '2nd', '1st Year'),
+(26, 'OLLC Culture and Ethics', 'OCE 2', '2', 'Bachelor of Science in Information Technology', '2nd', '2nd Year');
 
 -- --------------------------------------------------------
 
@@ -902,7 +911,8 @@ CREATE TABLE `usertbl` (
 --
 
 INSERT INTO `usertbl` (`id`, `username`, `email`, `password`, `usertype`) VALUES
-(19, 'dev@user', NULL, 'dev123', 'Developer');
+(19, 'dev@user', NULL, 'dev123', 'Developer'),
+(33, 'admin', 'millaminaminalyn@gmail.com', 'l4zt9voy', 'Admin');
 
 -- --------------------------------------------------------
 
@@ -1117,7 +1127,7 @@ ALTER TABLE `emergency_contact`
 -- AUTO_INCREMENT for table `enrollment_details`
 --
 ALTER TABLE `enrollment_details`
-  MODIFY `enrollment_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `enrollment_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT for table `family_record`
@@ -1135,7 +1145,7 @@ ALTER TABLE `father`
 -- AUTO_INCREMENT for table `historytbl`
 --
 ALTER TABLE `historytbl`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `kindergarten`
@@ -1153,7 +1163,7 @@ ALTER TABLE `mother`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `personal_information`
@@ -1195,13 +1205,13 @@ ALTER TABLE `student_information`
 -- AUTO_INCREMENT for table `student_number`
 --
 ALTER TABLE `student_number`
-  MODIFY `student_number_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `student_number_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT for table `usertbl`
 --
 ALTER TABLE `usertbl`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- Constraints for dumped tables
