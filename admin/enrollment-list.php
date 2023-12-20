@@ -6,7 +6,7 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-$usertype = $_SESSION['usertype'] ?? 'guest';
+$usertype = $_SESSION['usertype'];
 
 ?>
 
@@ -30,19 +30,10 @@ $usertype = $_SESSION['usertype'] ?? 'guest';
                 <?php include './topbar.php'; ?>
             </div>
             <div>
-                <?php
-                if ($usertype === "developer" || $usertype === "Developer") {
-                    echo '<p>Welcome, Developer!</p>';
-                } elseif ($usertype === "admission" || $usertype === "Admission") {
-                    echo '<p>Welcome, Admission User!</p>';
-                } elseif ($usertype === "admin" || $usertype === "Admin") {
-                    echo '<p>Welcome, Admin!</p>';
-                }
-                ?>
+                content
             </div>
         </div>
     </div>
-    <script src="../assets/js/adminSidebar.js" defer></script>
 </body>
 
 </html>

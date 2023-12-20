@@ -274,6 +274,6 @@
             </div>
         </div>
     </div>
-    <script src="../assets/js/adminSidebar.js"></script>
+    <script src="../assets/js/adminSidebar.js" defer></script>
     <script src="../assets/js/student-information-tab.js"></script>
 </html>
