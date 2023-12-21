@@ -71,7 +71,7 @@ if ($result->num_rows == 1) {
         </div>
         <div class="w-full py-4 px-4">
             <div>
-                <?php include './topbar.php'; ?>
+                <?php include './topbarStudent.php'; ?>
             </div>
             <div class="py-4 px-6">
                     <h2 class="text-2xl font-semibold mb-4">Student Classes</h2>
