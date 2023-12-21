@@ -67,3 +67,27 @@ To try student profile search http://localhost/student-portal/student/student-pr
 To access admin
 - Search http://localhost/student-portal/login/admin/login.php
 - Login credentials ( Username: dev@user, Password: dev123).
+
+# official Website
+
+contributors:
+
+Documents: Delos Santos, Lopo, Germino Main Programmer: Dala Assistant Programmer: Yambot.
+
+Official is a website to speed up people's gathering of information about our lady of lourdes college, of course it will speed up the inquiries of people who will enroll here in lourdes because of the help of the website and they will immediately know the necessary requirements when it comes to enrollment
+
+Features:
+
+The official website system is for people who want to inquire about our lady of lourdes, they can find here all the information about the school and of course they can also see the different information about the school.
+
+Upcoming Features:
+More Improvement of website
+
+Administrator have access to:
+Registrar,student,admin and developer they can access everything on the official website. they can also access the information about the course once they click the picture, of course they can also access the facilities once they click the picture.
+
+Future Features:
+-Web Development continues evolve
+-Fresh, Quality Information
+-Readily accesible contact and location
+-The integration of AI will bring personalized experiences
