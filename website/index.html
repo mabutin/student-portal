@@ -1,19 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+  <title>Home</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css"  rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
     <link rel="shortcut icon" href="../assets/svg/ollcLogoNoName.svg" type="image/x-icon">
+   
 </head>
 <body>
-    <div id="topbarContainer"></div>
-    <div>
-        Home
+    <div id="topbarContainer" ></div>
+    <div id="default-carousel h-100 w-100 mt-10" class="relative" data-carousel="slide" style=" background-size: cover; background-position: center;">
+        
+    <div id="default-carousel" class="relative" data-carousel="slide">
+        
+        <div class="relative h-160 overflow-hidden rounded-lg md:h-96">
+           
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="../assets/img/Criminilogy.jpg" class="absolute block  -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+            
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="../assets/img/carousel1.jpg" class="absolute block  -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+           
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="../assets/img/carousel3.jpg" class="absolute block  -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+           
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="../assets/img/Event-banner (1).jpg" class="absolute block  -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+            
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="../assets/img/admission-banner.png" class="absolute block  -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+        </div>
+      
+        <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button>
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 4" data-carousel-slide-to="3"></button>
+            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 5" data-carousel-slide-to="4"></button>
+        </div>
+       
+        <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+                </svg>
+                <span class="sr-only">Previous</span>
+            </span>
+        </button>
+        <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                </svg>
+                <span class="sr-only">Next</span>
+            </span>
+        </button>
     </div>
-    <div>
-        <object data="./footer.html" type="text/html" width="100%" height="56px"></object>
+        <div class="bg-blue-200 h-64">
+         <div class="text-3xl text-center py-8">ABOUT OLLC UNIVERSITY AND COLLEGES
+        <p class="text-lg text-center mx-80 mt-4"> “Our Lady of Lourdes College Foundation, as an institution of higher learning is dedicated to the pursuit of Knowledge, Truth and Wisdom through the Guidance of Divine Providence as it seeks the total development and formation of the Filipino Youth.”</p>
+        </div>
+     </div>
     </div>
-    <script src="../assets/js/topbar.js"></script>
+</div>
+
+<div class="bg-white mx-auto py-8"> 
+    <div class="flex items-center justify-center space-x-20 mt-0"> 
+        <div class="w-64 h-50 flex flex-col items-center">
+            <div class="text-center"><p>Reputation</p></div>
+            <div class="text-center"><p>Lady of Lourdes College has been providing good quality Free Education for students in need for 17 years. A school that helps you to be able to survive</p></div>
+            <a href="mission-vision.html">
+                <img src="../assets/img/history-banner.jpg" style="width: 200px; height: 200px; border-radius: 120%;" alt="History Banner" class="w-auto h-50 rounded-full">
+            </a>
+        </div>
+        <div class="w-64 h-50 flex flex-col items-center">
+            <div class="text-center text-blue-500 text-semibold"><p>Vision And Mission</p></div>
+            <div class="text-center"><p>Lady of Lourdes College has been providing good quality Free Education for students in need for 17 years. A school that helps you to be able to survive</p></div>
+            <a href="mission-vision.html">
+                <img src="../assets/img/missionvission.jpg" style="width: 200px; height: 200px; border-radius: 120%;" alt="Mission Vision Banner" class="w-auto h-50 rounded-full">
+            </a>
+        </div>
+        <div class="w-64 h-50 flex flex-col items-center">
+            <div class="text-center text-blue-500 text-semibold"><p>Inside the Campus</p></div>
+            <div class="text-center"><p>College Buildings, gymnasium, audiovisual room, visual laboratory, Court Inside and Court On Top Of College Building, Kitchen Laboratory, Computer Laboratory</p></div>
+            <a href="facilities.html">
+                <img src="../assets/img/facilities.jpg" style="width: 200px; height: 200px; border-radius: 120%;" alt="Facilities Banner" class="w-auto h-50 rounded-full">
+            </a>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="bg-blue-200 px-4 py-8">
+    <div class="text-3xl text-center font-semibold">
+        <p>Programs Offered</p>
+    </div>
+    <div class="bg-blue-200 flex items-center justify-center text-center space-x-7 mt-5">
+        <div>
+            <a href="BSCRIM.html">
+                <img src="../assets/img/Poster-banner.jpg" alt="BSCRIM Poster">
+                <p class="mt-2 text-center text-gray-700">Bachelor of Science in Criminology</p>
+            </a>
+        </div>
+        <div>
+            <a href="BSBA.html">
+                <img src="../assets/img/Poster1-banner.jpg" alt="BSBA Poster">
+                <p class="mt-2 text-center text-gray-700">Bachelor of Science in Business Administration</p>
+            </a>
+        </div>
+        <div>
+            <a href="BSIT.html">
+                <img src="../assets/img/Poster2-banner.jpg" alt="BSIT Poster">
+                <p class="mt-2 text-center text-gray-700">Bachelor of Science in Information Technology</p>
+            </a>
+        </div>
+        <div>
+            <a href="BSHM.html">
+                <img src="../assets/img/Poster3-banner.jpg" alt="BSHM Poster">
+                <p class="mt-2 text-center text-gray-700">Bachelor of Science in Hotel Management</p>
+            </a>
+        </div>
+        <div>
+            <a href="BSEDUC.html">
+                <img src="../assets/img/Poster4-banner.jpg" alt="BSEDUC Poster">
+                <p class="mt-2 text-center text-gray-700">Bachelor of Science in elementary And Secondary</p>
+            </a>
+        </div>
+        </div>
+</div>  
+    </div>
+</div>
+
+        
+    <div class="mx-auto max-w-md p-6 bg-white rounded-md shadow-md my-4">
+    <img class="mx-auto max-w-full mb-4 rounded-md" src="../assets/img/admission-banner.png" alt="Pre-registration Image">
+
+    
+    <p class="text-center text-gray-700">
+        Maligayang pagdating sa aming online pre-registration! 
+        Mangyaring punan ang form sa ibaba upang mag-pre-register online.
+    </p>
+
+    
+
+    <p class="text-center text-gray-700 mt-4">
+        Para sa karagdagang impormasyon, makipag-ugnay sa amin sa 
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7h-cBwqWpiTRc6OmvcN8iu5JUaCeIBxyXB56DBDLaaLlz6g/viewform?usp=sf_link" class="text-blue-500">Pre-Registration Form</a>
+    </p>
+</div>
+  
+ 
+     <object data="./footer.html" type="text/html" width="100%" height="56px"></object>
+    </div>
+     <script src="../assets/js/topbar.js"></script>
+ <script src="../assets/js/slide.js"></script>
+ </div>
 </body>
 </html>

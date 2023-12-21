@@ -1,19 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us</title>
-    <link rel="shortcut icon" href="../assets/svg/ollcLogoNoName.svg" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link rel="shortcut icon" href="../assets/svg/ollcLogoNoName.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
 </head>
-<body>
-    <div id="topbarContainer"></div>
-    <div>
-        Contact Us
+<body class="bg-gray-100">
+
+    <div id="topbarContainer"></div>
+    <div class="container bg-blue-500 my-8">
+        <h1 class="text-4xl text-center font-bold mb-6">Contact Us</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+                <h2 class="text-2xl font-bold mb-4">Visit Us</h2>
+                <p class="mb-2">Our School Address:</p>
+                <address class="not-italic mb-4">
+                    5031 Gen T De Leon, Valenzuela City
+                </address>
+            </div>
+
+            <div>
+                <h2 class="text-2xl font-bold mb-4">Contact Information</h2>
+                <p class="mb-2">Phone:</p>
+                <p class="mb-4">+6389220077</p>
+                
+                <p class="mb-2">Email:</p>
+                <p class="mb-4">ollcval43@gmail.com</p>
+            </div>
+        </div>
+
+        <div class="mt-8">
+            <h2 class="text-2xl text-center font-bold mb-4">LOCATION OF OUR LADY OF LOURDES COLLEGE</h2>
+            <div class="aspect-w-16 aspect-h-9">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.158275013182!2d120.99192481489298!3d14.688161577797392!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c9f9a65f885d%3A0x4d4c789777f6b77f!2sYour%20School%20Name!5e0!3m2!1sen!2suk!4v1638463228282!5m2!1sen!2suk" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
     </div>
-    <div>
-        <object data="./footer.html" type="text/html" width="100%" height="56px"></object>
-    </div>
-    <script src="../assets/js/topbar.js"></script>
+
+    <footer class="bg-gray-800 text-white text-center py-4">
+        <p>&copy; 2023 Your School Name. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+</body>
+
+</html>
+
+
+    <script src="../assets/js/topbar.js"></script>
 </body>
 </html>
