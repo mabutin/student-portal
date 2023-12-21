@@ -59,33 +59,8 @@ if ($result->num_rows == 1) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <title>Student Dashboard</title>
-    <style>
-       section {
-            margin: 20px;
-        }
-
-        h2 {
-            color: #333;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #648EC7;
-            color: white;
-        }
-        </style>
+    <title>Student Classes</title>
+    
 </head>
 
 <body class="font-serif"> 
@@ -98,44 +73,25 @@ if ($result->num_rows == 1) {
             <div>
                 <?php include './topbarStudent.php'; ?>
             </div>
-            <div>
-                <section>
-        <p><strong>Name:</strong> <?php echo htmlspecialchars($firstName . ' ' . $middleName . '. ' . $surname, ENT_QUOTES, 'UTF-8'); ?></p>
-        <p><strong>Student ID:</strong> <?php echo htmlspecialchars($studentNumber, ENT_QUOTES, 'UTF-8'); ?></p>
-        <p><strong>Program:</strong> <?php echo htmlspecialchars($course, ENT_QUOTES, 'UTF-8'); ?></p>
-    </section>
-      <section>
-        <h2>Subjects</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Subject Code</th>
-                    <th>Subject Name</th>
-                    <th>Units</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>CSCI101</td>
-                    <td>Introduction to Computer Science</td>
-                    <td>3</td>
-                </tr>
-                <tr>
-                    <td>MATH201</td>
-                    <td>Calculus II</td>
-                    <td>3</td>
-                </tr>
-                <!-- Add more rows for additional courses -->
-            </tbody>
-        </table>
-    </section>
-            </div>
-            </div>
-</div>
+            <div class="py-4 px-6">
+                    <h2 class="text-2xl font-semibold mb-4">Student Classes</h2>
 
-  
-    
+                    <?php if (empty($subjects)) : ?>
+                        <p>No subjects available for this course.</p>
+                    <?php else : ?>
+                        <ul>
+                            <?php foreach ($subjects as $subject) : ?>
+                                <li>
+                                    <strong>Subject Name:</strong> <?php echo htmlspecialchars($subject['subject_name'], ENT_QUOTES, 'UTF-8'); ?><br>
+                                    <strong>Subject Unit:</strong> <?php echo htmlspecialchars($subject['subject_unit'], ENT_QUOTES, 'UTF-8'); ?><br>
+                                    <strong>Professor:</strong> <?php echo htmlspecialchars($subject['professor'], ENT_QUOTES, 'UTF-8'); ?><br><br>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
+                </div>
             </div>
+        </div>
     </form>
 
     

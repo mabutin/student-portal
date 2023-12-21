@@ -11,7 +11,7 @@
     <form action="../login/student/logout.php" method="post">
         <div class="flex py-4 px-14 justify-between items-center">
                 <div>
-                    <img src="../assets/svg/ollclogo.svg" alt="">
+                    <div><img src="../assets/svg/ollclogo.svg" alt=""></div>
                 </div>
                 <div class="inline-flex justify-between items-center gap-4">
                     <div>

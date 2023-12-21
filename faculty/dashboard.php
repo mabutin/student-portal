@@ -17,7 +17,7 @@ $usertype = $_SESSION['usertype'] ?? 'guest';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <title>Admin dashboard</title>
+    <title>Faculty dashboard</title>
 </head>
 
 <body class="font-[roboto-serif]">
@@ -37,6 +37,8 @@ $usertype = $_SESSION['usertype'] ?? 'guest';
                     echo '<p>Welcome, Admission User!</p>';
                 } elseif ($usertype === "admin" || $usertype === "Admin") {
                     echo '<p>Welcome, Admin!</p>';
+                } elseif ($usertype === "Faculty" || $usertype === "Faculty") {
+                    echo '<p>Welcome, Faculty!</p>';
                 }
                 ?>
             </div>

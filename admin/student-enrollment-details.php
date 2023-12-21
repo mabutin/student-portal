@@ -87,11 +87,11 @@ WHERE
             <div class="flex justify-between items-center gap-2">
                 <div class="w-full flex justify-between items-center gap-2">
                     <div class="flex justify-start items-center gap-2">
-                        <a href="./student-information.php" aria-label="Go back" id="goBackButton">
+                        <a href="./enrollment-list.php" aria-label="Go back" id="goBackButton">
                             <img src="../assets/svg/back.svg" style="width: 24px; height: 24px; transition: width 0.3s, height 0.3s;" alt="Go back">
                         </a>
                         <div class="flex justify-start items-center gap-2">
-                            Student Details
+                           Enrolled Subject
                         </div>
                     </div>
                     <button onClick="printStudentDetails();" class="p-2 bg-blue-500 rounded-md text-xs text-white hover:bg-blue-700">
