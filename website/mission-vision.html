@@ -10,17 +10,28 @@
 <body class="flex flex-col min-h-screen">
 
     <div id="topbarContainer"></div>
+    
+    <!-- Image Section -->
+    <div class="relative h-100 flex items-center justify-center">
+        <img src="../assets/img/Mission Banner.jpg" class="w-full h-auto object-cover">
 
-    <!-- First Container Box -->
-    <div class="container mx-auto mt-8 p-4 bg-gray-200 rounded-lg">
-        <div class="text-xl font-bold mb-4 text-center">Vission</div>
-        <div class="text-center">The vision-mission statement of OLLC express its end goal and its broad academic and operational assurances, incorporating a commitment to access and success within the institution's mission statement as well as its vow to its student and community.</div>
-    </div>
+        <!-- Vision and Mission Container Boxes -->
+        <div class="absolute inset-0 flex justify-center items-center p-4">
 
-    <!-- Second Container Box -->
-    <div class="container mx-auto mt-8 p-4 bg-blue-200 rounded-lg">
-        <div class="text-xl font-bold mb-4 text-center">Mission</div>
-        <div class="text-center">Build Character, hone skills, nurture talents, and provide the most relevant and highest quality of education by fervently standing for the truth, Commitment, and Excellence</div>
+            <!-- Vision Section -->
+            <div class="container bg-white bg-opacity-75 rounded-lg w-96 h-96">
+                <div class="text-5xl font-bold mb-4 text-center text-blue-800">Vision</div>
+                <div class="text-center text-2xl text-black-800">The vision-mission statement of OLLC expresses its end goal and its broad academic and operational assurances, incorporating a commitment to access and success within the institution's mission statement as well as its vow to its students and community.</div>
+            </div>
+
+            <!-- Mission Section -->
+            <div class="container bg-white bg-opacity-75 rounded-lg w-96 h-96 ml-4">
+                <div class="text-5xl font-bold mb-4 text-center text-blue-800">Mission</div>
+                <div class="text-center text-2xl text-black-800">Build Character, hone skills, nurture talents, and provide the most relevant and highest quality of education by fervently standing for the truth, Commitment, and Excellence</div>
+            </div>
+
+        </div>
+
     </div>
 
     <footer class="mt-auto">
@@ -30,4 +41,3 @@
     <script src="../assets/js/topbar.js"></script>
 </body>
 </html>
-
