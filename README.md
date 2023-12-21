@@ -93,3 +93,25 @@ Future Features:
 -Fresh, Quality Information
 -Readily accesible contact and location
 -The integration of AI will bring personalized experiences
+
+# Grading Management System
+
+Documents: Batta, Dantes, Oraa, Lascota
+
+Main Programmer: Aguirre
+
+Assistant Programmer: Lascota
+
+The Grading Management System plays a role for faculty to insert and store students grade per class or subject that a faculty is handling. The Admin will approve finalization of the records and the student can view their grade per subject they are enrolled once it is approve to be viewed. 
+
+Features: 
+
+For students they can view their enrolled subjects and if they already have their grade for that subject, for faculty they can view the class they are handling. 
+
+Future Feature:
+- Faculty inserting grades for students that is enrolled in their respective handled subjects
+- automation of computing general weighted average of grade once completed
+- notification for admin on whom inserted a grade and waiting to be approved
+- request for edit and edit button in case of error in encoding grade
+- faculty to view class list by school year, semester, subject name
+- viewing grades by class description, year and section
