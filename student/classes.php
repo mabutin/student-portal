@@ -73,6 +73,25 @@ if ($result->num_rows == 1) {
             <div>
                 <?php include './topbar.php'; ?>
             </div>
+            <div class="py-4 px-6">
+                    <h2 class="text-2xl font-semibold mb-4">Student Classes</h2>
+
+                    <?php if (empty($subjects)) : ?>
+                        <p>No subjects available for this course.</p>
+                    <?php else : ?>
+                        <ul>
+                            <?php foreach ($subjects as $subject) : ?>
+                                <li>
+                                    <strong>Subject Name:</strong> <?php echo htmlspecialchars($subject['subject_name'], ENT_QUOTES, 'UTF-8'); ?><br>
+                                    <strong>Subject Unit:</strong> <?php echo htmlspecialchars($subject['subject_unit'], ENT_QUOTES, 'UTF-8'); ?><br>
+                                    <strong>Professor:</strong> <?php echo htmlspecialchars($subject['professor'], ENT_QUOTES, 'UTF-8'); ?><br><br>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
     </form>
 
     
