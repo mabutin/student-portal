@@ -102,23 +102,26 @@ WHERE
         <?php if (isset($student_details)): ?>
             <div class="flex gap-4 h-full" id='printable_div_id'>
                 <div id="studentDetailsContainer" class="py-10  px-12 h-full">
-                    <div class="flex justify-start items-start gap-8">
-                        <div>
-                            <?php if (empty($student_details['profile_picture'])): ?>
-                                <img src="../assets/svg/profile.svg" class="w-48 h-48" alt="">
-                            <?php else: ?>
-                                <img src="<?= $student_details['profile_picture'] ?>" class="w-48 h-48" alt="">
-                            <?php endif; ?>
+                <div class="flex justify-start items-start gap-8">
+                    <?php if (empty($student_details['profile_picture'])): ?>
+                        <img src="../assets/svg/profile.svg" class="w-48 h-48" alt="">
+                    <?php else: ?>
+                        <?php
+                        $profilePicturePath = htmlspecialchars($student_details['profile_picture']);
+                        $profilePicturePath = str_replace("../student/", "", $profilePicturePath);
+                        $fullImagePath = "../student/" . $profilePicturePath;
+                        ?>
+                        <img src="<?= $fullImagePath ?>" class="w-48 h-48" alt="">
+                    <?php endif; ?>
+                    <div>
+                        <div class="flex justify-center mb-5">
+                            <img src="../assets/svg/ollclogo.svg" class="h-20" alt="">
                         </div>
-                        <div>
-                            <div class="flex justify-center mb-5">
-                                <img src="../assets/svg/ollclogo.svg" class="h-20" alt="">
+                        <div class="justify-between items-center my-2">
+                            <div class=" flex gap-1">
+                                <span class="font-bold">Student Number:</span>
+                                <span><?= $student_details['student_number'] ?></span>
                             </div>
-                            <div class="justify-between items-center my-2">
-                                <div class=" flex gap-1">
-                                    <span class="font-bold">Student Number:</span>
-                                    <span><?= $student_details['student_number'] ?></span>
-                                </div>
                                 <div class=" flex gap-1">
                                     <span class="font-bold">Name:</span>
                                     <span></strong> <?= $student_details['surname'] ?>, <?= $student_details['first_name'] ?> <?= $student_details['middle_name']?>.<?= $student_details['suffix'] ?></span>
