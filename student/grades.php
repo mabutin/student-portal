@@ -71,8 +71,29 @@ if ($result->num_rows == 1) {
         </div>
         <div class="w-full py-4 px-4">
             <div>
-                <?php include './topbarStudent.php'; ?>
+            <?php include './topbar.php'; ?>
             </div>
+
+            <div class="py-4 px-6">
+                    <h2 class="text-2xl font-semibold mb-4">Student Grades</h2>
+
+                    <?php if (empty($grades)) : ?>
+                        <p>No grades available for this student.</p>
+                    <?php else : ?>
+                        <ul>
+                            <?php foreach ($grades as $grade) : ?>
+                                <li>
+                                    <strong>Subject Name:</strong> <?php echo htmlspecialchars($grade['subject_name'], ENT_QUOTES, 'UTF-8'); ?><br>
+                                    <strong>Prelim Grade:</strong> <?php echo htmlspecialchars($grade['prelim_grade'], ENT_QUOTES, 'UTF-8'); ?><br>
+                                    <strong>Midterm Grade:</strong> <?php echo htmlspecialchars($grade['midterm_grade'], ENT_QUOTES, 'UTF-8'); ?><br>
+                                    <strong>Finals Grade:</strong> <?php echo htmlspecialchars($grade['finals_grade'], ENT_QUOTES, 'UTF-8'); ?><br><br>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
     </form>
 
     

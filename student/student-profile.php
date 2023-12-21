@@ -73,10 +73,29 @@ if ($result->num_rows == 1) {
                     <div class="font-semibold">
                         Student Profile
                     </div>
+                    <div class="mt-4">
+            <strong>Last Name:</strong> <?php echo htmlspecialchars($surname, ENT_QUOTES, 'UTF-8'); ?>
+        </div>
+        <div class="mt-2">
+            <strong>First Name:</strong> <?php echo htmlspecialchars($firstName, ENT_QUOTES, 'UTF-8'); ?>
+        </div>
+        <div class="mt-2">
+            <strong>Middle Name:</strong> <?php echo htmlspecialchars($middleName, ENT_QUOTES, 'UTF-8'); ?>
+        </div>
+        <div class="mt-2">
+            <strong>Contact Information:</strong> <!-- Add your contact information variable here -->
+        </div>
+        <div class="mt-2">
+            <strong>Course:</strong> <?php echo htmlspecialchars($course, ENT_QUOTES, 'UTF-8'); ?>
+        </div>
+        <div class="mt-2">
+            <strong>Status:</strong> <?php echo htmlspecialchars($status, ENT_QUOTES, 'UTF-8'); ?>
+        </div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="../assets/js/studentSidebar.js"></script
+    
+    <script src="../assets/js/studentSidebar.js"></script>
 </body>
 </html>
