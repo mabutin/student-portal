@@ -20,7 +20,9 @@ Registrar: Access to the Record Management Page.
 Contributors:
 
 Documents: Borinaga, De Ocampo, Santos.
+
 Main Programmer: Millamina.
+
 Assistant Programmer: Mabutin.
 
 The Information System plays a crucial role in the admission process, collecting student information and providing them with a student account before proceeding to the enrollment process.
