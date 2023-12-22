@@ -65,7 +65,6 @@
         $groupedNotifications[$date][] = $notification;
     }
 
-
     $query = "SELECT sn.student_number, s.surname, s.first_name, s.middle_name, s.suffix, ed.course, ed.year_level, si.status, s.suffix
             FROM student_information si
             JOIN students s ON si.students_id = s.students_id
@@ -82,8 +81,27 @@
     $users = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
     mysqli_free_result($result);
-    mysqli_close($conn);
+
+    $queryRequests = "SELECT * FROM request_messages ORDER BY request_datetime DESC";
+    $resultRequests = mysqli_query($conn, $queryRequests);
+
+    if (!$resultRequests) {
+        die("Query failed: " . mysqli_error($conn));
+    }
+
+    $requestMessages = mysqli_fetch_all($resultRequests, MYSQLI_ASSOC);
+
+    mysqli_free_result($resultRequests);
+
+    $groupedRequests = [];
+    foreach ($requestMessages as $request) {
+        $date = date('Y-m-d', strtotime($request['request_datetime']));
+        $groupedRequests[$date][] = $request;
+    }
+
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -244,27 +262,41 @@
                                             <div>No new notifications</div>
                                         <?php endif; ?>
                                     </div>
+                                    <div id="requestsTabContent" class="tab-content p-4 hidden">
+                                        <?php if (!empty($requestMessages)): ?>
+                                            <?php foreach ($requestMessages as $requestMessage): ?>
+                                                <div class="border-t border-b border-gray-200 w-full p-2 rounded">
+                                                    <div class="font-semibold"><?= $requestMessage['message']; ?></div>
+                                                    <div class="text-xs text-gray-500">
+                                                        <?php if (isset($requestMessage['request_datetime'])): ?>
+                                                            <?= formatDateHeading($requestMessage['request_datetime']); ?>
+                                                        <?php else: ?>
+                                                            N/A
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <div>No new requests</div>
+                                        <?php endif; ?>
+                                    </div>
                                     <?php
-                                        function formatDateHeading($date) {
+                                        function formatDateHeading($datetime) {
                                             $today = date('Y-m-d');
                                             $yesterday = date('Y-m-d', strtotime('-1 day'));
 
+                                            $date = date('Y-m-d', strtotime($datetime));
+                                            $time = date('g:i a', strtotime($datetime));
+
                                             if ($date === $today) {
-                                                return 'Today';
+                                                return 'Today, ' . $time;
                                             } elseif ($date === $yesterday) {
-                                                return 'Yesterday';
+                                                return 'Yesterday, ' . $time;
                                             } else {
-                                                return date('F j, Y', strtotime($date));
+                                                return date('F j, Y, g:i a', strtotime($datetime));
                                             }
                                         }
                                     ?>
-                                    <div id="requestsTabContent" class="tab-content p-4 hidden">
-                                        <div>
-                                            <div class="">
-                                                No new requests
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -276,4 +308,11 @@
     </div>
     <script src="../assets/js/adminSidebar.js" defer></script>
     <script src="../assets/js/student-information-tab.js"></script>
+    <?php
+        function formatDate($datetime) {
+            $formattedDate = date('F j, Y, g:i a', strtotime($datetime));
+            return $formattedDate;
+        }
+    ?>
+
 </html>

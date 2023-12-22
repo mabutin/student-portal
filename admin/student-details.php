@@ -453,7 +453,7 @@ WHERE
                                 <?php if (empty($student_details['profile_picture'])): ?>
                                     <img src="../assets/svg/e-sign-sample.svg" class="w-32 h-32" alt="">
                                 <?php else: ?>
-                                    <img src="<?= $student_details['profile_picture'] ?>" class="w-48 h-48" alt="">
+                                    <p class="italic">No signature</p>
                                 <?php endif; ?>
                             </div>
                             <hr class="border border-solid border-black mt-1">
