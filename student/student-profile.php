@@ -12,7 +12,7 @@ date_default_timezone_set('Asia/Manila');
 
 $studentNumber = $_SESSION['student_number'];
 
-$query = "SELECT
+$sql = "SELECT
     sn.student_number, sa.school_account_id,
     st.first_name, st.surname, st.middle_name, st.suffix, si.status, si.profile_picture,
     ed.course, ed.year_level, ed.semester, 
@@ -49,7 +49,7 @@ FROM
 WHERE 
     sn.student_number = ?";
 
-$stmt = $conn->prepare($query);
+$stmt = $conn->prepare($sql);
 
 if (!$stmt) {
     die("Error in SQL query: " . $conn->error);
@@ -130,7 +130,6 @@ if ($result->num_rows == 1) {
     $emergencyContactCompany = $row['emergency_contact_company'];
     $emergencyContactCompanyAddress = $row['emergency_contact_company_address'];
     $emergencyContactMobileNumber = $row['emergency_contact_mobile_number'];
-
     $stmt->close();
 } else {
     header("Location: ../../login.php");
@@ -139,7 +138,7 @@ if ($result->num_rows == 1) {
 
 $successMessage = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["uploadSubmit"])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     $target_dir = "uploads/";
 
     if (!file_exists($target_dir)) {
@@ -192,7 +191,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["uploadSubmit"])) {
         }
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -218,19 +216,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["uploadSubmit"])) {
             <div>
                 <?php include './topbarStudent.php'; ?>
             </div>
-            <div class=" mx-auto p-8">
-                <div class="bg-white p-6 rounded-lg border shadow-md">
-                    <div class="flex items-end mb-4">
-                        <div class="ml-4">
-                            <?php if (empty($row['profile_picture'])): ?>
-                                <img src="../assets/svg/profile.svg" class="w-48 h-48 mx-auto" alt="">
-                            <?php else: ?>
-                                <img src="<?= htmlspecialchars($row['profile_picture']) ?>" class="w-48 h-48 mx-auto rounded-full" alt="">
-                            <?php endif; ?>
-                        </div>
-                        <div>
-                            <form action="" method="post" enctype="multipart/form-data" class="mb-4">
-                                <div class="flex gap-8 items-end">
+            <div class="mx-auto p-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <form action="" method="post" enctype="multipart/form-data" class="mb-4">
+                        <div class="flex items-end mb-4">
+                            <div class="ml-4">
+                                <?php if (empty($row['profile_picture'])): ?>
+                                    <img src="../assets/svg/profile.svg" class="w-48 h-48 mx-auto" alt="">
+                                <?php else: ?>
+                                    <img src="<?= htmlspecialchars($row['profile_picture']) ?>" class="w-48 h-48 mx-auto rounded-full" alt="">
+                                <?php endif; ?>
+                            </div>
+                            <div>
+                                <div class="flex gap-4 items-end">
                                     <div>
                                         <label for="fileToUpload" class="block text-sm font-medium text-gray-700 cursor-pointer">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -266,15 +264,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["uploadSubmit"])) {
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex gap-4 items-center">
-                        <span id="selectedFileName"></span>
-                        <div>
-                            <button type="submit" name="uploadSubmit" id="uploadButton" class="bg-blue-500 text-white px-2 py-1 text-sm rounded-md" style="display:none;">Upload Image</button>
+                        <div class="flex gap-4 items-center">
+                            <span id="selectedFileName"></span>
+                            <div>
+                                <button type="submit" name="submit" id="uploadButton" class="bg-blue-500 text-white px-2 py-1 text-sm rounded-md" style="display:none;">Upload Image</button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                     <div id="successMessage" class="text-green-600">
                         <?php echo $successMessage; ?>
                     </div>
@@ -531,6 +529,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["uploadSubmit"])) {
             </div>
         </div>
     </div>
+    
     <script src="../assets/js/studentSidebar.js"></script>
     <script src="../assets/js/student-profile.js"></script>
 </body>
