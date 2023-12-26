@@ -21,8 +21,9 @@ $sql = "SELECT
     b.place AS baptism_place, b.date AS baptism_date,
     c.place AS confirmation_place, c.date AS confirmation_date,
     k.year AS kindergarten_year, k.name AS kindergarten_name, k.address AS kindergarten_address,
-    pe.year AS primary_educ_year, pe.name AS primary_educ_name, pe.address AS primary_educ_address,
-    s.year AS secondary_year, s.name AS secondary_name, s.address AS secondary_address,
+    e.year AS elementary_year, e.name AS elementary_name, e.address AS elementary_address,
+    jh.year AS junior_high_year, jh.name AS junior_high_name, jh.address AS junior_high_address,
+    sh.year AS senior_high_year, sh.name AS senior_high_name, sh.address AS senior_high_address,
     cg.year AS college_year, cg.name AS college_name, cg.address AS college_address,
     f.name AS father_name, f.address AS father_address, f.company AS father_company, f.company_address AS father_company_address, f.mobile_number AS father_mobile_number,
     m.name AS mother_name, m.address AS mother_address, m.company AS mother_company, m.company_address AS mother_company_address, m.mobile_number AS mother_mobile_number,
@@ -39,8 +40,9 @@ FROM
     JOIN contact_information ci ON si.contact_information_id = ci.contact_information_id
     JOIN educational_attainment ea ON si.educational_attainment_id = ea.educational_attainment_id
     JOIN kindergarten k ON ea.kindergarten_id = k.kindergarten_id
-    JOIN primary_educ pe ON ea.primary_educ_id = pe.primary_educ_id
-    JOIN secondary s ON ea.secondary_id = s.secondary_id
+    JOIN elementary e ON ea.elementary_id = e.elementary_id
+    JOIN junior_high jh ON ea.junior_high_id = jh.junior_high_id
+    JOIN senior_high sh ON ea.senior_high_id = sh.senior_high_id
     JOIN college cg ON ea.college_id = cg.college_id
     JOIN family_record fr ON si.family_record_id = fr.family_record_id
     JOIN father f ON fr.father_id = f.father_id
@@ -100,13 +102,17 @@ if ($result->num_rows == 1) {
     $kindergartenName = $row['kindergarten_name'];
     $kindergartenAddress = $row['kindergarten_address'];
 
-    $primaryEducYear = $row['primary_educ_year'];
-    $primaryEducName = $row['primary_educ_name'];
-    $primaryEducAddress = $row['primary_educ_address'];
+    $elementaryYear = $row['elementary_year'];
+    $elementaryName = $row['elementary_name'];
+    $elementaryAddress = $row['elementary_address'];
 
-    $secondaryYear = $row['secondary_year'];
-    $secondaryName = $row['secondary_name'];
-    $secondaryAddress = $row['secondary_address'];
+    $juniorHighSchoolYear = $row['junior_high_year'];
+    $juniorHighSchoolName = $row['junior_high_name'];
+    $juniorHighSchoolAddress = $row['junior_high_address'];
+
+    $seniorHighSchoolYear = $row['senior_high_year'];
+    $seniorHighSchoolName = $row['senior_high_name'];
+    $seniorHighSchoolAddress = $row['senior_high_address'];
 
     $collegeYear = $row['college_year'];
     $collegeName = $row['college_name'];
@@ -376,39 +382,61 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                                         </td>
                                         <td class="pr-4">
                                             <div class="mx-auto text-sm text-center">
-                                                <?= $primaryEducYear ?>
+                                                <?= $elementaryYear ?>
                                             </div>
                                         </td>
                                         <td class="pr-4">
                                             <div class="mx-auto text-sm text-center">
-                                                <?= $primaryEducName ?>
+                                                <?= $elementaryName ?>
                                             </div>
                                         </td>
                                         <td class="pr-4">
                                             <div class="mx-auto text-sm">
-                                                <?= $primaryEducAddress ?>
+                                                <?= $elementaryAddress ?>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="pr-4">
                                             <div>
-                                                Secondary
+                                                Junior High School
                                             </div>
                                         </td>
                                         <td class="pr-4">
                                             <div class="mx-auto text-sm text-center">
-                                                <?= $secondaryYear ?>
+                                                <?= $juniorHighSchoolYear ?>
                                             </div>
                                         </td>
                                         <td class="pr-4 text-center">
                                             <div class="mx-auto text-sm">
-                                                <?= $secondaryName ?>
+                                                <?= $juniorHighSchoolName ?>
                                             </div>
                                         </td>
                                         <td class="pr-4">
                                             <div class="mx-auto text-sm">
-                                                <?= $secondaryAddress ?>
+                                                <?= $juniorHighSchoolAddress ?>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-4">
+                                            <div>
+                                                Senior High School
+                                            </div>
+                                        </td>
+                                        <td class="pr-4">
+                                            <div class="mx-auto text-sm text-center">
+                                                <?= $seniorHighSchoolYear ?>
+                                            </div>
+                                        </td>
+                                        <td class="pr-4 text-center">
+                                            <div class="mx-auto text-sm">
+                                                <?= $seniorHighSchoolName ?>
+                                            </div>
+                                        </td>
+                                        <td class="pr-4">
+                                            <div class="mx-auto text-sm">
+                                                <?= $seniorHighSchoolAddress ?>
                                             </div>
                                         </td>
                                     </tr>

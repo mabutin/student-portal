@@ -74,12 +74,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])){
     $kinderSchoolYear = $_POST["kinderSchoolYear"];
     $kinderSchoolName = $_POST["kinderSchoolName"];
     $kinderSchoolAddress = $_POST["kinderSchoolAddress"];
-    $primarySchoolYear = $_POST["primarySchoolYear"];
-    $primarySchoolName = $_POST["primarySchoolName"];
-    $primarySchoolAddress = $_POST["primarySchoolAddress"];
-    $secondarySchoolYear = $_POST["secondarySchoolYear"];
-    $secondarySchoolName = $_POST["secondarySchoolName"];
-    $secondarySchoolAddress = $_POST["secondarySchoolAddress"];
+    $elementarySchoolYear = $_POST["elementarySchoolYear"];
+    $elementarySchoolName = $_POST["elementarySchoolName"];
+    $elementarySchoolAddress = $_POST["elementarySchoolAddress"];
+    $juniorHighSchoolYear = $_POST["juniorHighSchoolYear"];
+    $juniorHighSchoolName = $_POST["juniorHighSchoolName"];
+    $juniorHighSchoolAddress = $_POST["juniorHighSchoolAddress"];
+    $seniorHighSchoolYear = $_POST["seniorHighSchoolYear"];
+    $seniorHighSchoolName = $_POST["seniorHighSchoolName"];
+    $seniorHighSchoolAddress = $_POST["seniorHighSchoolAddress"];
     $collegeSchoolYear = $_POST["collegeSchoolYear"];
     $collegeSchoolName = $_POST["collegeSchoolName"];
     $collegeSchoolAddress = $_POST["collegeSchoolAddress"];
@@ -119,81 +122,88 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])){
                     if ($conn->query($sqlKindergarten) === TRUE) {
                         $kindergartenId = $conn->insert_id;
 
-                        $sqlPrimary = "INSERT INTO primary_educ (year, name, address) VALUES ('$primarySchoolYear', '$primarySchoolName', '$primarySchoolAddress')";
-                        if ($conn->query($sqlPrimary) === TRUE) {
-                            $primaryId = $conn->insert_id;
-                        
-                            $sqlSecondary = "INSERT INTO secondary (year, name, address) VALUES ('$secondarySchoolYear', '$secondarySchoolName', '$secondarySchoolAddress')";
-                            if ($conn->query($sqlSecondary) === TRUE) {
-                                $secondaryId = $conn->insert_id;
+                        $sqlElementary = "INSERT INTO elementary (year, name, address) VALUES ('$elementarySchoolYear', '$elementarySchoolName', '$elementarySchoolAddress')";
+                        if ($conn->query($sqlElementary) === TRUE) {
+                            $elementaryId = $conn->insert_id;
 
-                                $sqlCollege = "INSERT INTO college (year, name, address) VALUES ('$collegeSchoolYear', '$collegeSchoolName', '$collegeSchoolAddress')";
-                                if ($conn->query($sqlCollege) === TRUE) {
-                                    $collegeId = $conn->insert_id;
+                            $sqlJuniorHigh = "INSERT INTO junior_high (year, name, address) VALUES ('$juniorHighSchoolYear', '$juniorHighSchoolName', '$juniorHighSchoolAddress')";
+                            if ($conn->query($sqlJuniorHigh) === TRUE) {
+                                $juniorHighId = $conn->insert_id;
 
-                                    $sqlEducationalAttainment ="INSERT INTO educational_attainment (kindergarten_id, primary_educ_id, secondary_id, college_id) VALUES ('$kindergartenId', '$primaryId', '$secondaryId', '$collegeId')";
-                                    if ($conn->query($sqlEducationalAttainment) === TRUE) {
-                                        $educationalAttainmentId = $conn->insert_id;
+                                $sqlSeniorHigh = "INSERT INTO senior_high (year, name, address) VALUES ('$seniorHighSchoolYear', '$seniorHighSchoolName', '$seniorHighSchoolAddress')";
+                                if ($conn->query($sqlSeniorHigh) === TRUE) {
+                                    $seniorHighId = $conn->insert_id;
 
-                                        $sqlFather ="INSERT INTO father (name, address, company, company_address, mobile_number) VALUES ('$fatherName', '$fatherAddress', '$fatherCompanyName', '$fatherCompanyAddress', '$fatherMobile')";
-                                        if ($conn->query($sqlFather) === TRUE) {
-                                            $fatherId = $conn->insert_id;
+                                    $sqlCollege = "INSERT INTO college (year, name, address) VALUES ('$collegeSchoolYear', '$collegeSchoolName', '$collegeSchoolAddress')";
+                                    if ($conn->query($sqlCollege) === TRUE) {
+                                        $collegeId = $conn->insert_id;
 
-                                            $sqlMother ="INSERT INTO mother (name, address, company, company_address, mobile_number) VALUES ('$motherName', '$motherAddress', '$motherCompanyName', '$motherCompanyAddress', '$motherMobile')";
-                                            if ($conn->query($sqlMother) === TRUE) {
-                                                $motherId = $conn->insert_id;
+                                        $sqlEducationalAttainment ="INSERT INTO educational_attainment (kindergarten_id, elementary_id, junior_high_id, senior_high_id, college_id) VALUES ('$kindergartenId', '$elementaryId', '$juniorHighId', '$seniorHighId', '$collegeId')";
+                                        if ($conn->query($sqlEducationalAttainment) === TRUE) {
+                                            $educationalAttainmentId = $conn->insert_id;
 
-                                                $sqlEmergencyContact = "INSERT INTO emergency_contact (name, relationship, address, company, company_address, mobile_number) VALUES ('$ECName', '$relationship', '$ECAddress', '$ECCompanyName', '$ECCompanyAddress', '$ECMobile')";
+                                            $sqlFather ="INSERT INTO father (name, address, company, company_address, mobile_number) VALUES ('$fatherName', '$fatherAddress', '$fatherCompanyName', '$fatherCompanyAddress', '$fatherMobile')";
+                                            if ($conn->query($sqlFather) === TRUE) {
+                                                $fatherId = $conn->insert_id;
 
-                                                if ($conn->query($sqlEmergencyContact) === TRUE) {
-                                                    $emergencyContactId = $conn->insert_id;
+                                                $sqlMother ="INSERT INTO mother (name, address, company, company_address, mobile_number) VALUES ('$motherName', '$motherAddress', '$motherCompanyName', '$motherCompanyAddress', '$motherMobile')";
+                                                if ($conn->query($sqlMother) === TRUE) {
+                                                    $motherId = $conn->insert_id;
 
-                                                    $sqlFamilyRecord = "INSERT INTO family_record (father_id, mother_id, emergency_contact_id) VALUES ('$fatherId', '$motherId', '$emergencyContactId')";
-                                                    if ($conn->query($sqlFamilyRecord) === TRUE) {
-                                                        $familyRecordId = $conn->insert_id;
+                                                    $sqlEmergencyContact = "INSERT INTO emergency_contact (name, relationship, address, company, company_address, mobile_number) VALUES ('$ECName', '$relationship', '$ECAddress', '$ECCompanyName', '$ECCompanyAddress', '$ECMobile')";
 
-                                                        $sqlStudentInformation = "UPDATE student_information SET personal_information_id = '$personalInformationId', educational_attainment_id = '$educationalAttainmentId', family_record_id = '$familyRecordId', status = 'registered' WHERE personal_information_id IS NULL AND educational_attainment_id IS NULL AND family_record_id IS NULL AND status = 'pre-registered'";
-                                                        if ($conn->query($sqlStudentInformation) === TRUE) {
+                                                    if ($conn->query($sqlEmergencyContact) === TRUE) {
+                                                        $emergencyContactId = $conn->insert_id;
 
-                                                            $notificationMessage = "$firstName $surname submitted an admission form";
-                                                            $notificationDatetime = date('Y-m-d H:i:s');
+                                                        $sqlFamilyRecord = "INSERT INTO family_record (father_id, mother_id, emergency_contact_id) VALUES ('$fatherId', '$motherId', '$emergencyContactId')";
+                                                        if ($conn->query($sqlFamilyRecord) === TRUE) {
+                                                            $familyRecordId = $conn->insert_id;
 
-                                                            $sqlUpdateNotification = "UPDATE notifications SET message = '$notificationMessage', datetime = '$notificationDatetime' WHERE message LIKE '%$firstName $surname%'";
-                                                            if ($conn->query($sqlUpdateNotification) === TRUE) {
-                                                                echo json_encode(["status" => "error", "message" => "Error updating notification: " . $conn->error]);
+                                                            $sqlStudentInformation = "UPDATE student_information SET personal_information_id = '$personalInformationId', educational_attainment_id = '$educationalAttainmentId', family_record_id = '$familyRecordId', status = 'registered' WHERE personal_information_id IS NULL AND educational_attainment_id IS NULL AND family_record_id IS NULL AND status = 'pre-registered'";
+                                                            if ($conn->query($sqlStudentInformation) === TRUE) {
+
+                                                                $notificationMessage = "$firstName $surname submitted an admission form";
+                                                                $notificationDatetime = date('Y-m-d H:i:s');
+
+                                                                $sqlUpdateNotification = "UPDATE notifications SET message = '$notificationMessage', datetime = '$notificationDatetime' WHERE message LIKE '%$firstName $surname%'";
+                                                                if ($conn->query($sqlUpdateNotification) === TRUE) {
+                                                                    echo json_encode(["status" => "error", "message" => "Error updating notification: " . $conn->error]);
+                                                                }
+
+                                                                header("Location: enrollment.php");
+                                                                exit();
+                                                            } else {
+                                                                echo json_encode(["status" => "error", "message" => "Error updating student information: " . $conn->error]);
                                                             }
-
-                                                            header("Location: enrollment.php");
-                                                            exit();
                                                         } else {
-                                                            echo json_encode(["status" => "error", "message" => "Error updating student information: " . $conn->error]);
+                                                            echo json_encode(["status" => "error", "message" => "Error inserting into family record: " . $conn->error]);
                                                         }
                                                     } else {
-                                                        echo json_encode(["status" => "error", "message" => "Error inserting into family record: " . $conn->error]);
+                                                        echo json_encode(["status" => "error", "message" => "Error inserting into emergency contact: " . $conn->error]);
                                                     }
                                                 } else {
-                                                    echo json_encode(["status" => "error", "message" => "Error inserting into emergency contact: " . $conn->error]);
+                                                    echo json_encode(["status"=> "error", "message" => "Error inserting into mother: " .$conn->error]);
                                                 }
                                             } else {
-                                                echo json_encode(["status"=> "error", "message" => "Error inserting into mother: " .$conn->error]);
+                                                echo json_encode(["status"=> "error", "message" => "Error inserting into father: " .$conn->error]);
                                             }
                                         } else {
-                                            echo json_encode(["status"=> "error", "message" => "Error inserting into father: " .$conn->error]);
+                                            echo json_encode(["status"=> "error", "message" => "Error inserting into educational attainment: " .$conn->error]);
                                         }
                                     } else {
-                                        echo json_encode(["status"=> "error", "message" => "Error inserting into educational attainment: " .$conn->error]);
-                                    }
+                                        echo json_encode(["status"=> "error", "message" => "Error inserting into college: " .$conn->error]);
+                                    } 
                                 } else {
-                                    echo json_encode(["status"=> "error", "message" => "Error inserting into college: " .$conn->error]);
-                                }                 
+                                    echo json_encode(["status"=> "error", "message" => "Error inserting into Senior High: ".$conn->error]);
+                                }
                             } else {
-                                echo json_encode(["status"=> "error", "message" => "Error inserting into secondary: " .$conn->error]);
+                                echo json_encode(["status"=> "error", "message" => "Error inserting into Junior High: ".$conn->error]);
                             }
                         } else {
-                            echo json_encode(["status"=> "error", "message" => "Error inserting into primary: " .$conn->error]);
+                            echo json_encode(["status"=> "error", "message" => "Error inserting into Elementary: ".$conn->error]);
                         }
                     } else {
-                        echo json_encode(["status"=> "error", "message" => "Error inserting into kindergarten: " .$conn->error]);
+                        echo json_encode(["status"=> "error","message" => "Error inserting into kindergarten: ".$conn->error]);
                     }
                 } else {
                     echo json_encode(["status"=> "error", "message" => "Error inserting into contact information: " .$conn->error]);
@@ -396,27 +406,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])){
                                 Elementary
                             </div>
                             <div class="text-sm p-1 border border-blue-200 rounded-md w-full">
-                                <input required type="text" name="primarySchoolYear" id="primarySchoolYear" class="w-full" >
+                                <input required type="text" name="elementarySchoolYear" id="elementarySchoolYear" class="w-full" >
                             </div>
                             <div class="text-sm p-1 border border-blue-200 rounded-md w-full">
-                                <input required type="text" name="primarySchoolName" id="primarySchoolName" class="w-full">
+                                <input required type="text" name="elementarySchoolName" id="elementarySchoolName" class="w-full">
                             </div>
                             <div class="text-sm p-1 border border-blue-200 rounded-md w-full">
-                                <input required type="text" name="primarySchoolAddress" id="primarySchoolAddress" class="w-full">
+                                <input required type="text" name="elementarySchoolAddress" id="elementarySchoolAddress" class="w-full">
                             </div>
                         </div>
                         <div class="justify-start items-center gap-4 mt-1 w-full grid grid-cols-4 justify-items-start ">
                             <div>
-                                Secondary
+                                Junior High School
                             </div>
                             <div class="text-sm p-1 border border-blue-200 rounded-md w-full">
-                                <input required type="text" name="secondarySchoolYear" id="secondarySchoolYear" class="w-full">
+                                <input required type="text" name="juniorHighSchoolYear" id="juniorHighSchoolYear" class="w-full">
                             </div>
                             <div class="text-sm p-1 border border-blue-200 rounded-md w-full">
-                                <input required type="text" name="secondarySchoolName" id="secondarySchoolName" class="w-full">
+                                <input required type="text" name="juniorHighSchoolName" id="juniorHighSchoolName" class="w-full">
                             </div>
                             <div class="text-sm p-1 border border-blue-200 rounded-md w-full">
-                                <input required type="text" name="secondarySchoolAddress" id="secondarySchoolAddress" class="w-full">
+                                <input required type="text" name="juniorHighSchoolAddress" id="juniorHighSchoolAddress" class="w-full">
+                            </div>
+                        </div>
+                        <div class="justify-start items-center gap-4 mt-1 w-full grid grid-cols-4 justify-items-start ">
+                            <div>
+                                Senior High School
+                            </div>
+                            <div class="text-sm p-1 border border-blue-200 rounded-md w-full">
+                                <input required type="text" name="seniorHighSchoolYear" id="seniorHighSchoolYear" class="w-full">
+                            </div>
+                            <div class="text-sm p-1 border border-blue-200 rounded-md w-full">
+                                <input required type="text" name="seniorHighSchoolName" id="seniorHighSchoolName" class="w-full">
+                            </div>
+                            <div class="text-sm p-1 border border-blue-200 rounded-md w-full">
+                                <input required type="text" name="seniorHighSchoolAddress" id="seniorHighSchoolAddress" class="w-full">
                             </div>
                         </div>
                         <div class="justify-start items-center gap-4 mt-1 w-full grid grid-cols-4 justify-items-start ">
