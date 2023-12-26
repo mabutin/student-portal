@@ -266,6 +266,15 @@
                                         <?php if (!empty($requestMessages)): ?>
                                             <?php foreach ($requestMessages as $requestMessage): ?>
                                                 <div class="border-t border-b border-gray-200 w-full p-2 rounded">
+                                                    <div class="font-semibold">
+                                                        <?php if (isset($requestMessage['student_number'])): ?>
+                                                            <a href="#" data-student-id="<?= $requestMessage['student_number']; ?>" class="student-details-link request-student-link">
+                                                                <?= $requestMessage['student_number']; ?>
+                                                            </a>
+                                                        <?php else: ?>
+                                                            N/A
+                                                        <?php endif; ?>
+                                                    </div>
                                                     <div class="font-semibold"><?= $requestMessage['message']; ?></div>
                                                     <div class="text-xs text-gray-500">
                                                         <?php if (isset($requestMessage['request_datetime'])): ?>
