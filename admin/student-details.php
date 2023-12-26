@@ -293,6 +293,28 @@ WHERE
                                     <tr>
                                         <td class="pr-4">
                                             <div class="mx-auto text-sm text-center">
+                                                Kindergarten
+                                            </div>
+                                        </td>
+                                        <td class="pr-4">
+                                            <div class="mx-auto text-sm text-center">
+                                                <?= $student_details['kindergarten_year'] ?>
+                                            </div>
+                                        </td>
+                                        <td class="pr-4">
+                                            <div class="mx-auto text-sm text-center">
+                                                <?= $student_details['kindergarten_name'] ?>
+                                            </div>
+                                        </td>
+                                        <td class="pr-4">
+                                            <div class="mx-auto text-sm">
+                                                <?= $student_details['kindergarten_address'] ?>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-4">
+                                            <div class="mx-auto text-sm text-center">
                                                 Elementary
                                             </div>
                                         </td>
