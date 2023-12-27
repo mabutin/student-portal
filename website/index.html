@@ -10,15 +10,15 @@
    
 </head>
 <body>
-    <div id="topbarContainer" class="z-100"></div>
+    <div id="topbarContainer"></div>
     <div id="default-carousel h-100 w-100 mt-10" class="relative" data-carousel="slide" style=" background-size: cover; background-position: center;">
         
     <div id="default-carousel" class="relative" data-carousel="slide">
         
-        <div class="relative h-160 overflow-hidden rounded-lg md:h-96">
+        <div class="relative overflow-hidden rounded-lg md:h-96">
            
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="../assets/img/Criminilogy.jpg" class="absolute block  -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                <img src="../assets/img/Kantahan.jpg" class="absolute block  -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
             </div>
             
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
@@ -30,11 +30,11 @@
             </div>
            
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="../assets/img/Event-banner (1).jpg" class="absolute block  -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                <img src="../assets/img/Kantahan2.jpg" class="absolute block  -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
             </div>
             
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="../assets/img/admission-banner.png" class="absolute block  -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                <img src="../assets/img/sports.jpg" class="absolute block  -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
             </div>
         </div>
       
@@ -74,9 +74,9 @@
 <div class="bg-white mx-auto py-8"> 
     <div class="flex items-center justify-center space-x-20 mt-0"> 
         <div class="w-64 h-50 flex flex-col items-center">
-            <div class="text-center"><p>Reputation</p></div>
-            <div class="text-center"><p>Lady of Lourdes College has been providing good quality Free Education for students in need for 17 years. A school that helps you to be able to survive</p></div>
-            <a href="mission-vision.html">
+            <div class="text-center text-blue-500 text-semibold"><p>Our Lady of Lourdes Hymn</p></div>
+            <div class="text-center"><p>An alma mater hymn is not just any ordinary “song”; it is the official “anthem” of an educational institution.</p></div>
+            <a href="OLLC HYMN.html">
                 <img src="../assets/img/history-banner.jpg" style="width: 200px; height: 200px; border-radius: 120%;" alt="History Banner" class="w-auto h-50 rounded-full">
             </a>
         </div>
@@ -156,10 +156,77 @@
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7h-cBwqWpiTRc6OmvcN8iu5JUaCeIBxyXB56DBDLaaLlz6g/viewform?usp=sf_link" class="text-blue-500">Pre-Registration Form</a>
     </p>
 </div>
+<div id="imageModal" class="hidden fixed inset-0 z-50 overflow-auto bg-black bg-opacity-75">
+    <div class="flex items-center justify-center h-full">
+      <div id="modalContent" class="text-white"></div>
+    </div>
+  </div>
   
  
      <object data="./footer.html" type="text/html" width="100%" height="56px"></object>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const carouselContainer = document.querySelector('[data-carousel="slide"]');
+          const prevButton = document.querySelector('[data-carousel-prev]');
+          const nextButton = document.querySelector('[data-carousel-next]');
+          const slideButtons = document.querySelectorAll('[data-carousel-slide-to]');
+          const imageModal = document.getElementById('imageModal');
+          const modalContent = document.getElementById('modalContent');
+          let currentSlide = 0;
+      
+          function showSlide(index) {
+            const items = carouselContainer.querySelectorAll('[data-carousel-item]');
+            items.forEach((item, i) => {
+              item.classList.toggle('hidden', i !== index);
+            });
+      
+            slideButtons.forEach((button, i) => {
+              button.setAttribute('aria-current', i === index);
+            });
+      
+            currentSlide = index;
+          }
+      
+          function prevSlide() {
+            const newIndex = (currentSlide - 1 + slideButtons.length) % slideButtons.length;
+            showSlide(newIndex);
+          }
+      
+          function nextSlide() {
+            const newIndex = (currentSlide + 1) % slideButtons.length;
+            showSlide(newIndex);
+          }
+      
+          function showModal(imageSrc) {
+            modalContent.innerHTML = `<img src="${imageSrc}" alt="Full Size Image" class="max-w-full max-h-full">`;
+            imageModal.classList.remove('hidden');
+          }
+      
+          function hideModal() {
+            imageModal.classList.add('hidden');
+          }
+      
+          prevButton.addEventListener('click', prevSlide);
+          nextButton.addEventListener('click', nextSlide);
+      
+          slideButtons.forEach((button, index) => {
+            button.addEventListener('click', function () {
+              showSlide(index);
+            });
+          });
+      
+          const imageItems = carouselContainer.querySelectorAll('[data-carousel-item] img');
+          imageItems.forEach((image, index) => {
+            image.addEventListener('click', function () {
+              showModal(image.src);
+            });
+          });
+      
+          imageModal.addEventListener('click', hideModal);
+        });
+      </script>
+      
      <script src="../assets/js/topbar.js"></script>
  <script src="../assets/js/slide.js"></script>
  </div>

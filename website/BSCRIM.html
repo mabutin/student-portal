@@ -72,19 +72,24 @@
 
     <div class="bg-white w-auto mx-5 p-10"> 
         <div class="flex justify-center space-x-5 mt-0"> 
-         <div class="w-64 h-20 items-center bg-white-500 h-auto overflow-hidden items-center">
-         <a href="BSCRIM.html">
-        <img src="../assets/img/crim.jpg" alt="History Banner" class="rounded-lg">
-         </a>
-         </div>
-         <img src="../assets/img/criminilogylogo.png" alt="History Banner" class="rounded-lg">
-         </a>
-         </div>
+            <div class="w-64 h-100 bg-white-500 overflow-hidden">
+                <a href="BSCRIM.html">
+                    <img src="../assets/img/C1.jpg" alt="History Banner" class="w-full h-full rounded-lg">
+                </a>
+            </div>
+            <div class="w-64 h-100 bg-white-500 overflow-hidden">
+                <a href="BSCRIM.html">
+                    <img src="../assets/img/C2.jpg" alt="History Banner" class="w-full h-full rounded-lg">
+                </a>
+            </div>
+        </div>
+    </div>
+    
         </div>
         </div>
         </div>
     
-    <div class="bg-red-300 mx-auto p-20">
+    <div class="bg-red-600 mx-auto p-20">
         <div class="my-4 text-center">
             <label for="textbox" class="text-lg font-bold">Below are the programs under Our Lady of Lourdes College Criminology Studies:</label>
             <div contenteditable="true" class="w-full p-2 border rounded-md">
@@ -116,6 +121,73 @@
                 </ul>
             </div>
         </div>
+
+        <div id="imageModal" class="hidden fixed inset-0 z-50 overflow-auto bg-black bg-opacity-75">
+            <div class="flex items-center justify-center h-full">
+              <div id="modalContent" class="text-white"></div>
+            </div>
+          </div>
+          <script>
+            document.addEventListener('DOMContentLoaded', function () {
+              const carouselContainer = document.querySelector('[data-carousel="slide"]');
+              const prevButton = document.querySelector('[data-carousel-prev]');
+              const nextButton = document.querySelector('[data-carousel-next]');
+              const slideButtons = document.querySelectorAll('[data-carousel-slide-to]');
+              const imageModal = document.getElementById('imageModal');
+              const modalContent = document.getElementById('modalContent');
+              let currentSlide = 0;
+          
+              function showSlide(index) {
+                const items = carouselContainer.querySelectorAll('[data-carousel-item]');
+                items.forEach((item, i) => {
+                  item.classList.toggle('hidden', i !== index);
+                });
+          
+                slideButtons.forEach((button, i) => {
+                  button.setAttribute('aria-current', i === index);
+                });
+          
+                currentSlide = index;
+              }
+          
+              function prevSlide() {
+                const newIndex = (currentSlide - 1 + slideButtons.length) % slideButtons.length;
+                showSlide(newIndex);
+              }
+          
+              function nextSlide() {
+                const newIndex = (currentSlide + 1) % slideButtons.length;
+                showSlide(newIndex);
+              }
+          
+              function showModal(imageSrc) {
+                modalContent.innerHTML = `<img src="${imageSrc}" alt="Full Size Image" class="max-w-full max-h-full">`;
+                imageModal.classList.remove('hidden');
+              }
+          
+              function hideModal() {
+                imageModal.classList.add('hidden');
+              }
+          
+              prevButton.addEventListener('click', prevSlide);
+              nextButton.addEventListener('click', nextSlide);
+          
+              slideButtons.forEach((button, index) => {
+                button.addEventListener('click', function () {
+                  showSlide(index);
+                });
+              });
+          
+              const imageItems = carouselContainer.querySelectorAll('[data-carousel-item] img');
+              imageItems.forEach((image, index) => {
+                image.addEventListener('click', function () {
+                  showModal(image.src);
+                });
+              });
+          
+              imageModal.addEventListener('click', hideModal);
+            });
+          </script>        
         
         
     
