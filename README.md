@@ -70,7 +70,7 @@ To access admin
 - Search http://localhost/student-portal/login/admin/login.php
 - Login credentials ( Username: dev@user, Password: dev123).
 
-# official Website
+# Official Website
 
 contributors:
 
@@ -116,7 +116,7 @@ Future Feature:
 - faculty to view class list by school year, semester, subject name
 - viewing grades by class description, year and section
 
-# Record Management System for Our Lady of Lourdes College
+# Record Management System
 
 Document: Alayon, Pacia, Valdez
 
