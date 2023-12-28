@@ -115,3 +115,20 @@ Future Feature:
 - request for edit and edit button in case of error in encoding grade
 - faculty to view class list by school year, semester, subject name
 - viewing grades by class description, year and section
+
+# Record Management System for Our Lady of Lourdes College
+
+Document: Alayon, Pacia, Valdez
+
+Main Programmer: Ciudad
+
+Assistant Programmer: Mañosca
+
+The Record Management System for Our Lady of Lourdes is a software solution designed to efficiently manage and organize different types of records within the educational institution. This system aims to streamline the process of record keeping, ensure data accuracy, and enhance accessibility to student documents.
+
+Key Features:
+- Easy creation of documents such as good moral, honorable dismissal, special order, and transcript of records
+- Systematic organization and storage of student documents
+- Quick search and navigation of student documents
+- Secured student information
+- Integrated with other related system
