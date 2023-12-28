@@ -97,7 +97,18 @@ function hasAccess($allowedUserTypes, $currentUserType)
                         </div>
                     <?php endif; ?>
 
-
+                    <?php if (hasAccess(['Admin', 'Developer', 'College Registrar'], $usertype)) : ?>
+                        <div class="ml-2">
+                            <a href="student-record.php" class="px-2 flex items-center justify-start h-10 gap-3">
+                                <div class="logo-container">
+                                    <img src="../assets/svg/student-record-icon.png" class="logo w-6 h-6" alt="">
+                                </div>
+                                <div class="tracking-wide justify-start items-center text-center text-white text-xs hidden" id="enrollmentListText" style="letter-spacing: 2px;">
+                                    Student Record
+                                </div>
+                            </a>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="ml-2">
