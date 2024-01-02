@@ -8,6 +8,23 @@ if (!isset($_SESSION['username'])) {
 
 $usertype = $_SESSION['usertype'] ?? 'guest';
 
+// Include your database connection code
+include '../php/conn.php';
+
+// Fetch faculty list from the usertbl based on the "Faculty" usertype
+$sql = "SELECT * FROM usertbl WHERE usertype = 'Faculty'";
+$result = $conn->query($sql);
+
+$facultyList = [];
+
+if ($result && $result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $facultyList[] = $row;
+    }
+}
+
+// Close the database connection
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -27,9 +44,39 @@ $usertype = $_SESSION['usertype'] ?? 'guest';
             <div>
                 <?php include './topbar.php'; ?>
             </div>
+            <div class="w-full"><img src="../assets/img/faculty-banner.png" class="w-full" alt=""></div>
+            <div class="w-full flex justify-center mt-4 mb-14">
+                <div class="container mx-auto mt-8 p-4 font-semibold mb-4 max-w-6xl shadow-2xl rounded-md bg-white">
+                    <div class="text-4xl font-bold text-center mb-8">FACULTY LIST</div>
 
+                    <?php if (!empty($facultyList)) : ?>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <!-- Add more columns as needed -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($facultyList as $faculty) : ?>
+                                    <tr>
+                                        <td class='border px-4 py-2'><?php echo $faculty["id"]; ?></td>
+                                        <td class='border px-4 py-2'><?php echo $faculty["username"]; ?></td>
+                                        <td class='border px-4 py-2'><?php echo $faculty["email"]; ?></td>
+                                        <!-- Add more cells for additional columns -->
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    <?php else : ?>
+                        <p class="text-center">No faculty members found.</p>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
 
-            <script src="../assets/js/adminSidebar.js" defer></script>
-</body>
-
-</html>            
+        <script src="../assets/js/adminSidebar.js" defer></script>
+    </body>
+</html>
