@@ -73,7 +73,7 @@ function hasAccess($allowedUserTypes, $currentUserType)
 
                     <?php if (hasAccess(['Faculty', 'Admin', 'Developer'], $usertype)) : ?>
                         <div class="ml-2">
-                            <a href="faculty.php" class="px-2 flex items-center justify-start h-10 gap-3">
+                            <a href="facultyAdvisory.php" class="px-2 flex items-center justify-start h-10 gap-3">
                                 <div class="logo-container">
                                     <img src="../assets/svg/professor.svg" class="logo w-6 h-6" alt="">
                                 </div>
