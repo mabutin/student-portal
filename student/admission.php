@@ -12,7 +12,7 @@ date_default_timezone_set('Asia/Manila');
 
 $studentNumber = $_SESSION['student_number'];
 
-$sql = "SELECT st.first_name, st.surname, st.middle_name, st.suffix, si.status, ed.course, ci.city, ci.mobile_number, ci.email, si.profile_picture
+$sql = "SELECT st.first_name, st.surname, st.middle_name, st.suffix, si.status, ci.city, ci.mobile_number, ci.email, si.profile_picture
         FROM student_number sn 
         JOIN school_account sa ON sn.student_number_id = sa.student_number_id
         JOIN student_information si ON sa.school_account_id = si.school_account_id
@@ -42,7 +42,6 @@ if ($result->num_rows == 1) {
     $surname = $row['surname'];
     $middleName = $row['middle_name'] ?? '';
     $status = $row['status'];
-    $course = $row['course'];
     $city = $row['city'];
     $mobile_number = $row['mobile_number'];
     $email = $row['email'];
@@ -240,11 +239,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])){
                     <div class="italic mb-6">Welcome to our admission form! We're excited to have you on board. <br><br>To make the process quick and easy, we just need some basic personal information, 
                         contact information, educational attainment, and family record. Your privacy is important to us, and all information provided will be kept confidential. 
                         <br><br>Let's get started on this journey together - fill out the form, and you'll be on your way to enrolling with us!
-                    </div>
-                    <div class="flex justify-start items-center gap-2">
-                        <div><img src="../assets/svg/applying-icon.svg" alt=""></div>
-                        <div>APPLYING FOR:</div>
-                        <div class="font-semibold"><?php echo htmlspecialchars($course, ENT_QUOTES, 'UTF-8'); ?></div>
                     </div>
                     <div class="mt-2 border border-blue-800 border-opacity-20 p-4 w-full">
                         <div class="inline-flex justify-start items-center gap-2 mt-1">
