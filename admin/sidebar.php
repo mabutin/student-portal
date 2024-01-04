@@ -72,8 +72,8 @@ function hasAccess($allowedUserTypes, $currentUserType)
                     <?php endif; ?>
 
                     <?php if (hasAccess(['Faculty', 'Admin', 'Developer'], $usertype)) : ?>
-                        <div class="ml-2">
-                            <a href="facultyAdvisory.php" class="px-2 flex items-center justify-start h-10 gap-3">
+                        <div x-data="{ facultyDropdownOpen: false }" @mouseenter="facultyDropdownOpen = true" @mouseleave="facultyDropdownOpen = false" class="ml-2 relative">
+                            <a href="#" class="px-2 flex items-center justify-start h-10 gap-3 cursor-pointer">
                                 <div class="logo-container">
                                     <img src="../assets/svg/professor.svg" class="logo w-6 h-6" alt="">
                                 </div>
@@ -81,6 +81,15 @@ function hasAccess($allowedUserTypes, $currentUserType)
                                     Faculty
                                 </div>
                             </a>
+
+                            <!-- Dropdown menu for Faculty -->
+                            <div x-show="facultyDropdownOpen" @click.away="facultyDropdownOpen = false" class="absolute top-0 left-full mt-0 ml-2 w-48 bg-white border rounded shadow-lg">
+                                <div class="py-2">
+                                    <a href="facultyAdvisory.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Advisory</a>
+                                    <a href="facultyAdvisory.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Open Subjects</a>
+                                    <!-- Add more links for Faculty dropdown as needed -->
+                                </div>
+                            </div>
                         </div>
                     <?php endif; ?>
 
@@ -123,7 +132,8 @@ function hasAccess($allowedUserTypes, $currentUserType)
             </div>
         </div>
     </form>
-</body>
 
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+</body>
 
 </html>
