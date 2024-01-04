@@ -201,6 +201,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -213,6 +214,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
+
 <body>
     <div class="w-full flex">
         <div>
@@ -227,9 +229,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                     <form action="" method="post" enctype="multipart/form-data" class="mb-4">
                         <div class="flex items-end mb-4">
                             <div class="ml-4">
-                                <?php if (empty($row['profile_picture'])): ?>
+                                <?php if (empty($row['profile_picture'])) : ?>
                                     <img src="../assets/svg/profile.svg" class="w-48 h-48 mx-auto" alt="">
-                                <?php else: ?>
+                                <?php else : ?>
                                     <img src="<?= htmlspecialchars($row['profile_picture']) ?>" class="w-48 h-48 mx-auto rounded-full" alt="">
                                 <?php endif; ?>
                             </div>
@@ -482,26 +484,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                             </div>
                             <div id="fatherTabContent" class="tab-content p-4">
                                 <div class="flex gap-1 mb-2">
-                                        <span class="font-bold">Name:</span>
-                                        <span><?= $fatherName ?></span>
-                                    </div>
-                                    <div class="flex gap-1 mb-2">
-                                        <span class="font-bold">Contact Number:</span>
-                                        <span><?= $fatherMobileNumber ?></span>
-                                    </div>
-                                    <div class=" flex gap-1 mb-2">
-                                        <span class="font-bold">Address:</span>
-                                        <span><?= $fatherAddress ?></span>
-                                    </div>
-                                    <div class="flex gap-1 mb-2">
-                                        <span class="font-bold">Company connected with:</span>
-                                        <span><?= $fatherCompany ?></span>
-                                    </div>
-                                    <div class="flex gap-1 mb-2">
-                                        <span class="font-bold">Address of Company:</span>
-                                        <span><?= $fatherCompanyAddress ?></span>
-                                    </div>
+                                    <span class="font-bold">Name:</span>
+                                    <span><?= $fatherName ?></span>
                                 </div>
+                                <div class="flex gap-1 mb-2">
+                                    <span class="font-bold">Contact Number:</span>
+                                    <span><?= $fatherMobileNumber ?></span>
+                                </div>
+                                <div class=" flex gap-1 mb-2">
+                                    <span class="font-bold">Address:</span>
+                                    <span><?= $fatherAddress ?></span>
+                                </div>
+                                <div class="flex gap-1 mb-2">
+                                    <span class="font-bold">Company connected with:</span>
+                                    <span><?= $fatherCompany ?></span>
+                                </div>
+                                <div class="flex gap-1 mb-2">
+                                    <span class="font-bold">Address of Company:</span>
+                                    <span><?= $fatherCompanyAddress ?></span>
+                                </div>
+                            </div>
                             <div id="motherTabContent" class="tab-content p-4 hidden">
                                 <div class="flex gap-1 mb-2">
                                     <span class="font-bold">Name:</span>
@@ -557,8 +559,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
             </div>
         </div>
     </div>
-    
+
+
+
     <script src="../assets/js/studentSidebar.js"></script>
     <script src="../assets/js/student-profile.js"></script>
 </body>
+
 </html>

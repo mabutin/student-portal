@@ -40,7 +40,26 @@
                     <?php echo htmlspecialchars(getGreeting(), ENT_QUOTES, 'UTF-8'); ?>
                 </div>
             </div>
+
+
             <div class="flex items-center gap-4 relative">
+                <div>
+
+                    <div id="notifications-container" class="fixed top-10 right-10 max-w-sm">
+                        <!-- Notifications will be displayed here -->
+                    </div>
+                    <button class="flex items-center" type="button">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" onmouseover="this.style.fill='#1d4ed8';" onmouseout="this.style.fill='#fff';" style="stroke: #1d4ed8;">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                            </svg>
+
+                        </span>
+                        <!-- Notification counter -->
+                        <span class="absolute -mt-4 ml-4 rounded-full  p-1 text-xs font-medium leading-none">1</span>
+                    </button>
+                </div>
+
                 <img src="../assets/svg/profile.svg" alt="Profile Picture" class="w-8 h-8 rounded-full cursor-pointer" id="profileImage">
                 <div class="relative group">
                     <button class="text-base font-semibold focus:outline-none">
