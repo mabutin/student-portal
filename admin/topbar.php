@@ -1,3 +1,41 @@
+<?php 
+
+include '../php/conn.php';
+
+$queryNotification = "SELECT * FROM notifications ORDER BY datetime DESC";
+$resultNotification = mysqli_query($conn, $queryNotification);
+
+if (!$resultNotification) {
+    die("Query failed: " . mysqli_error($conn));
+}
+
+$notifications = mysqli_fetch_all($resultNotification, MYSQLI_ASSOC);
+
+mysqli_free_result($resultNotification);
+
+$groupedNotifications = [];
+foreach ($notifications as $notification) {
+    $date = date('Y-m-d', strtotime($notification['datetime']));
+    $groupedNotifications[$date][] = $notification;
+}
+
+function formatDateHeading($datetime)
+{
+    $today = date('Y-m-d');
+    $yesterday = date('Y-m-d', strtotime('-1 day'));
+    $date = date('Y-m-d', strtotime($datetime));
+    $time = date('g:i a', strtotime($datetime));
+
+    if ($date === $today) {
+        return 'Today, ' . $time;
+    } elseif ($date === $yesterday) {
+        return 'Yesterday, ' . $time;
+    } else {
+        return date('F j, Y, g:i a', strtotime($datetime));
+    }
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,19 +82,27 @@
 
             <div class="flex items-center gap-4 relative">
                 <div>
-
-                    <div id="notifications-container" class="fixed top-10 right-10 max-w-sm">
-                        <!-- Notifications will be displayed here -->
+                    <div id="notifications-container" class="hidden fixed top-10 right-10 max-w-sm">
+                        <?php if (!empty($groupedNotifications)) : ?>
+                            <?php foreach ($groupedNotifications as $date => $dateNotifications) : ?>
+                                <div class="font-semibold mt-2"><?= formatDateHeading($date) ?></div>
+                                <?php foreach ($dateNotifications as $notification) : ?>
+                                    <div><?= $notification['message']; ?></div>
+                                    <div class="text-xs text-gray-500"><?= date('F j, Y, g:i a', strtotime($notification['datetime'])); ?></div>
+                                    <hr class="my-2">
+                                <?php endforeach; ?>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            <div>No new notifications</div>
+                        <?php endif; ?>
                     </div>
-                    <button class="flex items-center" type="button">
+                    <button id="notification-button" class="flex items-center" type="button">
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" onmouseover="this.style.fill='#1d4ed8';" onmouseout="this.style.fill='#fff';" style="stroke: #1d4ed8;">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
                             </svg>
-
                         </span>
-                        <!-- Notification counter -->
-                        <span class="absolute -mt-4 ml-4 rounded-full  p-1 text-xs font-medium leading-none">1</span>
+                        <span class="absolute -mt-4 ml-4 rounded-full p-1 text-xs font-medium leading-none notification-counter">1</span>
                     </button>
                 </div>
 
@@ -73,6 +119,7 @@
         </div>
     <?php } ?>
     <script src="../assets/js/dropdown.js"></script>
+    <script src="../assets/js/admin-topbar.js"></script>
 </body>
 
 </html>

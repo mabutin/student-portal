@@ -234,20 +234,6 @@
                                 <div>No new history entries</div>
                             <?php endif; ?>
                         </div>
-                        <?php
-                            function formatDateHeading($date) {
-                                $today = date('Y-m-d');
-                                $yesterday = date('Y-m-d', strtotime('-1 day'));
-
-                                if ($date === $today) {
-                                    return 'Today';
-                                } elseif ($date === $yesterday) {
-                                    return 'Yesterday';
-                                } else {
-                                    return date('F j, Y', strtotime($date));
-                                }
-                            }
-                        ?>
                     </div>
                 </div>
             </div>

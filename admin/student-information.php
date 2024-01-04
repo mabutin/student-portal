@@ -291,24 +291,6 @@ foreach ($requestMessages as $request) {
                                             <div>No new requests</div>
                                         <?php endif; ?>
                                     </div>
-                                    <?php
-                                    function formatDateHeading($datetime)
-                                    {
-                                        $today = date('Y-m-d');
-                                        $yesterday = date('Y-m-d', strtotime('-1 day'));
-
-                                        $date = date('Y-m-d', strtotime($datetime));
-                                        $time = date('g:i a', strtotime($datetime));
-
-                                        if ($date === $today) {
-                                            return 'Today, ' . $time;
-                                        } elseif ($date === $yesterday) {
-                                            return 'Yesterday, ' . $time;
-                                        } else {
-                                            return date('F j, Y, g:i a', strtotime($datetime));
-                                        }
-                                    }
-                                    ?>
                                 </div>
                             </div>
                         </div>
