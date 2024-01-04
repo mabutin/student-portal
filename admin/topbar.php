@@ -45,6 +45,7 @@ function formatDateHeading($datetime)
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/custom.css">
     <title>Topbar</title>
+    
 </head>
 
 <body class="bg-gray-100">
@@ -82,7 +83,8 @@ function formatDateHeading($datetime)
 
             <div class="flex items-center gap-4 relative">
                 <div>
-                    <div id="notifications-container" class="hidden fixed top-10 right-10 max-w-sm">
+                    <div id="notifications-container" class="bg-white shadow-lg hidden fixed top-14 right-40 max-w-sm p-4 rounded-md border border-blue-300">
+                        <div class="tex-base font-semibold">Notifications</div>
                         <?php if (!empty($groupedNotifications)) : ?>
                             <?php foreach ($groupedNotifications as $date => $dateNotifications) : ?>
                                 <div class="font-semibold mt-2"><?= formatDateHeading($date) ?></div>
