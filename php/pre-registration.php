@@ -7,7 +7,6 @@
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
         error_log(json_encode($_POST));
-        $course = $_POST["course"];
         $surname = $_POST["stdSurname"];
         $first_name = $_POST["stdFirstname"];
         $middle_name = $_POST["stdMiddlename"];
@@ -35,10 +34,6 @@
         $sqlStudentNumber = "INSERT INTO student_number (student_number) VALUES ('$studentNumber')";
             if ($conn->query($sqlStudentNumber) === TRUE) {
                 $studentNumberId = $conn->insert_id;
-
-                $sqlEnrollmentDetails = "INSERT INTO enrollment_details (course) VALUES ('$course')";
-                if ($conn->query($sqlEnrollmentDetails) === TRUE) {
-                    $enrollmentDetailsId = $conn->insert_id;
 
                 $sqlContactInformation = "INSERT INTO contact_information (city, email, mobile_number) VALUES ('$city','$email','$mobile')";
                 if ($conn->query($sqlContactInformation) === TRUE) {
