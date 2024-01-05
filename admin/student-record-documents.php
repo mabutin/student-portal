@@ -16,7 +16,7 @@ if (isset($_GET['student_id'])) {
     $query = "SELECT
     sn.student_number, sa.school_account_id,
     st.first_name, st.surname, st.middle_name, st.suffix, si.profile_picture,
-    ed.course, 
+    ed.course_id, cr.course_name, yl.year_level,
     ci.city, ci.address,
     pi.gender, pi.birthday, pi.birth_place, pi.citizenship,
     e.year AS elementary_year, e.name AS elementary_name,
@@ -27,8 +27,10 @@ FROM
     student_number sn 
     JOIN school_account sa ON sn.student_number_id = sa.student_number_id
     JOIN student_information si ON sa.school_account_id = si.school_account_id
-    JOIN students st ON si.students_id = st.students_id
+    JOIN students st ON si.student_id = st.student_id
     JOIN enrollment_details ed ON si.enrollment_details_id = ed.enrollment_details_id
+    JOIN course cr ON ed.course_id = cr.course_id
+    JOIN year_level yl ON ed.year_level_id = yl.year_level_id
     JOIN personal_information pi ON si.personal_information_id = pi.personal_information_id
     JOIN contact_information ci ON si.contact_information_id = ci.contact_information_id
     JOIN educational_attainment ea ON si.educational_attainment_id = ea.educational_attainment_id
@@ -224,11 +226,11 @@ WHERE
 
                             <div class="col-span-2 pl-10">
                                 <p>Course <span class="mx-2">:</span>
-                                    <span><?= $student_details['course'] ?></span>
+                                    <span><?= $student_details['course_name'] ?></span>
                                 </p>
                                 <p>Major <span class="ml-3.5 mr-2">:</span>
                                     <span><?php
-                                            $course = $student_details['course'];
+                                            $course = $student_details['course_name'];
                                             $major = '';
 
                                             switch ($course) {
@@ -714,7 +716,7 @@ WHERE
                                 <p class="leading-7">College of:
                                     <span style="padding-left: 78px;">
                                         <?php
-                                        $course = $student_details['course'];
+                                        $course = $student_details['course_name'];
                                         $abbreviation = '';
                                         switch ($course) {
                                             case 'Bachelor of Science in Business Administration':
@@ -746,7 +748,7 @@ WHERE
                                     </span>
                                 </p>
                                 <p class="leading-7 ">Candidate for Title :
-                                    <span class="pl-3.5"><?= $student_details['course'] ?></span>
+                                    <span class="pl-3.5"><?= $student_details['course_name'] ?></span>
                                 </p>
                             </div>
                         </div>
@@ -755,7 +757,7 @@ WHERE
                             <p class="col-span-2 leading-7">Major :
                                 <span style="padding-left: 105px;">
                                     <?php
-                                    $course = $student_details['course'];
+                                    $course = $student_details['course_name'];
                                     $major = '';
 
                                     switch ($course) {
@@ -1460,7 +1462,7 @@ WHERE
                                 <span class="num-of-sem-attended px-1" role="textbox" contenteditable></span> semesters
                                 in
                                 <span class="uppercase font-semibold">
-                                    <?= $student_details['course'] ?>
+                                    <?= $student_details['course_name'] ?>
                                 </span>
                                 <span class="sem-attended px-1" role="textbox" contenteditable></span> Semester of
                                 School Year <span class="syStart px-1" role="textbox" contenteditable></span> &ndash; <span class="syEnd px-1" role="textbox" contenteditable></span>.
@@ -1532,7 +1534,7 @@ WHERE
                                 <span class="num-of-sem-attended px-1" role="textbox" contenteditable></span> semester/s
                                 in
                                 <span class="uppercase font-semibold">
-                                    <?= $student_details['course'] ?>
+                                    <?= $student_details['course_name'] ?>
                                 </span> during the
                                 <span class="sem-attended px-1" role="textbox" contenteditable></span> Semester
                                 School Year <span class="syStart px-1" role="textbox" contenteditable></span> &ndash; <span class="syEnd px-1" role="textbox" contenteditable></span>..

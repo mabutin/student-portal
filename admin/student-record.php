@@ -33,13 +33,13 @@ if (isset($_GET['search'])) {
 $course_condition = '';
 if (isset($_GET['course']) && $_GET['course'] !== '') {
     $selected_course = mysqli_real_escape_string($conn, $_GET['course']);
-    $course_condition = "AND ed.course = '$selected_course'";
+    $course_condition = "AND cr.course_name = '$selected_course'";
 }
 
 $year_condition = '';
 if (isset($_GET['year']) && $_GET['year'] !== '') {
     $selected_year = mysqli_real_escape_string($conn, $_GET['year']);
-    $year_condition = "AND ed.year_level = '$selected_year'";
+    $year_condition = "AND yl.year_level = '$selected_year'";
 }
 
 $status_condition = '';
@@ -66,10 +66,12 @@ foreach ($notifications as $notification) {
 }
 
 
-$query = "SELECT sn.student_number, s.surname, s.first_name, s.middle_name, s.suffix, ed.course, ed.year_level, si.status, s.suffix
+$query = "SELECT sn.student_number, s.surname, s.first_name, s.middle_name, s.suffix, ed.course_id, cr.course_name, yl.year_level, si.status, s.suffix
             FROM student_information si
-            JOIN students s ON si.students_id = s.students_id
+            JOIN students s ON si.student_id = s.student_id
             JOIN enrollment_details ed ON si.enrollment_details_id = ed.enrollment_details_id
+            JOIN course cr ON ed.course_id = cr.course_id
+            JOIN year_level yl ON ed.year_level_id = yl.year_level_id
             JOIN student_number sn ON s.student_number_id = sn.student_number_id
             WHERE 1 $search_condition $course_condition $year_condition $status_condition $sort_condition";
 
@@ -247,21 +249,6 @@ mysqli_close($conn);
                                             <div>No new notifications</div>
                                         <?php endif; ?>
                                     </div>
-                                    <?php
-                                    function formatDateHeading($date)
-                                    {
-                                        $today = date('Y-m-d');
-                                        $yesterday = date('Y-m-d', strtotime('-1 day'));
-
-                                        if ($date === $today) {
-                                            return 'Today';
-                                        } elseif ($date === $yesterday) {
-                                            return 'Yesterday';
-                                        } else {
-                                            return date('F j, Y', strtotime($date));
-                                        }
-                                    }
-                                    ?>
                                     <div id="requestsTabContent" class="tab-content p-4 hidden">
                                         <div>
                                             <div class="">
