@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 05, 2024 at 11:41 AM
+-- Generation Time: Jan 05, 2024 at 06:45 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -33,6 +33,13 @@ CREATE TABLE `baptism` (
   `date` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `baptism`
+--
+
+INSERT INTO `baptism` (`baptism_id`, `place`, `date`) VALUES
+(1, 'Valenzuela', '2003-07-28');
+
 -- --------------------------------------------------------
 
 --
@@ -45,6 +52,13 @@ CREATE TABLE `college` (
   `name` varchar(255) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `college`
+--
+
+INSERT INTO `college` (`college_id`, `year`, `name`, `address`) VALUES
+(1, '2019', 'Our Lady of Lourdes College', '5031 Gen. T. de Leon, Valenzuela, Philippines');
 
 -- --------------------------------------------------------
 
@@ -71,6 +85,13 @@ CREATE TABLE `confirmation` (
   `date` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `confirmation`
+--
+
+INSERT INTO `confirmation` (`confirmation_id`, `place`, `date`) VALUES
+(1, 'Valenzuela', '2003-08-30');
+
 -- --------------------------------------------------------
 
 --
@@ -84,6 +105,13 @@ CREATE TABLE `contact_information` (
   `mobile_number` varchar(20) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `contact_information`
+--
+
+INSERT INTO `contact_information` (`contact_information_id`, `address`, `city`, `mobile_number`, `email`) VALUES
+(1, '34 road 5 San Miguel Ridge Marulas', 'Valenzuela', '9563260888', 'millaminaminalyn@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -125,6 +153,13 @@ CREATE TABLE `educational_attainment` (
   `college_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `educational_attainment`
+--
+
+INSERT INTO `educational_attainment` (`educational_attainment_id`, `kindergarten_id`, `elementary_id`, `junior_high_id`, `senior_high_id`, `college_id`) VALUES
+(1, 1, 1, 1, 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -137,6 +172,13 @@ CREATE TABLE `elementary` (
   `name` varchar(255) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `elementary`
+--
+
+INSERT INTO `elementary` (`elementary_id`, `year`, `name`, `address`) VALUES
+(1, '2005', 'San Miguel Heights Elementary School', 'San Miguel Heights Elementary School, Valenzuela City, Metro Manila');
 
 -- --------------------------------------------------------
 
@@ -153,6 +195,13 @@ CREATE TABLE `emergency_contact` (
   `company_address` varchar(255) DEFAULT NULL,
   `mobile_number` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `emergency_contact`
+--
+
+INSERT INTO `emergency_contact` (`emergency_contact_id`, `name`, `relationship`, `address`, `company`, `company_address`, `mobile_number`) VALUES
+(1, 'Ferdinand A. Millamina', 'Father', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9286825931');
 
 -- --------------------------------------------------------
 
@@ -190,6 +239,13 @@ CREATE TABLE `enrollment_details` (
   `enrollment_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `enrollment_details`
+--
+
+INSERT INTO `enrollment_details` (`enrollment_details_id`, `school_year_id`, `course_id`, `year_level_id`, `semester_id`, `enrollment_date`) VALUES
+(1, NULL, 1, 1, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -218,6 +274,13 @@ CREATE TABLE `family_record` (
   `emergency_contact_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `family_record`
+--
+
+INSERT INTO `family_record` (`family_record_id`, `father_id`, `mother_id`, `emergency_contact_id`) VALUES
+(1, 1, 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -232,6 +295,13 @@ CREATE TABLE `father` (
   `company_address` varchar(255) DEFAULT NULL,
   `mobile_number` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `father`
+--
+
+INSERT INTO `father` (`father_id`, `name`, `address`, `company`, `company_address`, `mobile_number`) VALUES
+(1, 'Ferdinand A. Millamina', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9286825931');
 
 -- --------------------------------------------------------
 
@@ -288,6 +358,13 @@ CREATE TABLE `junior_high` (
   `address` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `junior_high`
+--
+
+INSERT INTO `junior_high` (`junior_high_id`, `year`, `name`, `address`) VALUES
+(1, '2011', 'Valenzuela National High School', 'R . Valenzuela, Lungsod ng Valenzuela');
+
 -- --------------------------------------------------------
 
 --
@@ -300,6 +377,13 @@ CREATE TABLE `kindergarten` (
   `name` varchar(255) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `kindergarten`
+--
+
+INSERT INTO `kindergarten` (`kindergarten_id`, `year`, `name`, `address`) VALUES
+(1, '2004', 'San Miguel Heights ES Kindergarten', 'San Miguel Heights Elementary School, Valenzuela City, Metro Manila');
 
 -- --------------------------------------------------------
 
@@ -316,6 +400,13 @@ CREATE TABLE `mother` (
   `mobile_number` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `mother`
+--
+
+INSERT INTO `mother` (`mother_id`, `name`, `address`, `company`, `company_address`, `mobile_number`) VALUES
+(1, 'Evelyn D. Millamina', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9563260888');
+
 -- --------------------------------------------------------
 
 --
@@ -327,6 +418,13 @@ CREATE TABLE `notifications` (
   `message` varchar(255) DEFAULT NULL,
   `datetime` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `notifications`
+--
+
+INSERT INTO `notifications` (`id`, `message`, `datetime`) VALUES
+(1, 'Minalyn Millamina submitted an admission form', '2024-01-06 00:42:18');
 
 -- --------------------------------------------------------
 
@@ -362,6 +460,13 @@ CREATE TABLE `personal_information` (
   `baptism_id` int(11) DEFAULT NULL,
   `confirmation_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `personal_information`
+--
+
+INSERT INTO `personal_information` (`personal_information_id`, `gender`, `birthday`, `age`, `birth_place`, `citizenship`, `height`, `weight`, `baptism_id`, `confirmation_id`) VALUES
+(1, 'female', '2002-07-24', 21, 'Valenzuela', 'Filipino', 152, 46, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -426,6 +531,13 @@ CREATE TABLE `school_account` (
   `password` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `school_account`
+--
+
+INSERT INTO `school_account` (`school_account_id`, `student_number_id`, `password`) VALUES
+(1, 1, 'NgCePpAH');
+
 -- --------------------------------------------------------
 
 --
@@ -465,6 +577,13 @@ CREATE TABLE `senior_high` (
   `address` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `senior_high`
+--
+
+INSERT INTO `senior_high` (`senior_high_id`, `year`, `name`, `address`) VALUES
+(1, '2017', 'Our Lady of Lourdes College', '5031 Gen. T. de Leon, Valenzuela, Philippines');
+
 -- --------------------------------------------------------
 
 --
@@ -479,6 +598,13 @@ CREATE TABLE `students` (
   `middle_name` varchar(255) DEFAULT NULL,
   `suffix` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `students`
+--
+
+INSERT INTO `students` (`student_id`, `student_number_id`, `surname`, `first_name`, `middle_name`, `suffix`) VALUES
+(1, 1, 'Millamina', 'Minalyn', 'Dalit', '');
 
 -- --------------------------------------------------------
 
@@ -500,6 +626,13 @@ CREATE TABLE `student_information` (
   `e_sign` blob DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `student_information`
+--
+
+INSERT INTO `student_information` (`student_information_id`, `student_id`, `personal_information_id`, `contact_information_id`, `educational_attainment_id`, `family_record_id`, `school_account_id`, `enrollment_details_id`, `status`, `profile_picture`, `e_sign`) VALUES
+(1, 1, 1, 1, 1, 1, 1, 1, 'registered', 0x75706c6f6164732f70726f66696c655f36353938336432353339653232322e36363838303836322e6a7067, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -510,6 +643,13 @@ CREATE TABLE `student_number` (
   `student_number_id` int(11) NOT NULL,
   `student_number` int(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `student_number`
+--
+
+INSERT INTO `student_number` (`student_number_id`, `student_number`) VALUES
+(1, 1300401113);
 
 -- --------------------------------------------------------
 
@@ -541,6 +681,16 @@ CREATE TABLE `usertbl` (
   `usertype` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `usertbl`
+--
+
+INSERT INTO `usertbl` (`id`, `username`, `email`, `password`, `usertype`) VALUES
+(19, 'dev@user', NULL, 'dev123', 'Developer'),
+(33, 'admin', 'millaminaminalyn@gmail.com', 'l4zt9voy', 'Admin'),
+(34, 'minalyn', 'millaminaminalyn@gmail.com', 'DRsBydpC', 'Admission'),
+(35, 'mina', 'millaminaminalyn@gmail.com', 'BZaKVwot', 'Admin');
+
 -- --------------------------------------------------------
 
 --
@@ -551,6 +701,16 @@ CREATE TABLE `year_level` (
   `year_level_id` int(11) NOT NULL,
   `year_level` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `year_level`
+--
+
+INSERT INTO `year_level` (`year_level_id`, `year_level`) VALUES
+(1, 'First Year'),
+(2, 'Second Year'),
+(3, 'Third Year'),
+(4, 'Fourth Year');
 
 --
 -- Indexes for dumped tables
@@ -837,13 +997,13 @@ ALTER TABLE `year_level`
 -- AUTO_INCREMENT for table `baptism`
 --
 ALTER TABLE `baptism`
-  MODIFY `baptism_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `baptism_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `college`
 --
 ALTER TABLE `college`
-  MODIFY `college_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `college_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `college_calendar`
@@ -855,13 +1015,13 @@ ALTER TABLE `college_calendar`
 -- AUTO_INCREMENT for table `confirmation`
 --
 ALTER TABLE `confirmation`
-  MODIFY `confirmation_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `confirmation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `contact_information`
 --
 ALTER TABLE `contact_information`
-  MODIFY `contact_information_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `contact_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `course`
@@ -873,19 +1033,19 @@ ALTER TABLE `course`
 -- AUTO_INCREMENT for table `educational_attainment`
 --
 ALTER TABLE `educational_attainment`
-  MODIFY `educational_attainment_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `educational_attainment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `elementary`
 --
 ALTER TABLE `elementary`
-  MODIFY `elementary_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `elementary_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `emergency_contact`
 --
 ALTER TABLE `emergency_contact`
-  MODIFY `emergency_contact_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `emergency_contact_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `enrolled_subjects`
@@ -897,7 +1057,7 @@ ALTER TABLE `enrolled_subjects`
 -- AUTO_INCREMENT for table `enrollment_details`
 --
 ALTER TABLE `enrollment_details`
-  MODIFY `enrollment_details_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `enrollment_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `examination_period`
@@ -909,13 +1069,13 @@ ALTER TABLE `examination_period`
 -- AUTO_INCREMENT for table `family_record`
 --
 ALTER TABLE `family_record`
-  MODIFY `family_record_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `family_record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `father`
 --
 ALTER TABLE `father`
-  MODIFY `father_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `father_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `gwa`
@@ -939,25 +1099,25 @@ ALTER TABLE `historytbl`
 -- AUTO_INCREMENT for table `junior_high`
 --
 ALTER TABLE `junior_high`
-  MODIFY `junior_high_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `junior_high_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `kindergarten`
 --
 ALTER TABLE `kindergarten`
-  MODIFY `kindergarten_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `kindergarten_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `mother`
 --
 ALTER TABLE `mother`
-  MODIFY `mother_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `mother_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `open_subjects`
@@ -969,7 +1129,7 @@ ALTER TABLE `open_subjects`
 -- AUTO_INCREMENT for table `personal_information`
 --
 ALTER TABLE `personal_information`
-  MODIFY `personal_information_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `personal_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `professor`
@@ -999,7 +1159,7 @@ ALTER TABLE `request_messages`
 -- AUTO_INCREMENT for table `school_account`
 --
 ALTER TABLE `school_account`
-  MODIFY `school_account_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `school_account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `school_year`
@@ -1017,25 +1177,25 @@ ALTER TABLE `semester`
 -- AUTO_INCREMENT for table `senior_high`
 --
 ALTER TABLE `senior_high`
-  MODIFY `senior_high_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `senior_high_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `student_information`
 --
 ALTER TABLE `student_information`
-  MODIFY `student_information_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `student_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `student_number`
 --
 ALTER TABLE `student_number`
-  MODIFY `student_number_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `student_number_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `subjects`
@@ -1047,13 +1207,13 @@ ALTER TABLE `subjects`
 -- AUTO_INCREMENT for table `usertbl`
 --
 ALTER TABLE `usertbl`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `year_level`
 --
 ALTER TABLE `year_level`
-  MODIFY `year_level_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `year_level_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables

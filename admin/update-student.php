@@ -58,13 +58,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     
     $updateQuery = "UPDATE students st
-    JOIN student_information si ON st.students_id = si.students_id
+    JOIN student_information si ON st.student_id = si.student_id
     JOIN student_number sn ON st.student_number_id = sn.student_number_id
     JOIN personal_information pi ON si.personal_information_id = pi.personal_information_id
     JOIN baptism b ON pi.baptism_id = b.baptism_id
     JOIN confirmation c ON pi.confirmation_id = c.confirmation_id
     JOIN contact_information ci ON si.contact_information_id = ci.contact_information_id
     JOIN educational_attainment ea ON si.educational_attainment_id = ea.educational_attainment_id
+    JOIN course cr ON ed.course_id = cr.course_id
+    JOIN year_level yl ON ed.year_level_id = yl.year_level_id
     JOIN kindergarten k ON ea.kindergarten_id = k.kindergarten_id
     JOIN elementary e ON ea.elementary_id = e.elementary_id
     JOIN junior_high jh ON ea.junior_high_id = jh.junior_high_id

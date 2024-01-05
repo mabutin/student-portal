@@ -16,7 +16,7 @@ $sql = "SELECT st.first_name, st.surname, st.middle_name, st.suffix, si.status, 
         FROM student_number sn 
         JOIN school_account sa ON sn.student_number_id = sa.student_number_id
         JOIN student_information si ON sa.school_account_id = si.school_account_id
-        JOIN students st ON si.students_id = st.students_id
+        JOIN students st ON si.student_id = st.student_id
         JOIN enrollment_details ed ON si.enrollment_details_id = ed.enrollment_details_id
         JOIN contact_information ci ON si.contact_information_id = ci.contact_information_id
         WHERE sn.student_number = ?";

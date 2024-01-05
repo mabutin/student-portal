@@ -16,7 +16,9 @@ if (isset($_GET['student_id'])) {
     $query = "SELECT
     sn.student_number, sa.school_account_id,
     st.first_name, st.surname, st.middle_name, st.suffix, si.status, si.profile_picture,
-    ed.course, ed.year_level, ed.semester, 
+    ed.course_id,
+    cr.course_name,
+    yl.year_level, 
     ci.city, ci.address, ci.mobile_number AS contact_mobile_number, ci.email, 
     pi.gender, pi.birthday, pi.age, pi.birth_place, pi.citizenship, pi.height, pi.weight,
     b.place AS baptism_place, b.date AS baptism_date,
@@ -33,8 +35,10 @@ FROM
     student_number sn 
     JOIN school_account sa ON sn.student_number_id = sa.student_number_id
     JOIN student_information si ON sa.school_account_id = si.school_account_id
-    JOIN students st ON si.students_id = st.students_id
+    JOIN students st ON si.student_id = st.student_id
     JOIN enrollment_details ed ON si.enrollment_details_id = ed.enrollment_details_id
+    JOIN course cr ON ed.course_id = cr.course_id
+    JOIN year_level yl ON ed.year_level_id = yl.year_level_id
     JOIN personal_information pi ON si.personal_information_id = pi.personal_information_id
     JOIN baptism b ON pi.baptism_id = b.baptism_id
     JOIN confirmation c ON pi.confirmation_id = c.confirmation_id
@@ -132,7 +136,7 @@ WHERE
                                         </div>
                                         <div class=" flex gap-1">
                                             <span class="font-bold">Course:</span>
-                                            <span><?= $student_details['course'] ?></span>
+                                            <span><?= $student_details['course_name'] ?></span>
                                         </div>
                                         <div class=" flex gap-1">
                                             <span class="font-bold">Suffix:</span>

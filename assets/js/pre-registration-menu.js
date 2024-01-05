@@ -1,12 +1,4 @@
 const suffixes = ["","JR","SR","I","II","III","IV",];
-const courses = [
-    "Bachelor of Science in Information Technology",
-    "Bachelor of Science in Hospitality Management",
-    "Bachelor of Science in Criminology",
-    "Bachelor of Science in Business Administration",
-    "Bachelor of Education Major in English",
-    "Bachelor of Education Major in Math"
-];
 const cities = [
     "Manila",
     "Quezon City",
@@ -84,6 +76,5 @@ function populateSelect(selectId, options) {
 document.addEventListener("DOMContentLoaded", function () {
 
     populateSelect("suffixMenu", suffixes);
-    populateSelect("courseMenu", courses);
     populateSelect("cityMenu", cities);
 });

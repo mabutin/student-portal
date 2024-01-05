@@ -15,7 +15,9 @@ $studentNumber = $_SESSION['student_number'];
 $sql = "SELECT
     sn.student_number, sa.school_account_id,
     st.first_name, st.surname, st.middle_name, st.suffix, si.status, si.profile_picture,
-    ed.course, ed.year_level, ed.semester, 
+    ed.course_id,
+    cr.course_name,
+    yl.year_level,
     ci.city, ci.address, ci.mobile_number AS contact_mobile_number, ci.email, 
     pi.gender, pi.birthday, pi.age, pi.birth_place, pi.citizenship, pi.height, pi.weight,
     b.place AS baptism_place, b.date AS baptism_date,
@@ -32,8 +34,10 @@ FROM
     student_number sn 
     JOIN school_account sa ON sn.student_number_id = sa.student_number_id
     JOIN student_information si ON sa.school_account_id = si.school_account_id
-    JOIN students st ON si.students_id = st.students_id
+    JOIN students st ON si.student_id = st.student_id
     JOIN enrollment_details ed ON si.enrollment_details_id = ed.enrollment_details_id
+    JOIN course cr ON ed.course_id = cr.course_id
+    JOIN year_level yl ON ed.year_level_id = yl.year_level_id
     JOIN personal_information pi ON si.personal_information_id = pi.personal_information_id
     JOIN baptism b ON pi.baptism_id = b.baptism_id
     JOIN confirmation c ON pi.confirmation_id = c.confirmation_id
@@ -50,6 +54,7 @@ FROM
     JOIN emergency_contact ec ON fr.emergency_contact_id = ec.emergency_contact_id
 WHERE 
     sn.student_number = ?";
+
 
 $stmt = $conn->prepare($sql);
 
@@ -72,12 +77,11 @@ if ($result->num_rows == 1) {
     $surname = $row['surname'];
     $middleName = $row['middle_name'] ?? '';
     $status = $row['status'];
-    $course = $row['course'];
+    $course = $row['course_name'];
+    $year_level = $row['year_level'] ?? 'NOT ENROLLED';
     $suffix = $row['suffix'];
     $profilePicturePath = $row['profile_picture'];
     $schoolAccountId = $row['school_account_id'];
-    $yearLevel = $row['year_level'];
-    $semester = $row['semester'];
 
     $city = $row['city'];
     $address = $row['address'];
@@ -136,10 +140,16 @@ if ($result->num_rows == 1) {
     $emergencyContactCompany = $row['emergency_contact_company'];
     $emergencyContactCompanyAddress = $row['emergency_contact_company_address'];
     $emergencyContactMobileNumber = $row['emergency_contact_mobile_number'];
+    
     $stmt->close();
 } else {
-    header("Location: ../../login.php");
-    exit();
+    if ($stmt === false) {
+        die("Error in SQL query: " . $conn->error);
+    }
+    
+    if ($result === false) {
+        die("Error in query execution: " . $stmt->error);
+    }    
 }
 
 $successMessage = "";
@@ -256,11 +266,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                                         </div>
                                         <div class=" flex gap-1">
                                             <span class="font-bold">Course:</span>
-                                            <span><?= $course ?></span>
+                                            <span><?= $course_name = $row['course_name']; ?></span>
                                         </div>
                                         <div class=" flex gap-1">
                                             <span class="font-bold">Year Level:</span>
-                                            <span><?= $yearLevel ?></span>
+                                            <span><?= $year_level = $row['year_level']; ?></span>
                                         </div>
                                         <div class=" flex gap-1">
                                             <span class="font-bold">Email:</span>
