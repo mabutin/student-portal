@@ -113,6 +113,7 @@ foreach ($requestMessages as $request) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Information</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
     <script src="../assets/js/student-information-menu.js"></script>
 </head>
 
@@ -125,22 +126,101 @@ foreach ($requestMessages as $request) {
             <div>
                 <?php include './topbar.php'; ?>
             </div>
-            
-                            
 
-                    
-                
-            
+            <div class="my-12">
+                <h1 class="text-center text-3xl font-bold text-blue-500 mb-2 tracking-widest">School Calendar</h1>
+                <h2 class="text-center text-xl font-semibold">School Year <span>2022</span> &ndash; <span>2023</span></h2>
+
+                <div>
+                <button type="button" class="p-2 bg-blue-500 rounded-md text-xs text-white hover:bg-blue-700">Add event</button>
+                </div>
+            </div>
+
+
+            <div class="relative overflow-x-auto mx-auto w-9/12 ">
+                <table class="w-full text-sm text-left text-gray-500 border border-blue-200">
+                    <!-- January -->
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-4 text-gray-900 text-center border-b border-blue-200 bg-blue-200" colspan="3">January</th>
+                        </tr>
+
+                        <tr class="">
+                            <th class="px-6 py-3 text-center w-56 border-b border-r border-blue-200">
+                                Date Start
+                            </th>
+                            <th class="px-6 py-3 text-center w-56 border-b border-r border-blue-200">
+                                Date End
+                            </th>
+                            <th class="px-6 py-3 text-center border-b border-r border-blue-200">
+                                Event Name
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50">
+
+                            <td class="px-6 py-4 text-center border-b border-r border-blue-200">
+                                test start date
+                            </td>
+                            <td class="px-6 py-4 text-center border-b border-r border-blue-200">
+                                test end date
+                            </td>
+                            <td class="px-6 py-4 text-center border-b border-r border-blue-200">
+                                test event name
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                    <!-- Febuary -->
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-4 text-gray-900 text-center border-b border-blue-200 bg-blue-200" colspan="3">Febuary</th>
+                        </tr>
+
+                        <tr class="">
+                            <th class="px-6 py-3 text-center w-56 border-b border-r border-blue-200">
+                                Date Start
+                            </th>
+                            <th class="px-6 py-3 text-center w-56 border-b border-r border-blue-200">
+                                Date End
+                            </th>
+                            <th class="px-6 py-3 text-center border-b border-r border-blue-200">
+                                Event Name
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50">
+
+                            <td class="px-6 py-4 text-center border-b border-r border-blue-200">
+                                test start date
+                            </td>
+                            <td class="px-6 py-4 text-center border-b border-r border-blue-200">
+                                test end date
+                            </td>
+                            <td class="px-6 py-4 text-center border-b border-r border-blue-200">
+                                test event name
+                            </td>
+                        </tr>  
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-    <script src="../assets/js/adminSidebar.js" defer></script>
-    <script src="../assets/js/student-information-tab.js"></script>
-    <?php
-    function formatDate($datetime)
-    {
-        $formattedDate = date('F j, Y, g:i a', strtotime($datetime));
-        return $formattedDate;
-    }
-    ?>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+</body>
+<script src="../assets/js/adminSidebar.js" defer></script>
+<script src="../assets/js/student-information-tab.js"></script>
+<?php
+function formatDate($datetime)
+{
+    $formattedDate = date('F j, Y, g:i a', strtotime($datetime));
+    return $formattedDate;
+}
+?>
 
 </html>
