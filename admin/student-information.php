@@ -245,26 +245,14 @@ foreach ($requestMessages as $request) {
                                 </div>
                                 <div class="h-1/2">
                                     <div class="flex">
-                                        <div id="notificationTab" class="tab px-4 py-2 cursor-pointer rounded-tl rounded-tr" onclick="showTab('notificationTabContent', 'notificationTab', 'requestsTab')">
+                                        <div id="notificationTab" class="tab px-4 py-2 cursor-pointer rounded-tl rounded-tr hidden" onclick="showTab('notificationTabContent', 'notificationTab', 'requestsTab')">
                                             Notification
                                         </div>
                                         <div id="requestsTab" class="tab px-4 py-2 cursor-pointer rounded-tl rounded-tr" onclick="showTab('requestsTabContent', 'requestsTab', 'notificationTab')">
                                             Requests
                                         </div>
                                     </div>
-                                    <div id="notificationTabContent" class="tab-content p-4">
-                                        <?php if (!empty($groupedNotifications)) : ?>
-                                            <?php foreach ($groupedNotifications as $date => $dateNotifications) : ?>
-                                                <div class="font-semibold mt-2"><?= formatDateHeading($date) ?></div>
-                                                <?php foreach ($dateNotifications as $notification) : ?>
-                                                    <div><?= $notification['message']; ?></div>
-                                                    <div class="text-xs text-gray-500"><?= date('F j, Y, g:i a', strtotime($notification['datetime'])); ?></div>
-                                                    <hr class="my-2">
-                                                <?php endforeach; ?>
-                                            <?php endforeach; ?>
-                                        <?php else : ?>
-                                            <div>No new notifications</div>
-                                        <?php endif; ?>
+                                    <div id="notificationTabContent" class="tab-content p-4">   
                                     </div>
                                     <div id="requestsTabContent" class="tab-content p-4 hidden">
                                         <?php if (!empty($requestMessages)) : ?>

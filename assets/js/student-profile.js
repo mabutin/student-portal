@@ -48,3 +48,18 @@ window.onclick = function(event) {
         updateModal.classList.add('hidden');
     }
 }
+
+function openTorModal() {
+    var TorModal = document.getElementById("TorModal");
+    TorModal.classList.remove("hidden");
+}
+function closeTorModal() {
+    var TorModal = document.getElementById("TorModal");
+    TorModal.classList.add("hidden");
+}
+window.onclick = function(event) {
+    var TorModal = document.getElementById("TorModal");
+    if (!event.target.closest('#TorModal') && !event.target.matches('[onclick="openTorModal()"]')) {
+        TorModal.classList.add('hidden');
+    }
+}
