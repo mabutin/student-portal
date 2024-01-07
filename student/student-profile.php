@@ -140,16 +140,16 @@ if ($result->num_rows == 1) {
     $emergencyContactCompany = $row['emergency_contact_company'];
     $emergencyContactCompanyAddress = $row['emergency_contact_company_address'];
     $emergencyContactMobileNumber = $row['emergency_contact_mobile_number'];
-    
+
     $stmt->close();
 } else {
     if ($stmt === false) {
         die("Error in SQL query: " . $conn->error);
     }
-    
+
     if ($result === false) {
         die("Error in query execution: " . $stmt->error);
-    }    
+    }
 }
 
 $successMessage = "";
@@ -235,9 +235,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                 <?php include './topbarStudent.php'; ?>
             </div>
             <div class="mx-auto p-8">
-                <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="bg-white p-6 rounded-lg shadow-md overflow-y-auto" style="height: 630px;">
                     <form action="" method="post" enctype="multipart/form-data" class="mb-4">
-                        <div class="flex items-end mb-4">
+                        <div class="flex items-end mb-4 ">
                             <div class="ml-4">
                                 <?php if (empty($row['profile_picture'])) : ?>
                                     <img src="../assets/svg/profile.svg" class="w-48 h-48 mx-auto" alt="">
@@ -570,9 +570,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
         </div>
     </div>
 
-
-
     <script src="../assets/js/studentSidebar.js"></script>
+    <script src="../assets/js/request-buttons.js"></script>
     <script src="../assets/js/student-profile.js"></script>
 </body>
 

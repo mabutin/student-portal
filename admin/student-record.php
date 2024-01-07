@@ -85,17 +85,48 @@ $users = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 mysqli_free_result($result);
 
-$queryRequests = "SELECT * FROM request_tor ORDER BY request_datetime DESC";
-$resultRequests = mysqli_query($conn, $queryRequests);
 
-if (!$resultRequests) {
-    die("Query failed: " . mysqli_error($conn));
+
+// First query for 'request_tor' table
+$queryRequestsTOR = "SELECT * FROM request_tor ORDER BY request_datetime DESC";
+$resultRequestsTOR = mysqli_query($conn, $queryRequestsTOR);
+
+if (!$resultRequestsTOR) {
+    die("Query failed for request_tor: " . mysqli_error($conn));
 }
 
-$requestMessages = mysqli_fetch_all($resultRequests, MYSQLI_ASSOC);
+$requestMessagesTOR = mysqli_fetch_all($resultRequestsTOR, MYSQLI_ASSOC);
 
-mysqli_free_result($resultRequests);
+mysqli_free_result($resultRequestsTOR);
 
+// Second query for 'request_goodmoral' table
+$queryRequestsGoodMoral = "SELECT * FROM request_goodmoral ORDER BY request_datetime DESC";
+$resultRequestsGoodMoral = mysqli_query($conn, $queryRequestsGoodMoral);
+
+if (!$resultRequestsGoodMoral) {
+    die("Query failed for request_goodmoral: " . mysqli_error($conn));
+}
+
+$requestMessagesGoodMoral = mysqli_fetch_all($resultRequestsGoodMoral, MYSQLI_ASSOC);
+
+mysqli_free_result($resultRequestsGoodMoral);
+
+// Third query for 'request_honorable' table
+$queryRequestsHonorable = "SELECT * FROM request_honorable ORDER BY request_datetime DESC";
+$resultRequestsHonorable = mysqli_query($conn, $queryRequestsHonorable);
+
+if (!$resultRequestsHonorable) {
+    die("Query failed for request_honorable: " . mysqli_error($conn));
+}
+
+$requestMessagesHonorable = mysqli_fetch_all($resultRequestsHonorable, MYSQLI_ASSOC);
+
+mysqli_free_result($resultRequestsHonorable);
+
+// Combine all results into a single array
+$requestMessages = array_merge($requestMessagesTOR, $requestMessagesGoodMoral, $requestMessagesHonorable);
+
+// Group the combined results by date
 $groupedRequests = [];
 foreach ($requestMessages as $request) {
     $date = date('Y-m-d', strtotime($request['request_datetime']));
@@ -228,10 +259,11 @@ foreach ($requestMessages as $request) {
                                 </tbody>
                             </table>
                         </div>
+
                         <div class="border-l-2 border-blue-300">
                             <div id="tabsContainer" class="pl-2 h-full">
-                                <div id="studentDetailsContainer" class="overflow-y-auto mt-2 shadow-md" style="width: 816px; height: 700px; display: none;">
-                                    <script>
+                                <div id="studentDetailsContainer" class="overflow-y-auto mt-2 shadow-md" style="width: 816px; height: 630px; display: none;">
+                                    <!-- <script>
                                         function printStudentDetails() {
                                             var printContents = document.getElementById('printable_div_id').innerHTML;
                                             var originalContents = document.body.innerHTML;
@@ -239,7 +271,7 @@ foreach ($requestMessages as $request) {
                                             window.print();
                                             document.body.innerHTML = originalContents;
                                         }
-                                    </script>
+                                    </script> -->
                                 </div>
 
                                 <div class="h-1/2">
@@ -247,26 +279,30 @@ foreach ($requestMessages as $request) {
                                         <div id="notificationTab" class="tab px-4 py-2 cursor-pointer rounded-tl rounded-tr hidden" onclick="showTab('notificationTabContent', 'notificationTab', 'requestsTab')">
                                             Notification
                                         </div>
-                                        <div id="requestsTab" class="tab px-4 py-2 cursor-pointer rounded-tl rounded-tr" onclick="showTab('requestsTabContent', 'requestsTab', 'notificationTab')">
+                                        <div id="requestsTab" class="tab px-4 py-2 cursor-pointer rounded-tl rounded-tr " onclick="showTab('requestsTabContent', 'requestsTab', 'notificationTab')">
                                             Requests
                                         </div>
                                     </div>
-                                    <div id="notificationTabContent" class="tab-content p-4">
+                                    <div id="notificationTabContent" class="tab-content p-4 hidden">
                                     </div>
-                                    <div id="requestsTabContent" class="tab-content p-4 hidden">
+                                    <div id="requestsTabContent" class="tab-content p-4">
                                         <?php if (!empty($requestMessages)) : ?>
                                             <?php foreach ($requestMessages as $requestMessage) : ?>
-                                                <div class="border-t border-b border-gray-200 w-full p-2 rounded">
-                                                    <div class="font-semibold">
+                                                <div class="border-t border-b border-gray-200 p-2 rounded " style="width:300px;">
+                                                    <div class="text-sm font-medium">
                                                         <?php if (isset($requestMessage['student_number'])) : ?>
                                                             <a href="#" data-student-id="<?= $requestMessage['student_number']; ?>" class="student-details-link request-student-link">
-                                                                <?= $requestMessage['student_number']; ?>
+                                                                <p>Student Name: <span class="ml-1 font-normal"><?= isset($user['surname']) && isset($user['first_name']) && isset($user['middle_name']) ? $user['surname'] . ', ' . $user['first_name'] . ' ' . $user['middle_name'] . ' ' . $user['suffix'] : 'N/A'; ?></span></p>
+                                                                <p>Student Number: <span class="ml-1 font-normal"><?= $requestMessage['student_number']; ?></span></p>
+                                                                <p>Requested Document:<span class="ml-1 font-normal"><?= $requestMessage['document_type']; ?></span></p>
                                                             </a>
                                                         <?php else : ?>
                                                             N/A
                                                         <?php endif; ?>
                                                     </div>
-                                                    <div class="font-semibold"><?= $requestMessage['message']; ?></div>
+                                                    <div class="text-sm font-medium mb-1.5">
+                                                        <p>Purpose: <span class="ml-1 font-normal"><?= $requestMessage['message']; ?></span></p>
+                                                    </div>
                                                     <div class="text-xs text-gray-500">
                                                         <?php if (isset($requestMessage['request_datetime'])) : ?>
                                                             <?= formatDateHeading($requestMessage['request_datetime']); ?>
