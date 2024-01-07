@@ -11,8 +11,8 @@ $usertype = $_SESSION['usertype'] ?? 'guest';
 // Include your database connection code
 include '../php/conn.php';
 
-// Fetch faculty list from the usertbl based on the "Faculty" usertype
-$sql = "SELECT * FROM usertbl WHERE usertype = 'Faculty'";
+// Fetch faculty details from the professor_details table
+$sql = "SELECT surname, first_name, middle_name FROM professor_details";
 $result = $conn->query($sql);
 
 $facultyList = [];
@@ -53,18 +53,18 @@ $conn->close();
                         <table>
                             <thead>
                                 <tr>
-                                    <th>User ID</th>
-                                    <th>Username</th>
-                                    <th>Email</th>
+                                    <th>Surname</th>
+                                    <th>First Name</th>
+                                    <th>Middle Name</th>
                                     <!-- Add more columns as needed -->
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($facultyList as $faculty) : ?>
                                     <tr>
-                                        <td class='border px-4 py-2'><?php echo $faculty["id"]; ?></td>
-                                        <td class='border px-4 py-2'><?php echo $faculty["username"]; ?></td>
-                                        <td class='border px-4 py-2'><?php echo $faculty["email"]; ?></td>
+                                        <td class='border px-4 py-2'><?php echo $faculty["surname"]; ?></td>
+                                        <td class='border px-4 py-2'><?php echo $faculty["first_name"]; ?></td>
+                                        <td class='border px-4 py-2'><?php echo $faculty["middle_name"]; ?></td>
                                         <!-- Add more cells for additional columns -->
                                     </tr>
                                 <?php endforeach; ?>

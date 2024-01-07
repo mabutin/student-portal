@@ -58,12 +58,12 @@
                         </a>
                     </div>
                     <div class="ml-2">
-                        <a href="requirements.php" class="px-2 flex items-center justify-start h-10 gap-3">
+                        <a href="professorDetails.php" class="px-2 flex items-center justify-start h-10 gap-3">
                             <div class="logo-container">
                                 <img src="../assets/svg/professor.svg" class="logo w-6 h-6" alt="">
                             </div>
                             <div class="tracking-wide justify-start items-center text-center text-white text-xs hidden" id="requirements" style="letter-spacing: 2px;"> 
-                              
+                              Profile Details
                             </div>
                         </a>
                     </div>
