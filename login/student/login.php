@@ -40,6 +40,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                     break;
 
                 case 'enrolled':
+                    header("Location: ../../student/paymentReference.php");
+                    break;
+                    
+                case 'official-enrolled':
                     header("Location: ../../student/dashboard.php");
                     break;
 

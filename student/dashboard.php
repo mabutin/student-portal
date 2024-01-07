@@ -12,12 +12,14 @@ date_default_timezone_set('Asia/Manila');
 
 $studentNumber = $_SESSION['student_number'];
 
-$sql = "SELECT st.first_name, st.surname, st.middle_name, st.suffix, si.status, ed.course, si.profile_picture
+$sql = "SELECT st.first_name, st.surname, st.middle_name, st.suffix, si.status, si.profile_picture, ed.course_id, cr.course_name, yl.year_level
         FROM student_number sn 
         JOIN school_account sa ON sn.student_number_id = sa.student_number_id
         JOIN student_information si ON sa.school_account_id = si.school_account_id
-        JOIN students st ON si.students_id = st.students_id
         JOIN enrollment_details ed ON si.enrollment_details_id = ed.enrollment_details_id
+        JOIN course cr ON ed.course_id = cr.course_id
+        JOIN year_level yl ON ed.year_level_id = yl.year_level_id
+        JOIN students st ON si.student_id = st.student_id
         WHERE sn.student_number = ?";
 
 $stmt = $conn->prepare($sql);
@@ -41,7 +43,7 @@ if ($result->num_rows == 1) {
     $surname = $row['surname'];
     $middleName = $row['middle_name'] ?? '';
     $status = $row['status'];
-    $course = $row['course'];
+    $course = $row['course_name'];
     $suffix = $row['suffix'];
 
     $stmt->close();

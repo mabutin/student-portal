@@ -248,13 +248,13 @@ foreach ($requestMessages as $request) {
                                         <div id="notificationTab" class="tab px-4 py-2 cursor-pointer rounded-tl rounded-tr hidden" onclick="showTab('notificationTabContent', 'notificationTab', 'requestsTab')">
                                             Notification
                                         </div>
-                                        <div id="requestsTab" class="tab px-4 py-2 cursor-pointer rounded-tl rounded-tr" onclick="showTab('requestsTabContent', 'requestsTab', 'notificationTab')">
+                                        <div id="requestsTab" class="tab px-2 cursor-pointer rounded-tl rounded-tr" onclick="showTab('requestsTabContent', 'requestsTab', 'notificationTab')">
                                             Requests
                                         </div>
                                     </div>
                                     <div id="notificationTabContent" class="tab-content p-4">   
                                     </div>
-                                    <div id="requestsTabContent" class="tab-content p-4 hidden">
+                                    <div id="requestsTabContent" class="tab-content px-4">
                                         <?php if (!empty($requestMessages)) : ?>
                                             <?php foreach ($requestMessages as $requestMessage) : ?>
                                                 <div class="border-t border-b border-gray-200 w-full p-2 rounded">

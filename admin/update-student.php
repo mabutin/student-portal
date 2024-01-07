@@ -65,6 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     JOIN confirmation c ON pi.confirmation_id = c.confirmation_id
     JOIN contact_information ci ON si.contact_information_id = ci.contact_information_id
     JOIN educational_attainment ea ON si.educational_attainment_id = ea.educational_attainment_id
+    JOIN enrollment_details ed ON si.enrollment_details_id = ed.enrollment_details_id
     JOIN course cr ON ed.course_id = cr.course_id
     JOIN year_level yl ON ed.year_level_id = yl.year_level_id
     JOIN kindergarten k ON ea.kindergarten_id = k.kindergarten_id

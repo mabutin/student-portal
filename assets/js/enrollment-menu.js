@@ -41,3 +41,4 @@ function updateForm() {
 document.addEventListener("DOMContentLoaded", function () {
     populateSelect("studentTypeMenu", studentType);
 });
+

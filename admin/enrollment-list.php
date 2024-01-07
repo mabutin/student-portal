@@ -9,6 +9,7 @@ if (!isset($_SESSION['username'])) {
 $usertype = $_SESSION['usertype'];
 
 include '../php/conn.php';
+
 $sort = isset($_GET['sort']) ? $_GET['sort'] : 'default';
 $sort_condition = '';
 
@@ -32,13 +33,13 @@ if (isset($_GET['search'])) {
 $course_condition = '';
 if (isset($_GET['course']) && $_GET['course'] !== '') {
     $selected_course = mysqli_real_escape_string($conn, $_GET['course']);
-    $course_condition = "AND ed.course = '$selected_course'";
+    $course_condition = "AND cr.course_name = '$selected_course'";
 }
 
 $year_condition = '';
 if (isset($_GET['year']) && $_GET['year'] !== '') {
     $selected_year = mysqli_real_escape_string($conn, $_GET['year']);
-    $year_condition = "AND ed.year_level = '$selected_year'";
+    $year_condition = "AND yl.year_level = '$selected_year'";
 }
 
 $status_condition = '';
@@ -64,13 +65,14 @@ foreach ($notifications as $notification) {
     $groupedNotifications[$date][] = $notification;
 }
 
-
-$query = "SELECT sn.student_number, s.surname, s.first_name, s.middle_name, s.suffix, ed.course, ed.year_level, si.status, s.suffix
-        FROM student_information si
-        JOIN students s ON si.students_id = s.students_id
-        JOIN enrollment_details ed ON si.enrollment_details_id = ed.enrollment_details_id
-        JOIN student_number sn ON s.student_number_id = sn.student_number_id
-        WHERE 1 $search_condition $course_condition $year_condition $status_condition $sort_condition";
+$query = "SELECT sn.student_number, s.surname, s.first_name, s.middle_name, s.suffix, ed.course_id, yl.year_level, cr.course_name, si.status, s.suffix
+            FROM student_information si
+            JOIN students s ON si.student_id = s.student_id
+            JOIN enrollment_details ed ON si.enrollment_details_id = ed.enrollment_details_id
+            JOIN course cr ON ed.course_id = cr.course_id
+            JOIN year_level yl ON ed.year_level_id = yl.year_level_id
+            JOIN student_number sn ON s.student_number_id = sn.student_number_id
+            WHERE 1 $search_condition $course_condition $year_condition $status_condition $sort_condition";
 
 $result = mysqli_query($conn, $query);
 
@@ -81,7 +83,25 @@ if (!$result) {
 $users = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 mysqli_free_result($result);
-mysqli_close($conn);
+
+$queryRequests = "SELECT * FROM request_messages ORDER BY request_datetime DESC";
+$resultRequests = mysqli_query($conn, $queryRequests);
+
+if (!$resultRequests) {
+    die("Query failed: " . mysqli_error($conn));
+}
+
+$requestMessages = mysqli_fetch_all($resultRequests, MYSQLI_ASSOC);
+
+mysqli_free_result($resultRequests);
+
+$groupedRequests = [];
+foreach ($requestMessages as $request) {
+    $date = date('Y-m-d', strtotime($request['request_datetime']));
+    $groupedRequests[$date][] = $request;
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -95,7 +115,7 @@ mysqli_close($conn);
 </head>
 
 <body class="font-[roboto-serif]">
-    <div class="flex justify-start">
+    <div class="flex justify-start overflow-y-hidden">
         <div>
             <?php include './sidebar.php'; ?>
         </div>
@@ -210,65 +230,58 @@ mysqli_close($conn);
                         </div>
                         <div class="border-l-2 border-blue-300">
                             <div id="tabsContainer" class="pl-2 h-full">
-                            <div id="studentDetailsContainer" class="overflow-y-auto mt-2 shadow-md" style="width: 816px; height: 700px; display: none;">
-                                <script>
-                                    function printStudentDetails() {
-                                        var printContents = document.getElementById('printable_div_id').innerHTML;
-                                        var originalContents = document.body.innerHTML;
-                                        document.body.innerHTML = '<div id="printable_div_id">' + printContents + '</div>';
-                                        window.print();
-                                        document.body.innerHTML = originalContents;
-                                    }
-                                </script>
-                            </div>
+                                <div id="studentDetailsContainer" class="overflow-y-auto mt-2 shadow-md" style="width: 816px; height: 700px; display: none;">
+                                    <script>
+                                        function printStudentDetails() {
+                                            var printContents = document.getElementById('printable_div_id').innerHTML;
+                                            var originalContents = document.body.innerHTML;
+                                            document.body.innerHTML = '<div id="printable_div_id">' + printContents + '</div>';
+                                            window.print();
+                                            document.body.innerHTML = originalContents;
+                                        }
+                                    </script>
+                                </div>
                                 <div class="h-1/2">
                                     <div class="flex">
-                                        <div id="notificationTab" class="tab px-4 py-2 cursor-pointer rounded-tl rounded-tr" onclick="showTab('notificationTabContent', 'notificationTab', 'requestsTab')">
+                                        <div id="notificationTab" class="tab px-4 py-2 cursor-pointer rounded-tl rounded-tr hidden" onclick="showTab('notificationTabContent', 'notificationTab', 'requestsTab')">
                                             Notification
                                         </div>
-                                        <div id="requestsTab" class="tab px-4 py-2 cursor-pointer rounded-tl rounded-tr" onclick="showTab('requestsTabContent', 'requestsTab', 'notificationTab')">
+                                        <div id="requestsTab" class="tab px-2 cursor-pointer rounded-tl rounded-tr" onclick="showTab('requestsTabContent', 'requestsTab', 'notificationTab')">
                                             Requests
                                         </div>
                                     </div>
-                                    <div id="notificationTabContent" class="tab-content p-4">
-                                        <?php if (!empty($groupedNotifications)): ?>
-                                            <?php foreach ($groupedNotifications as $date => $dateNotifications): ?>
-                                                <div class="font-semibold mt-2"><?= formatDateHeading($date) ?></div>
-                                                <?php foreach ($dateNotifications as $notification): ?>
-                                                    <div><?= $notification['message']; ?></div>
-                                                    <div class="text-xs text-gray-500"><?= date('F j, Y, g:i a', strtotime($notification['datetime'])); ?></div>
-                                                    <hr class="my-2">
-                                                <?php endforeach; ?>
-                                            <?php endforeach; ?>
-                                        <?php else: ?>
-                                            <div>No new notifications</div>
-                                        <?php endif; ?>
+                                    <div id="notificationTabContent" class="tab-content p-4">   
                                     </div>
-                                    <?php
-                                        function formatDateHeading($date) {
-                                            $today = date('Y-m-d');
-                                            $yesterday = date('Y-m-d', strtotime('-1 day'));
-
-                                            if ($date === $today) {
-                                                return 'Today';
-                                            } elseif ($date === $yesterday) {
-                                                return 'Yesterday';
-                                            } else {
-                                                return date('F j, Y', strtotime($date));
-                                            }
-                                        }
-                                    ?>
-                                    <div id="requestsTabContent" class="tab-content p-4 hidden">
-                                        <div>
-                                            <div class="">
-                                                No new requests
-                                            </div>
-                                        </div>
+                                    <div id="requestsTabContent" class="tab-content px-4">
+                                        <?php if (!empty($requestMessages)) : ?>
+                                            <?php foreach ($requestMessages as $requestMessage) : ?>
+                                                <div class="border-t border-b border-gray-200 w-full p-2 rounded">
+                                                    <div class="font-semibold">
+                                                        <?php if (isset($requestMessage['student_number'])) : ?>
+                                                            <a href="#" data-student-id="<?= $requestMessage['student_number']; ?>" class="student-details-link request-student-link">
+                                                                <?= $requestMessage['student_number']; ?>
+                                                            </a>
+                                                        <?php else : ?>
+                                                            N/A
+                                                        <?php endif; ?>
+                                                    </div>
+                                                    <div class="font-semibold"><?= $requestMessage['message']; ?></div>
+                                                    <div class="text-xs text-gray-500">
+                                                        <?php if (isset($requestMessage['request_datetime'])) : ?>
+                                                            <?= formatDateHeading($requestMessage['request_datetime']); ?>
+                                                        <?php else : ?>
+                                                            N/A
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
+                                            <?php endforeach; ?>
+                                        <?php else : ?>
+                                            <div>No new requests</div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -277,7 +290,7 @@ mysqli_close($conn);
         
     </div>
     <script src="../assets/js/adminSidebar.js" defer></script>
-    <script src="../assets/js/student-information-tab.js"></script>
+    <script src="../assets/js/enrollment-tab.js"></script>
 </body>
 
 </html>
