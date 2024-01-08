@@ -294,43 +294,92 @@ WHERE
                             <tbody>
                                 <!-- First Year -->
                                 <div>
-                                    <!-- First Semester -->
-                                    <tr id="blank-space-for-spacing">
-                                        <td class="border-r border-black h-2"></td>
-                                        <td class="border-r border-black h-2"></td>
-                                        <td class="border-r border-black h-2"></td>
-                                        <td class="border-r border-black h-2"></td>
-                                    </tr>
+                                <?php
+                                    // Include the database connection file
+                                    include '../php/conn.php';
 
-                                    <tr>
-                                        <td class="border-r border-black"></td>
-                                        <td class="font-bold border-r border-black pl-3">First Semester SY [DATE] &ndash; [DATE]</td>
-                                        <td class="border-r border-black"></td>
-                                        <td class="border-r border-black"></td>
-                                    </tr>
+                                    // Escape the student_id from the GET parameters
+                                    $student_id = mysqli_real_escape_string($conn, $_GET['student_id']);
 
-                                    <tr>
-                                        <td class="pl-3 border-r border-black">SBJCT1</td>
-                                        <td class="pl-5 border-r border-black">Sample Subject 1</td>
-                                        <td class="text-center border-r border-black">1.75</td>
-                                        <td class="text-center border-r border-black"></td>
-                                        <td class="text-center">3</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="pl-3 border-r border-black">SBJCT2</td>
-                                        <td class="pl-5 border-r border-black">Sample Subject 2</td>
-                                        <td class="text-center border-r border-black">1.50</td>
-                                        <td class="text-center border-r border-black"></td>
-                                        <td class="text-center">3</td>
-                                    </tr>
+                                    $enrolledSubjectsQuery = "SELECT 
+                                                                    yl.year_level, 
+                                                                    stbl.semester, 
+                                                                    sbj.code, 
+                                                                    sbj.name, 
+                                                                    sbj.unit,
+                                                                    enrolled_subjects.prelim,
+                                                                    enrolled_subjects.midterm,
+                                                                    enrolled_subjects.finals,
+                                                                    ROUND((enrolled_subjects.prelim + enrolled_subjects.midterm + enrolled_subjects.finals) / 3, 2) as total
+                                                                FROM 
+                                                                    students
+                                                                    JOIN enrolled_subjects ON students.student_id = enrolled_subjects.student_id
+                                                                    JOIN subjects sbj ON enrolled_subjects.subject_id = sbj.subject_id
+                                                                    JOIN student_number ON students.student_number_id = student_number.student_number_id
+                                                                    JOIN year_level yl ON enrolled_subjects.year_level_id = yl.year_level_id
+                                                                    JOIN semester_tbl stbl ON enrolled_subjects.semester_tbl_id = stbl.semester_tbl_id
+                                                                WHERE student_number.student_number = ?
+                                                                AND yl.year_level = 'First Year'
+                                                                AND stbl.semester = 'First Semester'";
+                                    
 
-                                    <!-- Second Semester -->
-                                    <tr id="blank-space-for-spacing">
-                                        <td class="border-r border-black h-2"></td>
-                                        <td class="border-r border-black h-2"></td>
-                                        <td class="border-r border-black h-2"></td>
-                                        <td class="border-r border-black h-2"></td>
-                                    </tr>
+                                    // Prepare the statement
+                                    $stmt = mysqli_prepare($conn, $enrolledSubjectsQuery);
+
+                                    // Check for errors during preparation
+                                    if (!$stmt) {
+                                        die("Error during statement preparation: " . mysqli_error($conn));
+                                    }
+
+                                    // Bind the parameter
+                                    mysqli_stmt_bind_param($stmt, "s", $student_id);
+
+                                    // Execute the query
+                                    mysqli_stmt_execute($stmt);
+
+                                    // Check for errors during execution
+                                    if (mysqli_stmt_errno($stmt)) {
+                                        die("Error during statement execution: " . mysqli_stmt_error($stmt));
+                                    }
+
+                                    // Bind the result variables
+                                    mysqli_stmt_bind_result($stmt, $year_level, $semester, $code, $name, $unit, $prelim, $midterm, $finals, $total);
+
+                                    // Display the results
+                                    echo '<div>';
+
+                                    while (mysqli_stmt_fetch($stmt)) {
+                                        // Display the header for the semester
+                                        echo "<tr id='blank-space-for-spacing'>
+                                                <td class='border-r border-black h-2'></td>
+                                                <td class='border-r border-black h-2'></td>
+                                                <td class='border-r border-black h-2'></td>
+                                                <td class='border-r border-black h-2'></td>
+                                            </tr>";
+
+                                        echo "<tr>
+                                                <td class='border-r border-black'></td>
+                                                <td class='font-bold border-r border-black pl-3'>$semester SY $year_level</td>
+                                                <td class='border-r border-black'></td>
+                                                <td class='border-r border-black'></td>
+                                            </tr>";
+
+                                        // Display the enrolled subjects
+                                        echo "<tr>
+                                                <td class='pl-3 border-r border-black'>$code</td>
+                                                <td class='pl-5 border-r border-black'>$name</td>
+                                                <td class='text-center border-r border-black'>$total</td>
+                                                <td class='text-center border-r border-black'></td>
+                                                <td class='text-center'>$unit</td>
+                                            </tr>";
+                                    }
+
+                                    echo '</div>';
+
+                                    // Close the statement and connection
+                                    mysqli_stmt_close($stmt);
+                                    mysqli_close($conn);
+                                    ?>
 
                                     <tr>
                                         <td class="border-r border-black"></td>

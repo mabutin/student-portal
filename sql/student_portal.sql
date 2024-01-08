@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 07, 2024 at 10:22 AM
+-- Generation Time: Jan 08, 2024 at 04:54 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -18,8 +18,454 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
+-- Database: `phpmyadmin`
+--
+CREATE DATABASE IF NOT EXISTS `phpmyadmin` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+USE `phpmyadmin`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__bookmark`
+--
+
+CREATE TABLE `pma__bookmark` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `dbase` varchar(255) NOT NULL DEFAULT '',
+  `user` varchar(255) NOT NULL DEFAULT '',
+  `label` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `query` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Bookmarks';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__central_columns`
+--
+
+CREATE TABLE `pma__central_columns` (
+  `db_name` varchar(64) NOT NULL,
+  `col_name` varchar(64) NOT NULL,
+  `col_type` varchar(64) NOT NULL,
+  `col_length` text DEFAULT NULL,
+  `col_collation` varchar(64) NOT NULL,
+  `col_isNull` tinyint(1) NOT NULL,
+  `col_extra` varchar(255) DEFAULT '',
+  `col_default` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Central list of columns';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__column_info`
+--
+
+CREATE TABLE `pma__column_info` (
+  `id` int(5) UNSIGNED NOT NULL,
+  `db_name` varchar(64) NOT NULL DEFAULT '',
+  `table_name` varchar(64) NOT NULL DEFAULT '',
+  `column_name` varchar(64) NOT NULL DEFAULT '',
+  `comment` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `mimetype` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `transformation` varchar(255) NOT NULL DEFAULT '',
+  `transformation_options` varchar(255) NOT NULL DEFAULT '',
+  `input_transformation` varchar(255) NOT NULL DEFAULT '',
+  `input_transformation_options` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Column information for phpMyAdmin';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__designer_settings`
+--
+
+CREATE TABLE `pma__designer_settings` (
+  `username` varchar(64) NOT NULL,
+  `settings_data` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Settings related to Designer';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__export_templates`
+--
+
+CREATE TABLE `pma__export_templates` (
+  `id` int(5) UNSIGNED NOT NULL,
+  `username` varchar(64) NOT NULL,
+  `export_type` varchar(10) NOT NULL,
+  `template_name` varchar(64) NOT NULL,
+  `template_data` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Saved export templates';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__favorite`
+--
+
+CREATE TABLE `pma__favorite` (
+  `username` varchar(64) NOT NULL,
+  `tables` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Favorite tables';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__history`
+--
+
+CREATE TABLE `pma__history` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `username` varchar(64) NOT NULL DEFAULT '',
+  `db` varchar(64) NOT NULL DEFAULT '',
+  `table` varchar(64) NOT NULL DEFAULT '',
+  `timevalue` timestamp NOT NULL DEFAULT current_timestamp(),
+  `sqlquery` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='SQL history for phpMyAdmin';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__navigationhiding`
+--
+
+CREATE TABLE `pma__navigationhiding` (
+  `username` varchar(64) NOT NULL,
+  `item_name` varchar(64) NOT NULL,
+  `item_type` varchar(64) NOT NULL,
+  `db_name` varchar(64) NOT NULL,
+  `table_name` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hidden items of navigation tree';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__pdf_pages`
+--
+
+CREATE TABLE `pma__pdf_pages` (
+  `db_name` varchar(64) NOT NULL DEFAULT '',
+  `page_nr` int(10) UNSIGNED NOT NULL,
+  `page_descr` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='PDF relation pages for phpMyAdmin';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__recent`
+--
+
+CREATE TABLE `pma__recent` (
+  `username` varchar(64) NOT NULL,
+  `tables` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Recently accessed tables';
+
+--
+-- Dumping data for table `pma__recent`
+--
+
+INSERT INTO `pma__recent` (`username`, `tables`) VALUES
+('root', '[{\"db\":\"student_portal\",\"table\":\"enrollment_details\"},{\"db\":\"student_portal\",\"table\":\"enrolled_subjects\"},{\"db\":\"student_portal\",\"table\":\"student_information\"},{\"db\":\"student_portal\",\"table\":\"open_subjects\"},{\"db\":\"student_portal\",\"table\":\"usertbl\"},{\"db\":\"student_portal\",\"table\":\"subjects\"},{\"db\":\"student_portal\",\"table\":\"student_number\"},{\"db\":\"student_portal\",\"table\":\"students\"},{\"db\":\"student_portal\",\"table\":\"senior_high\"},{\"db\":\"student_portal\",\"table\":\"school_year\"}]');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__relation`
+--
+
+CREATE TABLE `pma__relation` (
+  `master_db` varchar(64) NOT NULL DEFAULT '',
+  `master_table` varchar(64) NOT NULL DEFAULT '',
+  `master_field` varchar(64) NOT NULL DEFAULT '',
+  `foreign_db` varchar(64) NOT NULL DEFAULT '',
+  `foreign_table` varchar(64) NOT NULL DEFAULT '',
+  `foreign_field` varchar(64) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Relation table';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__savedsearches`
+--
+
+CREATE TABLE `pma__savedsearches` (
+  `id` int(5) UNSIGNED NOT NULL,
+  `username` varchar(64) NOT NULL DEFAULT '',
+  `db_name` varchar(64) NOT NULL DEFAULT '',
+  `search_name` varchar(64) NOT NULL DEFAULT '',
+  `search_data` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Saved searches';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__table_coords`
+--
+
+CREATE TABLE `pma__table_coords` (
+  `db_name` varchar(64) NOT NULL DEFAULT '',
+  `table_name` varchar(64) NOT NULL DEFAULT '',
+  `pdf_page_number` int(11) NOT NULL DEFAULT 0,
+  `x` float UNSIGNED NOT NULL DEFAULT 0,
+  `y` float UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Table coordinates for phpMyAdmin PDF output';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__table_info`
+--
+
+CREATE TABLE `pma__table_info` (
+  `db_name` varchar(64) NOT NULL DEFAULT '',
+  `table_name` varchar(64) NOT NULL DEFAULT '',
+  `display_field` varchar(64) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Table information for phpMyAdmin';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__table_uiprefs`
+--
+
+CREATE TABLE `pma__table_uiprefs` (
+  `username` varchar(64) NOT NULL,
+  `db_name` varchar(64) NOT NULL,
+  `table_name` varchar(64) NOT NULL,
+  `prefs` text NOT NULL,
+  `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Tables'' UI preferences';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__tracking`
+--
+
+CREATE TABLE `pma__tracking` (
+  `db_name` varchar(64) NOT NULL,
+  `table_name` varchar(64) NOT NULL,
+  `version` int(10) UNSIGNED NOT NULL,
+  `date_created` datetime NOT NULL,
+  `date_updated` datetime NOT NULL,
+  `schema_snapshot` text NOT NULL,
+  `schema_sql` text DEFAULT NULL,
+  `data_sql` longtext DEFAULT NULL,
+  `tracking` set('UPDATE','REPLACE','INSERT','DELETE','TRUNCATE','CREATE DATABASE','ALTER DATABASE','DROP DATABASE','CREATE TABLE','ALTER TABLE','RENAME TABLE','DROP TABLE','CREATE INDEX','DROP INDEX','CREATE VIEW','ALTER VIEW','DROP VIEW') DEFAULT NULL,
+  `tracking_active` int(1) UNSIGNED NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Database changes tracking for phpMyAdmin';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__userconfig`
+--
+
+CREATE TABLE `pma__userconfig` (
+  `username` varchar(64) NOT NULL,
+  `timevalue` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `config_data` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='User preferences storage for phpMyAdmin';
+
+--
+-- Dumping data for table `pma__userconfig`
+--
+
+INSERT INTO `pma__userconfig` (`username`, `timevalue`, `config_data`) VALUES
+('root', '2024-01-08 15:50:18', '{\"Console\\/Mode\":\"collapse\"}');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__usergroups`
+--
+
+CREATE TABLE `pma__usergroups` (
+  `usergroup` varchar(64) NOT NULL,
+  `tab` varchar(64) NOT NULL,
+  `allowed` enum('Y','N') NOT NULL DEFAULT 'N'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='User groups with configured menu items';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pma__users`
+--
+
+CREATE TABLE `pma__users` (
+  `username` varchar(64) NOT NULL,
+  `usergroup` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Users and their assignments to user groups';
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `pma__bookmark`
+--
+ALTER TABLE `pma__bookmark`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `pma__central_columns`
+--
+ALTER TABLE `pma__central_columns`
+  ADD PRIMARY KEY (`db_name`,`col_name`);
+
+--
+-- Indexes for table `pma__column_info`
+--
+ALTER TABLE `pma__column_info`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `db_name` (`db_name`,`table_name`,`column_name`);
+
+--
+-- Indexes for table `pma__designer_settings`
+--
+ALTER TABLE `pma__designer_settings`
+  ADD PRIMARY KEY (`username`);
+
+--
+-- Indexes for table `pma__export_templates`
+--
+ALTER TABLE `pma__export_templates`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `u_user_type_template` (`username`,`export_type`,`template_name`);
+
+--
+-- Indexes for table `pma__favorite`
+--
+ALTER TABLE `pma__favorite`
+  ADD PRIMARY KEY (`username`);
+
+--
+-- Indexes for table `pma__history`
+--
+ALTER TABLE `pma__history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `username` (`username`,`db`,`table`,`timevalue`);
+
+--
+-- Indexes for table `pma__navigationhiding`
+--
+ALTER TABLE `pma__navigationhiding`
+  ADD PRIMARY KEY (`username`,`item_name`,`item_type`,`db_name`,`table_name`);
+
+--
+-- Indexes for table `pma__pdf_pages`
+--
+ALTER TABLE `pma__pdf_pages`
+  ADD PRIMARY KEY (`page_nr`),
+  ADD KEY `db_name` (`db_name`);
+
+--
+-- Indexes for table `pma__recent`
+--
+ALTER TABLE `pma__recent`
+  ADD PRIMARY KEY (`username`);
+
+--
+-- Indexes for table `pma__relation`
+--
+ALTER TABLE `pma__relation`
+  ADD PRIMARY KEY (`master_db`,`master_table`,`master_field`),
+  ADD KEY `foreign_field` (`foreign_db`,`foreign_table`);
+
+--
+-- Indexes for table `pma__savedsearches`
+--
+ALTER TABLE `pma__savedsearches`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `u_savedsearches_username_dbname` (`username`,`db_name`,`search_name`);
+
+--
+-- Indexes for table `pma__table_coords`
+--
+ALTER TABLE `pma__table_coords`
+  ADD PRIMARY KEY (`db_name`,`table_name`,`pdf_page_number`);
+
+--
+-- Indexes for table `pma__table_info`
+--
+ALTER TABLE `pma__table_info`
+  ADD PRIMARY KEY (`db_name`,`table_name`);
+
+--
+-- Indexes for table `pma__table_uiprefs`
+--
+ALTER TABLE `pma__table_uiprefs`
+  ADD PRIMARY KEY (`username`,`db_name`,`table_name`);
+
+--
+-- Indexes for table `pma__tracking`
+--
+ALTER TABLE `pma__tracking`
+  ADD PRIMARY KEY (`db_name`,`table_name`,`version`);
+
+--
+-- Indexes for table `pma__userconfig`
+--
+ALTER TABLE `pma__userconfig`
+  ADD PRIMARY KEY (`username`);
+
+--
+-- Indexes for table `pma__usergroups`
+--
+ALTER TABLE `pma__usergroups`
+  ADD PRIMARY KEY (`usergroup`,`tab`,`allowed`);
+
+--
+-- Indexes for table `pma__users`
+--
+ALTER TABLE `pma__users`
+  ADD PRIMARY KEY (`username`,`usergroup`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `pma__bookmark`
+--
+ALTER TABLE `pma__bookmark`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pma__column_info`
+--
+ALTER TABLE `pma__column_info`
+  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pma__export_templates`
+--
+ALTER TABLE `pma__export_templates`
+  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pma__history`
+--
+ALTER TABLE `pma__history`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pma__pdf_pages`
+--
+ALTER TABLE `pma__pdf_pages`
+  MODIFY `page_nr` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pma__savedsearches`
+--
+ALTER TABLE `pma__savedsearches`
+  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
 -- Database: `student_portal`
 --
+CREATE DATABASE IF NOT EXISTS `student_portal` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `student_portal`;
 
 -- --------------------------------------------------------
 
@@ -38,7 +484,10 @@ CREATE TABLE `baptism` (
 --
 
 INSERT INTO `baptism` (`baptism_id`, `place`, `date`) VALUES
-(1, 'Valenzuela', '2003-07-28');
+(1, 'Valenzuela', '2003-07-28'),
+(2, 'Valenzuela', '2024-01-16'),
+(3, 'Valenzuela', '2024-01-19'),
+(4, 'Valenzuela', '2024-01-19');
 
 -- --------------------------------------------------------
 
@@ -58,7 +507,9 @@ CREATE TABLE `college` (
 --
 
 INSERT INTO `college` (`college_id`, `year`, `name`, `address`) VALUES
-(1, '2019', 'Our Lady of Lourdes College', '5031 Gen. T. de Leon, Valenzuela, Philippines');
+(1, '2019', 'Our Lady of Lourdes College', '5031 Gen. T. de Leon, Valenzuela, Philippines'),
+(2, '2019', 'Our Lady of Lourdes College', '5031 Gen. T. de Leon, Valenzuela, Philippines'),
+(3, '2019', 'Our Lady of Lourdes College', '5031 Gen. T. de Leon, Valenzuela, Philippines');
 
 -- --------------------------------------------------------
 
@@ -90,7 +541,10 @@ CREATE TABLE `confirmation` (
 --
 
 INSERT INTO `confirmation` (`confirmation_id`, `place`, `date`) VALUES
-(1, 'Valenzuela', '2003-08-30');
+(1, 'Valenzuela', '2003-08-30'),
+(2, 'Valenzuela', '2024-01-24'),
+(3, 'Valenzuela', '2024-01-15'),
+(4, 'Valenzuela', '2024-01-15');
 
 -- --------------------------------------------------------
 
@@ -111,7 +565,9 @@ CREATE TABLE `contact_information` (
 --
 
 INSERT INTO `contact_information` (`contact_information_id`, `address`, `city`, `mobile_number`, `email`) VALUES
-(1, '34 road 5 San Miguel Ridge Marulas', 'Valenzuela', '9563260888', 'millaminaminalyn@gmail.com');
+(1, '34 road 5 San Miguel Ridge Marulas', 'Valenzuela', '9563260888', 'millaminaminalyn@gmail.com'),
+(2, '34 road 5 San Miguel Ridge Marulas', 'Valenzuela', '9563260888', 'millaminaminalyn@gmail.com'),
+(3, '34 road 5 San Miguel Ridge Marulas', 'Valenzuela', '9563260888', 'millaminaminalyn@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -158,7 +614,9 @@ CREATE TABLE `educational_attainment` (
 --
 
 INSERT INTO `educational_attainment` (`educational_attainment_id`, `kindergarten_id`, `elementary_id`, `junior_high_id`, `senior_high_id`, `college_id`) VALUES
-(1, 1, 1, 1, 1, 1);
+(1, 1, 1, 1, 1, 1),
+(2, 2, 2, 2, 2, 2),
+(3, 3, 3, 3, 3, 3);
 
 -- --------------------------------------------------------
 
@@ -178,7 +636,9 @@ CREATE TABLE `elementary` (
 --
 
 INSERT INTO `elementary` (`elementary_id`, `year`, `name`, `address`) VALUES
-(1, '2005', 'San Miguel Heights Elementary School', 'San Miguel Heights Elementary School, Valenzuela City, Metro Manila');
+(1, '2005', 'San Miguel Heights Elementary School', 'San Miguel Heights Elementary School, Valenzuela City, Metro Manila'),
+(2, '2005', 'San Miguel Heights Elementary School', 'San Miguel Heights Elementary School, Valenzuela City, Metro Manila'),
+(3, '2005', 'San Miguel Heights Elementary School', 'San Miguel Heights Elementary School, Valenzuela City, Metro Manila');
 
 -- --------------------------------------------------------
 
@@ -201,7 +661,9 @@ CREATE TABLE `emergency_contact` (
 --
 
 INSERT INTO `emergency_contact` (`emergency_contact_id`, `name`, `relationship`, `address`, `company`, `company_address`, `mobile_number`) VALUES
-(1, 'Ferdinand A. Millamina', 'Father', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9286825931');
+(1, 'Ferdinand A. Millamina', 'Father', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9286825931'),
+(2, 'Ferdinand A. Millamina', 'Father', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9563260888'),
+(3, 'Ferdinand A. Millamina', 'Father', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9563260888');
 
 -- --------------------------------------------------------
 
@@ -256,18 +718,21 @@ INSERT INTO `enrolled_subjects` (`enrolled_subject_id`, `student_id`, `subject_i
 (25, 1, 188, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
 (26, 1, 189, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
 (27, 1, 190, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(28, 1, 188, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(29, 1, 189, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(30, 1, 190, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(31, 1, 188, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(32, 1, 189, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(33, 1, 190, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(34, 1, 188, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(35, 1, 189, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(36, 1, 190, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(37, 1, 188, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(38, 1, 189, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(39, 1, 190, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled');
+(44, 2, 189, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(45, 2, 190, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(46, 2, 188, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(47, 2, 189, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(48, 2, 190, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(49, 2, 171, NULL, NULL, NULL, NULL, '2023-2024', 1, 2, NULL, NULL),
+(50, 3, 188, 1.5, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(55, 3, 190, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(56, 3, 188, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(57, 3, 189, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(58, 3, 190, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(59, 3, 187, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(60, 3, 189, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(61, 3, 190, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(62, 3, 171, NULL, NULL, NULL, NULL, '2023-2024', 1, 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -282,15 +747,18 @@ CREATE TABLE `enrollment_details` (
   `year_level_id` int(11) DEFAULT NULL,
   `semester_tbl_id` int(11) DEFAULT NULL,
   `admission_type` varchar(255) DEFAULT NULL,
-  `enrollment_date` date DEFAULT NULL
+  `enrollment_date` date DEFAULT NULL,
+  `reference_no` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `enrollment_details`
 --
 
-INSERT INTO `enrollment_details` (`enrollment_details_id`, `school_year`, `course_id`, `year_level_id`, `semester_tbl_id`, `admission_type`, `enrollment_date`) VALUES
-(1, '2023-2024', 1, 1, 1, 'Transferee', NULL);
+INSERT INTO `enrollment_details` (`enrollment_details_id`, `school_year`, `course_id`, `year_level_id`, `semester_tbl_id`, `admission_type`, `enrollment_date`, `reference_no`) VALUES
+(1, '2023-2024', 1, 1, 1, 'Transferee', NULL, NULL),
+(2, '2023-2024', 1, 1, 1, 'New Student', '2024-01-08', NULL),
+(3, '2023-2024', 1, 1, 1, 'New Student', '2024-01-08', NULL);
 
 -- --------------------------------------------------------
 
@@ -325,7 +793,9 @@ CREATE TABLE `family_record` (
 --
 
 INSERT INTO `family_record` (`family_record_id`, `father_id`, `mother_id`, `emergency_contact_id`) VALUES
-(1, 1, 1, 1);
+(1, 1, 1, 1),
+(2, 2, 2, 2),
+(3, 3, 3, 3);
 
 -- --------------------------------------------------------
 
@@ -347,7 +817,9 @@ CREATE TABLE `father` (
 --
 
 INSERT INTO `father` (`father_id`, `name`, `address`, `company`, `company_address`, `mobile_number`) VALUES
-(1, 'Ferdinand A. Millamina', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9286825931');
+(1, 'Ferdinand A. Millamina', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9286825931'),
+(2, 'Ferdinand A. Millamina', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9563260888'),
+(3, 'Ferdinand A. Millamina', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9563260888');
 
 -- --------------------------------------------------------
 
@@ -409,7 +881,9 @@ CREATE TABLE `junior_high` (
 --
 
 INSERT INTO `junior_high` (`junior_high_id`, `year`, `name`, `address`) VALUES
-(1, '2011', 'Valenzuela National High School', 'R . Valenzuela, Lungsod ng Valenzuela');
+(1, '2011', 'Valenzuela National High School', 'R . Valenzuela, Lungsod ng Valenzuela'),
+(2, '2011', 'Valenzuela National High School', 'R . Valenzuela, Lungsod ng Valenzuela'),
+(3, '2011', 'Valenzuela National High School', 'R . Valenzuela, Lungsod ng Valenzuela');
 
 -- --------------------------------------------------------
 
@@ -429,7 +903,9 @@ CREATE TABLE `kindergarten` (
 --
 
 INSERT INTO `kindergarten` (`kindergarten_id`, `year`, `name`, `address`) VALUES
-(1, '2004', 'San Miguel Heights ES Kindergarten', 'San Miguel Heights Elementary School, Valenzuela City, Metro Manila');
+(1, '2004', 'San Miguel Heights ES Kindergarten', 'San Miguel Heights Elementary School, Valenzuela City, Metro Manila'),
+(2, '2004', 'San Miguel Heights ES Kindergarten', 'San Miguel Heights Elementary School, Valenzuela City, Metro Manila'),
+(3, '2004', 'San Miguel Heights ES Kindergarten', 'San Miguel Heights Elementary School, Valenzuela City, Metro Manila');
 
 -- --------------------------------------------------------
 
@@ -451,7 +927,9 @@ CREATE TABLE `mother` (
 --
 
 INSERT INTO `mother` (`mother_id`, `name`, `address`, `company`, `company_address`, `mobile_number`) VALUES
-(1, 'Evelyn D. Millamina', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9563260888');
+(1, 'Evelyn D. Millamina', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9563260888'),
+(2, 'Evelyn D. Millamina', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9563260888'),
+(3, 'Evelyn D. Millamina', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9563260888');
 
 -- --------------------------------------------------------
 
@@ -470,7 +948,9 @@ CREATE TABLE `notifications` (
 --
 
 INSERT INTO `notifications` (`id`, `message`, `datetime`) VALUES
-(1, 'Minalyn Millamina completed the enrollment process.', '2024-01-07 16:44:34');
+(1, 'Minalyn Millamina completed the enrollment process.', '2024-01-08 23:50:30'),
+(2, 'Minalyn Millamina completed the enrollment process.', '2024-01-08 23:50:30'),
+(3, 'Minalyn Millamina completed the enrollment process.', '2024-01-08 23:50:30');
 
 -- --------------------------------------------------------
 
@@ -518,7 +998,12 @@ INSERT INTO `open_subjects` (`open_subject_id`, `course_id`, `subject_id`, `year
 (423, 3, 253, 1, 1, 0),
 (424, 1, 171, 1, 1, 0),
 (425, 1, 171, 1, 1, 0),
-(426, 1, 207, 1, 1, 0);
+(426, 1, 207, 1, 1, 0),
+(427, 1, 176, 1, 1, 0),
+(428, 1, 178, 1, 1, 0),
+(429, 1, 187, 1, 2, 0),
+(430, 1, 189, 1, 2, 0),
+(431, 1, 190, 1, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -544,7 +1029,9 @@ CREATE TABLE `personal_information` (
 --
 
 INSERT INTO `personal_information` (`personal_information_id`, `gender`, `birthday`, `age`, `birth_place`, `citizenship`, `height`, `weight`, `baptism_id`, `confirmation_id`) VALUES
-(1, 'female', '2002-07-24', 21, 'Valenzuela', 'Filipino', 152, 46, 1, 1);
+(1, 'female', '2002-07-24', 21, 'Valenzuela', 'Filipino', 152, 46, 1, 1),
+(2, 'female', '2002-07-24', 21, 'Valenzuela', 'Filipino', 152, 46, 2, 2),
+(3, 'female', '2002-07-24', 21, 'Valenzuela', 'Filipino', 152, 46, 3, 3);
 
 -- --------------------------------------------------------
 
@@ -653,7 +1140,9 @@ CREATE TABLE `school_account` (
 --
 
 INSERT INTO `school_account` (`school_account_id`, `student_number_id`, `password`) VALUES
-(1, 1, 'NgCePpAH');
+(1, 1, 'NgCePpAH'),
+(2, 2, 'ChnUYfjs'),
+(3, 3, 'PhkGofNz');
 
 -- --------------------------------------------------------
 
@@ -718,7 +1207,9 @@ CREATE TABLE `senior_high` (
 --
 
 INSERT INTO `senior_high` (`senior_high_id`, `year`, `name`, `address`) VALUES
-(1, '2017', 'Our Lady of Lourdes College', '5031 Gen. T. de Leon, Valenzuela, Philippines');
+(1, '2017', 'Our Lady of Lourdes College', '5031 Gen. T. de Leon, Valenzuela, Philippines'),
+(2, '2017', 'Our Lady of Lourdes College', '5031 Gen. T. de Leon, Valenzuela, Philippines'),
+(3, '2017', 'Our Lady of Lourdes College', '5031 Gen. T. de Leon, Valenzuela, Philippines');
 
 -- --------------------------------------------------------
 
@@ -740,7 +1231,9 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`student_id`, `student_number_id`, `surname`, `first_name`, `middle_name`, `suffix`) VALUES
-(1, 1, 'Millamina', 'Minalyn', 'Dalit', '');
+(1, 1, 'Millamina', 'Minalyn', 'Dalit', ''),
+(2, 2, 'Millamina', 'Minalyn', 'Dalit', ''),
+(3, 3, 'Millamina', 'Minalyn', 'Dalit', '');
 
 -- --------------------------------------------------------
 
@@ -767,7 +1260,9 @@ CREATE TABLE `student_information` (
 --
 
 INSERT INTO `student_information` (`student_information_id`, `student_id`, `personal_information_id`, `contact_information_id`, `educational_attainment_id`, `family_record_id`, `school_account_id`, `enrollment_details_id`, `status`, `profile_picture`, `e_sign`) VALUES
-(1, 1, 1, 1, 1, 1, 1, 1, 'enrolled', 0x75706c6f6164732f70726f66696c655f36353938336432353339653232322e36363838303836322e6a7067, NULL);
+(1, 1, 1, 1, 1, 1, 1, 1, 'enrolled', 0x75706c6f6164732f70726f66696c655f36353938336432353339653232322e36363838303836322e6a7067, NULL),
+(2, 2, 2, 2, 2, 2, 2, 2, 'Officially Enrolled', 0x75706c6f6164732f70726f66696c655f36353963313833613631393139312e33303436383634362e6a706567, NULL),
+(3, 3, 3, 3, 3, 3, 3, 3, 'Officially Enrolled', 0x75706c6f6164732f70726f66696c655f36353963316137303933363464342e38323433333730332e6a706567, NULL);
 
 -- --------------------------------------------------------
 
@@ -785,7 +1280,9 @@ CREATE TABLE `student_number` (
 --
 
 INSERT INTO `student_number` (`student_number_id`, `student_number`) VALUES
-(1, 1300401113);
+(1, 1300401113),
+(2, 1323280013),
+(3, 1323463013);
 
 -- --------------------------------------------------------
 
@@ -1540,13 +2037,13 @@ ALTER TABLE `year_level`
 -- AUTO_INCREMENT for table `baptism`
 --
 ALTER TABLE `baptism`
-  MODIFY `baptism_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `baptism_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `college`
 --
 ALTER TABLE `college`
-  MODIFY `college_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `college_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `college_calendar`
@@ -1558,13 +2055,13 @@ ALTER TABLE `college_calendar`
 -- AUTO_INCREMENT for table `confirmation`
 --
 ALTER TABLE `confirmation`
-  MODIFY `confirmation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `confirmation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `contact_information`
 --
 ALTER TABLE `contact_information`
-  MODIFY `contact_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `contact_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `course`
@@ -1576,31 +2073,31 @@ ALTER TABLE `course`
 -- AUTO_INCREMENT for table `educational_attainment`
 --
 ALTER TABLE `educational_attainment`
-  MODIFY `educational_attainment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `educational_attainment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `elementary`
 --
 ALTER TABLE `elementary`
-  MODIFY `elementary_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `elementary_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `emergency_contact`
 --
 ALTER TABLE `emergency_contact`
-  MODIFY `emergency_contact_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `emergency_contact_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `enrolled_subjects`
 --
 ALTER TABLE `enrolled_subjects`
-  MODIFY `enrolled_subject_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `enrolled_subject_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `enrollment_details`
 --
 ALTER TABLE `enrollment_details`
-  MODIFY `enrollment_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `enrollment_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `examination_period`
@@ -1612,13 +2109,13 @@ ALTER TABLE `examination_period`
 -- AUTO_INCREMENT for table `family_record`
 --
 ALTER TABLE `family_record`
-  MODIFY `family_record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `family_record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `father`
 --
 ALTER TABLE `father`
-  MODIFY `father_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `father_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `gwa`
@@ -1642,37 +2139,37 @@ ALTER TABLE `historytbl`
 -- AUTO_INCREMENT for table `junior_high`
 --
 ALTER TABLE `junior_high`
-  MODIFY `junior_high_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `junior_high_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `kindergarten`
 --
 ALTER TABLE `kindergarten`
-  MODIFY `kindergarten_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `kindergarten_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `mother`
 --
 ALTER TABLE `mother`
-  MODIFY `mother_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `mother_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `open_subjects`
 --
 ALTER TABLE `open_subjects`
-  MODIFY `open_subject_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=427;
+  MODIFY `open_subject_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=432;
 
 --
 -- AUTO_INCREMENT for table `personal_information`
 --
 ALTER TABLE `personal_information`
-  MODIFY `personal_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `personal_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `professor`
@@ -1720,7 +2217,7 @@ ALTER TABLE `request_tor`
 -- AUTO_INCREMENT for table `school_account`
 --
 ALTER TABLE `school_account`
-  MODIFY `school_account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `school_account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `school_year`
@@ -1744,25 +2241,25 @@ ALTER TABLE `semester_tbl`
 -- AUTO_INCREMENT for table `senior_high`
 --
 ALTER TABLE `senior_high`
-  MODIFY `senior_high_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `senior_high_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `student_information`
 --
 ALTER TABLE `student_information`
-  MODIFY `student_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `student_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `student_number`
 --
 ALTER TABLE `student_number`
-  MODIFY `student_number_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `student_number_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `subjects`
@@ -1920,6 +2417,44 @@ ALTER TABLE `subjects`
   ADD CONSTRAINT `subjects_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `course` (`course_id`),
   ADD CONSTRAINT `subjects_ibfk_2` FOREIGN KEY (`semester_tbl_id`) REFERENCES `semester_tbl` (`semester_tbl_id`),
   ADD CONSTRAINT `subjects_ibfk_3` FOREIGN KEY (`year_level_id`) REFERENCES `year_level` (`year_level_id`);
+--
+-- Database: `test`
+--
+CREATE DATABASE IF NOT EXISTS `test` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `test`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `age` int(3) NOT NULL,
+  `email` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

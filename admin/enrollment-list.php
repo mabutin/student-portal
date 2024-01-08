@@ -104,14 +104,16 @@ foreach ($requestMessages as $request) {
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enrollment List</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <title>Admin dashboard</title>
+    <script src="../assets/js/student-information-menu.js"></script>
 </head>
 
 <body class="font-[roboto-serif]">
@@ -127,7 +129,7 @@ foreach ($requestMessages as $request) {
                 <div class="w-full bg-white p-4 border border-blue-100 gap-2 font-semibold">
                     <div class="flex justify-start items-center gap-2">
                         <span>
-                            Students Enrollment List
+                            Students
                         </span>
                         <span class="cursor-pointer">
                             <a href="../website/pre-registration.html">
@@ -204,25 +206,37 @@ foreach ($requestMessages as $request) {
                                         <th class="text-center">Course</th>
                                         <th class="text-center">Year</th>
                                         <th class="text-center">Status</th>
+                                        <th class="text-center"></th>
                                     </tr>
                                 </thead>
                                 <tbody id="studentTableBody">
-                                    <?php foreach ($users as $index => $user): ?>
+                                    <?php foreach ($users as $index => $user) : ?>
                                         <tr class="px-2 py-1 <?= $index % 2 === 0 ? 'bg-white-500' : 'bg-blue-100' ?>">
                                             <td class="text-center"><?= $index + 1; ?></td>
                                             <td class="text-center">
-                                                <?php if (isset($user['student_number'])): ?>
+                                                <?php if (isset($user['student_number'])) : ?>
                                                     <a href="#" data-student-id="<?= $user['student_number']; ?>" class="student-details-link">
                                                         <?= $user['student_number']; ?>
                                                     </a>
-                                                <?php else: ?>
+                                                <?php else : ?>
                                                     N/A
                                                 <?php endif; ?>
                                             </td>
-                                            <td class="text-center"><?= isset($user['surname']) && isset($user['first_name']) && isset($user['middle_name']) ? $user['surname'] . ', ' . $user['first_name'] . ' ' . $user['middle_name']. ' ' . $user['suffix']. '.' : 'N/A'; ?></td>
-                                            <td class="text-center"><?= isset($user['course']) ? $user['course'] : 'N/A'; ?></td>
+                                            <td class="text-center"><?= isset($user['surname']) && isset($user['first_name']) && isset($user['middle_name']) ? $user['surname'] . ', ' . $user['first_name'] . ' ' . $user['middle_name'] . ' ' . $user['suffix'] . '.' : 'N/A'; ?></td>
+                                            <td class="text-center"><?= isset($user['course_name']) ? $user['course_name'] : 'N/A'; ?></td>
                                             <td class="text-center"><?= isset($user['year_level']) ? $user['year_level'] : 'N/A'; ?></td>
                                             <td class="text-center"><?= isset($user['status']) ? $user['status'] : 'N/A'; ?></td>
+                                            <td class="text-center">
+                                                <?php if ($user['status'] === 'Enrolled') : ?>
+                                                    <button type="button" onclick="enrollStudent(<?= $user['student_number']; ?>, <?= $index; ?>)" title="Mark as Officially Enrolled">
+                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M21.1 12.5L22.5 13.91L15.97 20.5L12.5 17L13.9 15.59L15.97 17.67L21.1 12.5ZM10 17L13 20H3V18C3 15.79 6.58 14 11 14L12.89 14.11L10 17ZM11 4C12.0609 4 13.0783 4.42143 13.8284 5.17157C14.5786 5.92172 15 6.93913 15 8C15 9.06087 14.5786 10.0783 13.8284 10.8284C13.0783 11.5786 12.0609 12 11 12C9.93913 12 8.92172 11.5786 8.17157 10.8284C7.42143 10.0783 7 9.06087 7 8C7 6.93913 7.42143 5.92172 8.17157 5.17157C8.92172 4.42143 9.93913 4 11 4Z" fill="#2F88FF"/>
+                                                        </svg>
+                                                    </button>
+                                                <?php endif; ?>
+                                                <input type="hidden" name="studentId" value="<?= $user['student_number']; ?>">
+                                                <input type="hidden" name="newStatus" value="Enrolled">
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -282,15 +296,60 @@ foreach ($requestMessages as $request) {
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
-
-        
     </div>
     <script src="../assets/js/adminSidebar.js" defer></script>
-    <script src="../assets/js/enrollment-tab.js"></script>
-</body>
+    <script src="../assets/js//enrollment-tab.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>
+    function enrollStudent(studentNumber, rowIndex) {
+        // Assuming you have a PHP script to handle the database update
+        var url = 'update_status.php';
+
+        // Make an AJAX request
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: {
+                studentNumber: studentNumber,
+                newStatus: 'Officially Enrolled'
+            },
+            success: function(response) {
+                // Parse the JSON response
+                var data = JSON.parse(response);
+
+                // Check if the update was successful
+                if (data.success) {
+                    // Update the status in the table without page reload
+                    $('#statusCell_' + rowIndex).text('Officially Enrolled');
+
+                    // Refresh the page after a short delay (e.g., 1000 milliseconds or 1 second)
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1000);
+                } else {
+                    // Handle the error if needed
+                    console.error('Error updating status: ', data.error);
+                }
+            },
+            error: function(error) {
+                console.error('Error updating status: ', error);
+            }
+        });
+    }
+</script>
+
+    <?php
+    function formatDate($datetime)
+    {
+        $formattedDate = date('F j, Y, g:i a', strtotime($datetime));
+        return $formattedDate;
+    }
+    ?>
 
 </html>
