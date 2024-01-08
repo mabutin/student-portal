@@ -158,7 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])){
                                                         if ($conn->query($sqlFamilyRecord) === TRUE) {
                                                             $familyRecordId = $conn->insert_id;
 
-                                                            $sqlStudentInformation = "UPDATE student_information SET personal_information_id = '$personalInformationId', educational_attainment_id = '$educationalAttainmentId', family_record_id = '$familyRecordId', status = 'registered' WHERE personal_information_id IS NULL AND educational_attainment_id IS NULL AND family_record_id IS NULL AND status = 'pre-registered'";
+                                                            $sqlStudentInformation = "UPDATE student_information SET personal_information_id = '$personalInformationId', educational_attainment_id = '$educationalAttainmentId', family_record_id = '$familyRecordId', status = 'registered' WHERE personal_information_id IS NULL AND educational_attainment_id IS NULL AND family_record_id IS NULL AND status = 'Pre-registered'";
                                                             if ($conn->query($sqlStudentInformation) === TRUE) {
 
                                                                 $notificationMessage = "$firstName $surname submitted an admission form";

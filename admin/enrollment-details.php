@@ -10,20 +10,31 @@ $usertype = $_SESSION['usertype'];
 
 include '../php/conn.php';
 
+$student_details = null;
+$enrolled_subjects = null;
+
 if (isset($_GET['student_id'])) {
     $student_id = mysqli_real_escape_string($conn, $_GET['student_id']);
 
-    $query = "SELECT sn.student_number, s.surname, s.first_name, s.middle_name, s.suffix, ed.course_id, yl.year_level, cr.course_name, si.status, s.suffix
-    FROM student_information si
-    JOIN students s ON si.student_id = s.student_id
-    JOIN enrollment_details ed ON si.enrollment_details_id = ed.enrollment_details_id
-    JOIN course cr ON ed.course_id = cr.course_id
-    JOIN year_level yl ON ed.year_level_id = yl.year_level_id
-    JOIN student_number sn ON s.student_number_id = sn.student_number_id
-WHERE 
-    sn.student_number = ?";
-
-
+    $query = "SELECT
+        sn.student_number, sa.school_account_id, sn.student_number_id,
+        st.first_name, st.surname, st.middle_name, st.suffix, si.status, si.profile_picture,
+        ed.course_id,
+        cr.course_name,
+        yl.year_level,
+        ed.school_year,
+        stbl.semester
+    FROM 
+        student_number sn 
+        JOIN school_account sa ON sn.student_number_id = sa.student_number_id
+        JOIN student_information si ON sa.school_account_id = si.school_account_id
+        JOIN students st ON si.student_id = st.student_id
+        JOIN enrollment_details ed ON si.enrollment_details_id = ed.enrollment_details_id
+        JOIN course cr ON ed.course_id = cr.course_id
+        JOIN semester_tbl stbl ON ed.semester_tbl_id = stbl.semester_tbl_id
+        JOIN year_level yl ON ed.year_level_id = yl.year_level_id
+    WHERE 
+        sn.student_number = ?";
 
     $stmt = mysqli_prepare($conn, $query);
 
@@ -34,38 +45,52 @@ WHERE
 
         if ($result) {
             $student_details = mysqli_fetch_assoc($result);
+
+            $enrolled_subjects_query = "SELECT 
+                                            yl.year_level, 
+                                            stbl.semester, 
+                                            sbj.code, 
+                                            sbj.name, 
+                                            sbj.unit
+                                        FROM 
+                                            students
+                                            JOIN enrolled_subjects ON students.student_id = enrolled_subjects.student_id
+                                            JOIN subjects sbj ON enrolled_subjects.subject_id = sbj.subject_id
+                                            JOIN student_number ON students.student_number_id = student_number.student_number_id
+                                            JOIN year_level yl ON enrolled_subjects.year_level_id = yl.year_level_id
+                                            JOIN semester_tbl stbl ON enrolled_subjects.semester_tbl_id = stbl.semester_tbl_id
+                                        WHERE student_number.student_number = ?";
+
+            $enrolled_subjects_stmt = mysqli_prepare($conn, $enrolled_subjects_query);
+
+            if ($enrolled_subjects_stmt) {
+                mysqli_stmt_bind_param($enrolled_subjects_stmt, "s", $student_id);
+                mysqli_stmt_execute($enrolled_subjects_stmt);
+                $enrolled_subjects_result = mysqli_stmt_get_result($enrolled_subjects_stmt);
+
+                if ($enrolled_subjects_result) {
+                    $enrolled_subjects = mysqli_fetch_all($enrolled_subjects_result, MYSQLI_ASSOC);
+                } else {
+                    die("Enrolled subjects query failed: " . mysqli_error($conn));
+                }
+
+                mysqli_stmt_close($enrolled_subjects_stmt);
+            } else {
+                die("Prepare statement for enrolled subjects failed: " . mysqli_error($conn));
+            }
         } else {
             die("Query failed: " . mysqli_error($conn));
         }
+
+        mysqli_stmt_close($stmt);
     } else {
         die("Prepare statement failed: " . mysqli_error($conn));
     }
-    $stmt->close();
 }
-$student_id1 = 84;
-$sql = "SELECT
-            students.students_id,
-            students.surname,
-            students.first_name,
-            students.middle_name,
-            students.suffix,
-            enrolled_subject.enrolled_subject_id,
-            subject.sub_name,
-            subject.sub_code,
-            subject.sub_unit,
-            subject.course,
-            subject.semester,
-            subject.year
-        FROM
-            students
-        JOIN enrolled_subject ON students.students_id = enrolled_subject.students_id
-        JOIN subject ON enrolled_subject.subject_id = subject.sub_id
-        WHERE
-            students.students_id = $student_id1";
 
-$result1 = $conn->query($sql);
-
+mysqli_close($conn);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -86,87 +111,185 @@ $result1 = $conn->query($sql);
                             <img src="../assets/svg/back.svg" style="width: 24px; height: 24px; transition: width 0.3s, height 0.3s;" alt="Go back">
                         </a>
                         <div class="flex justify-start items-center gap-2">
-                            Enrollment Details
+                            <span class="text-xl font-bold">Student Details</span>
                         </div>
                     </div>
-                    <button onClick="printStudentDetails();" class="p-2 bg-blue-500 rounded-md text-xs text-white hover:bg-blue-700">
-                        Print
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <button onclick="location.href='edit-enrollment-details.php?student_id=<?= $student_id ?>'" class="px-2 py-1 bg-yellow-300 rounded-md text-sm text-black hover:text-white hover:bg-yellow-500">
+                            Edit
+                        </button>
+                        <button onclick="location.href='registration-card.php?student_id=<?= $student_id ?>'" class="px-2 py-1  bg-green-300 rounded-md text-sm text-black hover:text-white hover:bg-green-500">
+                            Registration Card
+                        </button>
+                        <button onClick="printStudentDetails();" class="px-2 py-1 text-sm bg-blue-500 rounded-md  text-white hover:bg-blue-700">
+                            Print
+                        </button>
+                    </div>
                 </div>
             </div>
-            <?php if (isset($student_details)) : ?>
-                <div class="flex gap-4 h-full" id='printable_div_id'>
-                    <div id="studentDetailsContainer" class="py-10  px-12 h-full">
+
+            <?php if ($student_details): ?>
+                <div class="flex gap-4 mt-8" id='printable_div_id'>
+                    <div id="studentDetailsContainer" class="py-10 px-12">
                         <div class="flex justify-start items-start gap-8">
-                            <div>
-                                <?php if (empty($student_details['profile_picture'])) : ?>
-                                    <img src="../assets/svg/profile.svg" class="w-48 h-48" alt="">
-                                <?php else : ?>
-                                    <img src="<?= $student_details['profile_picture'] ?>" class="w-48 h-48" alt="">
-                                <?php endif; ?>
-                            </div>
+                            <?php if (empty($student_details['profile_picture'])): ?>
+                                <img src="../assets/svg/profile.svg" class="w-48 h-48" alt="Profile Picture">
+                            <?php else: ?>
+                                <?php
+                                $profilePicturePath = htmlspecialchars($student_details['profile_picture']);
+                                $profilePicturePath = str_replace("../student/", "", $profilePicturePath);
+                                $fullImagePath = "../student/" . $profilePicturePath;
+                                ?>
+                                <img src="<?= $fullImagePath ?>" class="w-48 h-48" alt="Profile Picture">
+                            <?php endif; ?>
                             <div>
                                 <div class="flex justify-center mb-5">
-                                    <img src="../assets/svg/ollclogo.svg" class="h-20" alt="">
+                                    <img src="../assets/svg/ollclogo.svg" class="h-20" alt="OLL logo">
                                 </div>
-                                <div class="justify-between items-center my-2">
-                                    <div class=" flex gap-1">
-                                        <span class="font-bold">Student Number:</span>
+                                <div class="space-y-2">
+                                    <div class="flex items-center">
+                                        <span class="font-bold text-gray-600">Student Number:</span>
                                         <span><?= $student_details['student_number'] ?></span>
                                     </div>
-                                    <div class=" flex gap-1">
-                                        <span class="font-bold">Name:</span>
-                                        <span></strong> <?= $student_details['surname'] ?>, <?= $student_details['first_name'] ?> <?= $student_details['middle_name'] ?>.<?= $student_details['suffix'] ?></span>
+                                    <div class="flex items-center">
+                                        <span class="font-bold text-gray-600">Name:</span>
+                                        <span><?= $student_details['surname'] ?>, <?= $student_details['first_name'] ?> <?= $student_details['middle_name'] ?>.<?= $student_details['suffix'] ?></span>
                                     </div>
-                                    <div class=" flex gap-1">
-                                        <span class="font-bold">Course:</span>
-                                        <span><?= $student_details['course'] ?></li></span>
+                                    <div class="flex items-center">
+                                        <span class="font-bold text-gray-600">Course:</span>
+                                        <span><?= $student_details['course_name'] ?></span>
                                     </div>
-                                    <div class=" flex gap-1">
-                                        <span class="font-bold">Year Level:</span>
+                                    <div class="flex items-center">
+                                        <span class="font-bold text-gray-600">Year Level:</span>
                                         <span><?= isset($student_details['year_level']) ? $student_details['year_level'] : 'Not enrolled' ?></span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="grid flex justify-center items-center">
-                            <div class="mt-8">
-                                <h2 class="text-lg font-semibold mb-4">Enrolled Subjects</h2>
-                                <table class="w-full border border-gray-300">
-                                    <thead>
-                                        <tr>
-                                            <th>Subject Name</th>
-                                            <th>Subject Code</th>
-                                            <th>Subject Unit</th>
-                                            <th>Course</th>
-                                            <th>Semester</th>
-                                            <th>Year</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php
-                                        while ($row = $result1->fetch_assoc()) {
-                                            echo "<tr>
-                                                <td>{$row['sub_name']}</td>
-                                                <td>{$row['sub_code']}</td>
-                                                <td>{$row['sub_unit']}</td>
-                                                <td>{$row['course']}</td>
-                                                <td>{$row['semester']}</td>
-                                                <td>{$row['year']}</td>
-                                              </tr>";
-                                        }
-                                        ?>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <?php $currentYear = null; ?>
+                        <?php foreach ($enrolled_subjects as $subject): ?>
+                            <?php if ($currentYear !== $subject['year_level']): ?>
+                                <?php if ($currentYear !== null && (count($firstSemesterSubjects) > 0 || count($secondSemesterSubjects) > 0)): ?>
+                                    <div class="flex mt-4">
+                                        <?php if (!empty($firstSemesterSubjects)): ?>
+                                            <div class="w-1/2 pr-4">
+                                                <h3 class="text-lg font-bold">First Semester - <?= $currentYear ?></h3>
+                                                <table class="table-auto w-full mt-2">
+                                                    <thead>
+                                                        <tr class="bg-blue-200">
+                                                            <th class="px-2 py-1 text-sm">Code</th>
+                                                            <th class="px-2 py-1 text-sm">Name</th>
+                                                            <th class="px-2 py-1 text-sm">Unit</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php foreach ($firstSemesterSubjects as $firstSemesterSubject): ?>
+                                                            <tr>
+                                                                <td class="border px-2 py-1 text-sm"><?= $firstSemesterSubject['code'] ?></td>
+                                                                <td class="border px-2 py-1 text-sm"><?= $firstSemesterSubject['name'] ?></td>
+                                                                <td class="border px-2 py-1 text-sm text-center"><?= $firstSemesterSubject['unit'] ?></td>
+                                                            </tr>
+                                                        <?php endforeach; ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        <?php endif; ?>
 
-                        </div>
+                                        <?php if (!empty($secondSemesterSubjects)): ?>
+                                            <div class="w-1/2 pl-4">
+                                                <h3 class="text-lg font-bold">Second Semester - <?= $currentYear ?></h3>
+                                                <table class="table-auto w-full mt-2">
+                                                    <thead>
+                                                        <tr class="bg-blue-200">
+                                                            <th class="px-2 py-1 text-sm">Code</th>
+                                                            <th class="px-2 py-1 text-sm">Name</th>
+                                                            <th class="px-2 py-1 text-sm">Unit</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php foreach ($secondSemesterSubjects as $secondSemesterSubject): ?>
+                                                            <tr>
+                                                                <td class="border px-2 py-1 text-sm"><?= $secondSemesterSubject['code'] ?></td>
+                                                                <td class="border px-2 py-1 text-sm"><?= $secondSemesterSubject['name'] ?></td>
+                                                                <td class="border px-2 py-1 text-sm text-center"><?= $secondSemesterSubject['unit'] ?></td>
+                                                            </tr>
+                                                        <?php endforeach; ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php $currentYear = $subject['year_level']; ?>
+                                <?php $firstSemesterSubjects = []; ?>
+                                <?php $secondSemesterSubjects = []; ?>
+                            <?php endif; ?>
+
+                            <?php if ($subject['semester'] === 'First Semester'): ?>
+                                <?php $firstSemesterSubjects[] = $subject; ?>
+                            <?php elseif ($subject['semester'] === 'Second Semester'): ?>
+                                <?php $secondSemesterSubjects[] = $subject; ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+
+                        <?php if ($currentYear !== null && (count($firstSemesterSubjects) > 0 || count($secondSemesterSubjects) > 0)): ?>
+                            <div class="flex mt-4">
+                                <?php if (!empty($firstSemesterSubjects)): ?>
+                                    <div class="w-1/2 pr-4">
+                                        <h3 class="text-lg font-bold">First Semester - <?= $currentYear ?></h3>
+                                        <table class="table-auto w-full mt-2">
+                                            <thead>
+                                                <tr class="bg-blue-200">
+                                                    <th class="px-2 py-1 text-sm">Code</th>
+                                                    <th class="px-2 py-1 text-sm">Name</th>
+                                                    <th class="px-2 py-1 text-sm">Unit</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($firstSemesterSubjects as $firstSemesterSubject): ?>
+                                                    <tr>
+                                                        <td class="border px-2 py-1 text-sm"><?= $firstSemesterSubject['code'] ?></td>
+                                                        <td class="border px-2 py-1 text-sm"><?= $firstSemesterSubject['name'] ?></td>
+                                                        <td class="border px-2 py-1 text-sm text-center"><?= $firstSemesterSubject['unit'] ?></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php if (!empty($secondSemesterSubjects)): ?>
+                                    <div class="w-1/2 pl-4">
+                                        <h3 class="text-lg font-bold">Second Semester - <?= $currentYear ?></h3>
+                                        <table class="table-auto w-full mt-2">
+                                            <thead>
+                                                <tr class="bg-blue-200">
+                                                    <th class="px-2 py-1 text-sm">Code</th>
+                                                    <th class="px-2 py-1 text-sm">Name</th>
+                                                    <th class="px-2 py-1 text-sm">Unit</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($secondSemesterSubjects as $secondSemesterSubject): ?>
+                                                    <tr>
+                                                        <td class="border px-2 py-1 text-sm"><?= $secondSemesterSubject['code'] ?></td>
+                                                        <td class="border px-2 py-1 text-sm"><?= $secondSemesterSubject['name'] ?></td>
+                                                        <td class="border px-2 py-1 text-sm text-center"><?= $secondSemesterSubject['unit'] ?></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
+            <?php else: ?>
+                <p class="mt-4 text-gray-600">No student details found for the specified ID.</p>
+            <?php endif; ?>
         </div>
-    <?php else : ?>
-        <p>No student details found for the specified ID.</p>
-    <?php endif; ?>
     </div>
 </body>
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 07, 2024 at 10:22 AM
+-- Generation Time: Jan 08, 2024 at 07:45 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -38,7 +38,10 @@ CREATE TABLE `baptism` (
 --
 
 INSERT INTO `baptism` (`baptism_id`, `place`, `date`) VALUES
-(1, 'Valenzuela', '2003-07-28');
+(1, 'Valenzuela', '2003-07-28'),
+(2, 'Valenzuela', '2024-01-16'),
+(3, 'Valenzuela', '2024-01-19'),
+(4, 'Valenzuela', '2024-01-19');
 
 -- --------------------------------------------------------
 
@@ -58,7 +61,9 @@ CREATE TABLE `college` (
 --
 
 INSERT INTO `college` (`college_id`, `year`, `name`, `address`) VALUES
-(1, '2019', 'Our Lady of Lourdes College', '5031 Gen. T. de Leon, Valenzuela, Philippines');
+(1, '2019', 'Our Lady of Lourdes College', '5031 Gen. T. de Leon, Valenzuela, Philippines'),
+(2, '2019', 'Our Lady of Lourdes College', '5031 Gen. T. de Leon, Valenzuela, Philippines'),
+(3, '2019', 'Our Lady of Lourdes College', '5031 Gen. T. de Leon, Valenzuela, Philippines');
 
 -- --------------------------------------------------------
 
@@ -90,7 +95,10 @@ CREATE TABLE `confirmation` (
 --
 
 INSERT INTO `confirmation` (`confirmation_id`, `place`, `date`) VALUES
-(1, 'Valenzuela', '2003-08-30');
+(1, 'Valenzuela', '2003-08-30'),
+(2, 'Valenzuela', '2024-01-24'),
+(3, 'Valenzuela', '2024-01-15'),
+(4, 'Valenzuela', '2024-01-15');
 
 -- --------------------------------------------------------
 
@@ -111,7 +119,9 @@ CREATE TABLE `contact_information` (
 --
 
 INSERT INTO `contact_information` (`contact_information_id`, `address`, `city`, `mobile_number`, `email`) VALUES
-(1, '34 road 5 San Miguel Ridge Marulas', 'Valenzuela', '9563260888', 'millaminaminalyn@gmail.com');
+(1, '34 road 5 San Miguel Ridge Marulas', 'Valenzuela', '9563260888', 'millaminaminalyn@gmail.com'),
+(2, '34 road 5 San Miguel Ridge Marulas', 'Valenzuela', '9563260888', 'millaminaminalyn@gmail.com'),
+(3, '34 road 5 San Miguel Ridge Marulas', 'Valenzuela', '9563260888', 'millaminaminalyn@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -158,7 +168,9 @@ CREATE TABLE `educational_attainment` (
 --
 
 INSERT INTO `educational_attainment` (`educational_attainment_id`, `kindergarten_id`, `elementary_id`, `junior_high_id`, `senior_high_id`, `college_id`) VALUES
-(1, 1, 1, 1, 1, 1);
+(1, 1, 1, 1, 1, 1),
+(2, 2, 2, 2, 2, 2),
+(3, 3, 3, 3, 3, 3);
 
 -- --------------------------------------------------------
 
@@ -178,7 +190,9 @@ CREATE TABLE `elementary` (
 --
 
 INSERT INTO `elementary` (`elementary_id`, `year`, `name`, `address`) VALUES
-(1, '2005', 'San Miguel Heights Elementary School', 'San Miguel Heights Elementary School, Valenzuela City, Metro Manila');
+(1, '2005', 'San Miguel Heights Elementary School', 'San Miguel Heights Elementary School, Valenzuela City, Metro Manila'),
+(2, '2005', 'San Miguel Heights Elementary School', 'San Miguel Heights Elementary School, Valenzuela City, Metro Manila'),
+(3, '2005', 'San Miguel Heights Elementary School', 'San Miguel Heights Elementary School, Valenzuela City, Metro Manila');
 
 -- --------------------------------------------------------
 
@@ -201,7 +215,9 @@ CREATE TABLE `emergency_contact` (
 --
 
 INSERT INTO `emergency_contact` (`emergency_contact_id`, `name`, `relationship`, `address`, `company`, `company_address`, `mobile_number`) VALUES
-(1, 'Ferdinand A. Millamina', 'Father', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9286825931');
+(1, 'Ferdinand A. Millamina', 'Father', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9286825931'),
+(2, 'Ferdinand A. Millamina', 'Father', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9563260888'),
+(3, 'Ferdinand A. Millamina', 'Father', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9563260888');
 
 -- --------------------------------------------------------
 
@@ -256,18 +272,21 @@ INSERT INTO `enrolled_subjects` (`enrolled_subject_id`, `student_id`, `subject_i
 (25, 1, 188, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
 (26, 1, 189, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
 (27, 1, 190, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(28, 1, 188, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(29, 1, 189, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(30, 1, 190, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(31, 1, 188, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(32, 1, 189, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(33, 1, 190, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(34, 1, 188, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(35, 1, 189, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(36, 1, 190, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(37, 1, 188, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(38, 1, 189, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled'),
-(39, 1, 190, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, 'enrolled');
+(44, 2, 189, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(45, 2, 190, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(46, 2, 188, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(47, 2, 189, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(48, 2, 190, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(49, 2, 171, NULL, NULL, NULL, NULL, '2023-2024', 1, 2, NULL, NULL),
+(50, 3, 188, 1.5, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(55, 3, 190, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(56, 3, 188, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(57, 3, 189, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(58, 3, 190, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(59, 3, 187, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(60, 3, 189, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(61, 3, 190, NULL, NULL, NULL, NULL, '2023-2024', 1, 1, NULL, NULL),
+(62, 3, 171, NULL, NULL, NULL, NULL, '2023-2024', 1, 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -282,15 +301,18 @@ CREATE TABLE `enrollment_details` (
   `year_level_id` int(11) DEFAULT NULL,
   `semester_tbl_id` int(11) DEFAULT NULL,
   `admission_type` varchar(255) DEFAULT NULL,
-  `enrollment_date` date DEFAULT NULL
+  `enrollment_date` date DEFAULT NULL,
+  `reference_no` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `enrollment_details`
 --
 
-INSERT INTO `enrollment_details` (`enrollment_details_id`, `school_year`, `course_id`, `year_level_id`, `semester_tbl_id`, `admission_type`, `enrollment_date`) VALUES
-(1, '2023-2024', 1, 1, 1, 'Transferee', NULL);
+INSERT INTO `enrollment_details` (`enrollment_details_id`, `school_year`, `course_id`, `year_level_id`, `semester_tbl_id`, `admission_type`, `enrollment_date`, `reference_no`) VALUES
+(1, '2023-2024', 1, 1, 1, 'Transferee', NULL, NULL),
+(2, '2023-2024', 1, 1, 1, 'New Student', '2024-01-08', NULL),
+(3, '2023-2024', 1, 1, 1, 'New Student', '2024-01-08', NULL);
 
 -- --------------------------------------------------------
 
@@ -325,7 +347,9 @@ CREATE TABLE `family_record` (
 --
 
 INSERT INTO `family_record` (`family_record_id`, `father_id`, `mother_id`, `emergency_contact_id`) VALUES
-(1, 1, 1, 1);
+(1, 1, 1, 1),
+(2, 2, 2, 2),
+(3, 3, 3, 3);
 
 -- --------------------------------------------------------
 
@@ -347,7 +371,9 @@ CREATE TABLE `father` (
 --
 
 INSERT INTO `father` (`father_id`, `name`, `address`, `company`, `company_address`, `mobile_number`) VALUES
-(1, 'Ferdinand A. Millamina', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9286825931');
+(1, 'Ferdinand A. Millamina', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9286825931'),
+(2, 'Ferdinand A. Millamina', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9563260888'),
+(3, 'Ferdinand A. Millamina', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9563260888');
 
 -- --------------------------------------------------------
 
@@ -409,7 +435,9 @@ CREATE TABLE `junior_high` (
 --
 
 INSERT INTO `junior_high` (`junior_high_id`, `year`, `name`, `address`) VALUES
-(1, '2011', 'Valenzuela National High School', 'R . Valenzuela, Lungsod ng Valenzuela');
+(1, '2011', 'Valenzuela National High School', 'R . Valenzuela, Lungsod ng Valenzuela'),
+(2, '2011', 'Valenzuela National High School', 'R . Valenzuela, Lungsod ng Valenzuela'),
+(3, '2011', 'Valenzuela National High School', 'R . Valenzuela, Lungsod ng Valenzuela');
 
 -- --------------------------------------------------------
 
@@ -429,7 +457,9 @@ CREATE TABLE `kindergarten` (
 --
 
 INSERT INTO `kindergarten` (`kindergarten_id`, `year`, `name`, `address`) VALUES
-(1, '2004', 'San Miguel Heights ES Kindergarten', 'San Miguel Heights Elementary School, Valenzuela City, Metro Manila');
+(1, '2004', 'San Miguel Heights ES Kindergarten', 'San Miguel Heights Elementary School, Valenzuela City, Metro Manila'),
+(2, '2004', 'San Miguel Heights ES Kindergarten', 'San Miguel Heights Elementary School, Valenzuela City, Metro Manila'),
+(3, '2004', 'San Miguel Heights ES Kindergarten', 'San Miguel Heights Elementary School, Valenzuela City, Metro Manila');
 
 -- --------------------------------------------------------
 
@@ -451,7 +481,9 @@ CREATE TABLE `mother` (
 --
 
 INSERT INTO `mother` (`mother_id`, `name`, `address`, `company`, `company_address`, `mobile_number`) VALUES
-(1, 'Evelyn D. Millamina', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9563260888');
+(1, 'Evelyn D. Millamina', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9563260888'),
+(2, 'Evelyn D. Millamina', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9563260888'),
+(3, 'Evelyn D. Millamina', '34 Road 5 San Miguel Ridge Marulas', 'N/A', 'N/A', '9563260888');
 
 -- --------------------------------------------------------
 
@@ -470,7 +502,9 @@ CREATE TABLE `notifications` (
 --
 
 INSERT INTO `notifications` (`id`, `message`, `datetime`) VALUES
-(1, 'Minalyn Millamina completed the enrollment process.', '2024-01-07 16:44:34');
+(1, 'Minalyn Millamina completed the enrollment process.', '2024-01-08 23:50:30'),
+(2, 'Minalyn Millamina completed the enrollment process.', '2024-01-08 23:50:30'),
+(3, 'Minalyn Millamina completed the enrollment process.', '2024-01-08 23:50:30');
 
 -- --------------------------------------------------------
 
@@ -518,7 +552,12 @@ INSERT INTO `open_subjects` (`open_subject_id`, `course_id`, `subject_id`, `year
 (423, 3, 253, 1, 1, 0),
 (424, 1, 171, 1, 1, 0),
 (425, 1, 171, 1, 1, 0),
-(426, 1, 207, 1, 1, 0);
+(426, 1, 207, 1, 1, 0),
+(427, 1, 176, 1, 1, 0),
+(428, 1, 178, 1, 1, 0),
+(429, 1, 187, 1, 2, 0),
+(430, 1, 189, 1, 2, 0),
+(431, 1, 190, 1, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -544,7 +583,9 @@ CREATE TABLE `personal_information` (
 --
 
 INSERT INTO `personal_information` (`personal_information_id`, `gender`, `birthday`, `age`, `birth_place`, `citizenship`, `height`, `weight`, `baptism_id`, `confirmation_id`) VALUES
-(1, 'female', '2002-07-24', 21, 'Valenzuela', 'Filipino', 152, 46, 1, 1);
+(1, 'female', '2002-07-24', 21, 'Valenzuela', 'Filipino', 152, 46, 1, 1),
+(2, 'female', '2002-07-24', 21, 'Valenzuela', 'Filipino', 152, 46, 2, 2),
+(3, 'female', '2002-07-24', 21, 'Valenzuela', 'Filipino', 152, 46, 3, 3);
 
 -- --------------------------------------------------------
 
@@ -653,7 +694,9 @@ CREATE TABLE `school_account` (
 --
 
 INSERT INTO `school_account` (`school_account_id`, `student_number_id`, `password`) VALUES
-(1, 1, 'NgCePpAH');
+(1, 1, 'NgCePpAH'),
+(2, 2, 'ChnUYfjs'),
+(3, 3, 'PhkGofNz');
 
 -- --------------------------------------------------------
 
@@ -718,7 +761,9 @@ CREATE TABLE `senior_high` (
 --
 
 INSERT INTO `senior_high` (`senior_high_id`, `year`, `name`, `address`) VALUES
-(1, '2017', 'Our Lady of Lourdes College', '5031 Gen. T. de Leon, Valenzuela, Philippines');
+(1, '2017', 'Our Lady of Lourdes College', '5031 Gen. T. de Leon, Valenzuela, Philippines'),
+(2, '2017', 'Our Lady of Lourdes College', '5031 Gen. T. de Leon, Valenzuela, Philippines'),
+(3, '2017', 'Our Lady of Lourdes College', '5031 Gen. T. de Leon, Valenzuela, Philippines');
 
 -- --------------------------------------------------------
 
@@ -740,7 +785,9 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`student_id`, `student_number_id`, `surname`, `first_name`, `middle_name`, `suffix`) VALUES
-(1, 1, 'Millamina', 'Minalyn', 'Dalit', '');
+(1, 1, 'Millamina', 'Minalyn', 'Dalit', ''),
+(2, 2, 'Millamina', 'Minalyn', 'Dalit', ''),
+(3, 3, 'Millamina', 'Minalyn', 'Dalit', '');
 
 -- --------------------------------------------------------
 
@@ -767,7 +814,9 @@ CREATE TABLE `student_information` (
 --
 
 INSERT INTO `student_information` (`student_information_id`, `student_id`, `personal_information_id`, `contact_information_id`, `educational_attainment_id`, `family_record_id`, `school_account_id`, `enrollment_details_id`, `status`, `profile_picture`, `e_sign`) VALUES
-(1, 1, 1, 1, 1, 1, 1, 1, 'enrolled', 0x75706c6f6164732f70726f66696c655f36353938336432353339653232322e36363838303836322e6a7067, NULL);
+(1, 1, 1, 1, 1, 1, 1, 1, 'enrolled', 0x75706c6f6164732f70726f66696c655f36353938336432353339653232322e36363838303836322e6a7067, NULL),
+(2, 2, 2, 2, 2, 2, 2, 2, 'Officially Enrolled', 0x75706c6f6164732f70726f66696c655f36353963313833613631393139312e33303436383634362e6a706567, NULL),
+(3, 3, 3, 3, 3, 3, 3, 3, 'Officially Enrolled', 0x75706c6f6164732f70726f66696c655f36353963316137303933363464342e38323433333730332e6a706567, NULL);
 
 -- --------------------------------------------------------
 
@@ -785,7 +834,9 @@ CREATE TABLE `student_number` (
 --
 
 INSERT INTO `student_number` (`student_number_id`, `student_number`) VALUES
-(1, 1300401113);
+(1, 1300401113),
+(2, 1323280013),
+(3, 1323463013);
 
 -- --------------------------------------------------------
 
@@ -1540,13 +1591,13 @@ ALTER TABLE `year_level`
 -- AUTO_INCREMENT for table `baptism`
 --
 ALTER TABLE `baptism`
-  MODIFY `baptism_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `baptism_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `college`
 --
 ALTER TABLE `college`
-  MODIFY `college_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `college_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `college_calendar`
@@ -1558,13 +1609,13 @@ ALTER TABLE `college_calendar`
 -- AUTO_INCREMENT for table `confirmation`
 --
 ALTER TABLE `confirmation`
-  MODIFY `confirmation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `confirmation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `contact_information`
 --
 ALTER TABLE `contact_information`
-  MODIFY `contact_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `contact_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `course`
@@ -1576,31 +1627,31 @@ ALTER TABLE `course`
 -- AUTO_INCREMENT for table `educational_attainment`
 --
 ALTER TABLE `educational_attainment`
-  MODIFY `educational_attainment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `educational_attainment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `elementary`
 --
 ALTER TABLE `elementary`
-  MODIFY `elementary_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `elementary_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `emergency_contact`
 --
 ALTER TABLE `emergency_contact`
-  MODIFY `emergency_contact_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `emergency_contact_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `enrolled_subjects`
 --
 ALTER TABLE `enrolled_subjects`
-  MODIFY `enrolled_subject_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `enrolled_subject_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `enrollment_details`
 --
 ALTER TABLE `enrollment_details`
-  MODIFY `enrollment_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `enrollment_details_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `examination_period`
@@ -1612,13 +1663,13 @@ ALTER TABLE `examination_period`
 -- AUTO_INCREMENT for table `family_record`
 --
 ALTER TABLE `family_record`
-  MODIFY `family_record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `family_record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `father`
 --
 ALTER TABLE `father`
-  MODIFY `father_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `father_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `gwa`
@@ -1642,37 +1693,37 @@ ALTER TABLE `historytbl`
 -- AUTO_INCREMENT for table `junior_high`
 --
 ALTER TABLE `junior_high`
-  MODIFY `junior_high_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `junior_high_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `kindergarten`
 --
 ALTER TABLE `kindergarten`
-  MODIFY `kindergarten_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `kindergarten_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `mother`
 --
 ALTER TABLE `mother`
-  MODIFY `mother_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `mother_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `open_subjects`
 --
 ALTER TABLE `open_subjects`
-  MODIFY `open_subject_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=427;
+  MODIFY `open_subject_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=432;
 
 --
 -- AUTO_INCREMENT for table `personal_information`
 --
 ALTER TABLE `personal_information`
-  MODIFY `personal_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `personal_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `professor`
@@ -1720,7 +1771,7 @@ ALTER TABLE `request_tor`
 -- AUTO_INCREMENT for table `school_account`
 --
 ALTER TABLE `school_account`
-  MODIFY `school_account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `school_account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `school_year`
@@ -1744,25 +1795,25 @@ ALTER TABLE `semester_tbl`
 -- AUTO_INCREMENT for table `senior_high`
 --
 ALTER TABLE `senior_high`
-  MODIFY `senior_high_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `senior_high_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `student_information`
 --
 ALTER TABLE `student_information`
-  MODIFY `student_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `student_information_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `student_number`
 --
 ALTER TABLE `student_number`
-  MODIFY `student_number_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `student_number_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `subjects`

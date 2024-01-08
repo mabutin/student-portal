@@ -13,13 +13,14 @@ date_default_timezone_set('Asia/Manila');
 $studentNumber = $_SESSION['student_number'];
 
 // Fetch student information
-$sqlStudentInfo = "SELECT st.first_name, st.surname, st.middle_name, st.suffix, si.status, si.profile_picture, ed.course_id, cr.course_name, yl.year_level
+$sqlStudentInfo = "SELECT st.first_name, st.surname, st.middle_name, st.suffix, si.status, si.profile_picture, ed.course_id, cr.course_name, yl.year_level, smt.semester
         FROM student_number sn 
         JOIN school_account sa ON sn.student_number_id = sa.student_number_id
         JOIN student_information si ON sa.school_account_id = si.school_account_id
         JOIN enrollment_details ed ON si.enrollment_details_id = ed.enrollment_details_id
         JOIN course cr ON ed.course_id = cr.course_id
         JOIN year_level yl ON ed.year_level_id = yl.year_level_id
+        JOIN semester_tbl smt ON ed.semester_tbl_id = smt.semester_tbl_id
         JOIN students st ON si.student_id = st.student_id
         WHERE sn.student_number = ?";
 
@@ -46,6 +47,8 @@ if ($resultStudentInfo->num_rows == 1) {
     $status = $row['status'];
     $course = $row['course_name'];
     $suffix = $row['suffix'];
+    $yearLevel = $row['year_level'];
+    $semester_name = $row['semester'];
 
     $stmtStudentInfo->close();
 } else {
@@ -118,6 +121,29 @@ if ($resultEnrolledSubjects === false) {
 $enrolledSubjects = $resultEnrolledSubjects->fetch_all(MYSQLI_ASSOC);
 
 $stmtEnrolledSubjects->close();
+$enrolled_subjects_query = "SELECT 
+                                yl.year_level, 
+                                stbl.semester, 
+                                sbj.code, 
+                                sbj.name, 
+                                sbj.unit
+                            FROM 
+                                students
+                                JOIN enrolled_subjects ON students.student_id = enrolled_subjects.student_id
+                                JOIN subjects sbj ON enrolled_subjects.subject_id = sbj.subject_id
+                                JOIN student_number ON students.student_number_id = student_number.student_number_id
+                                JOIN year_level yl ON enrolled_subjects.year_level_id = yl.year_level_id
+                                JOIN semester_tbl stbl ON enrolled_subjects.semester_tbl_id = stbl.semester_tbl_id
+                            WHERE student_number.student_number = ?";
+
+$enrolled_stmt = $conn->prepare($enrolled_subjects_query);
+$enrolled_stmt->bind_param("s", $studentNumber);
+$enrolled_stmt->execute();
+$enrolled_result = $enrolled_stmt->get_result();
+
+if ($enrolled_result === false) {
+    die("Error in query execution: " . $enrolled_stmt->error);
+}
 ?>
 
 
@@ -168,33 +194,70 @@ $stmtEnrolledSubjects->close();
                 <div>
                     <?php include './topbarStudent.php'; ?>
                 </div>
-                <div>
+                <div class="overflow-y-auto" style="height: 800px;">
                     <section>
-                        <p><strong>Name:</strong> <?php echo htmlspecialchars($firstName . ' ' . $middleName . '. ' . $surname, ENT_QUOTES, 'UTF-8'); ?></p>
-                        <p><strong>Student ID:</strong> <?php echo htmlspecialchars($studentNumber, ENT_QUOTES, 'UTF-8'); ?></p>
-                        <p><strong>Program:</strong> <?php echo htmlspecialchars($course, ENT_QUOTES, 'UTF-8'); ?></p>
+                        <div class="ml-4">
+                            <?php if (empty($row['profile_picture'])) : ?>
+                                <img src="../assets/svg/profile.svg" class="w-48 h-48 mx-auto" alt="">
+                            <?php else : ?>
+                                <img src="<?= htmlspecialchars($row['profile_picture']) ?>" class="w-48 h-48 mx-auto rounded-full" alt="">
+                            <?php endif; ?>
+                        </div>
+                        <div>
+                            <p><strong>Name:</strong> <?php echo htmlspecialchars($firstName . ' ' . $middleName . '. ' . $surname, ENT_QUOTES, 'UTF-8'); ?></p>
+                            <p><strong>Student ID:</strong> <?php echo htmlspecialchars($studentNumber, ENT_QUOTES, 'UTF-8'); ?></p>
+                            <p><strong>Program:</strong> <?php echo htmlspecialchars($course, ENT_QUOTES, 'UTF-8'); ?></p>
+                            <p><strong>Year Level:</strong> <?php echo htmlspecialchars($yearLevel, ENT_QUOTES, 'UTF-8'); ?></p>
+                            <p><strong>Semester:</strong> <?php echo htmlspecialchars($semester_name, ENT_QUOTES, 'UTF-8'); ?></p>
+                        </div>
                     </section>
-                    <!-- Display enrolled subjects -->
                     <section>
-                        <h2>Subjects</h2>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Subject Code</th>
-                                    <th>Subject Name</th>
-                                    <th>Units</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($enrolledSubjects as $subject): ?>
+                    <div>
+                        <?php if ($enrolled_result->num_rows > 0) : ?>
+                            <div class="w-full mt-8">
+                                <h2 class="text-2xl font-bold mb-4">Enrolled Subjects</h2>
+                                <?php
+                                $currentYear = null;
+                                $currentSemester = null;
+                                ?>
+                                <?php while ($enrolled_row = $enrolled_result->fetch_assoc()) : ?>
+                                    <?php
+                                    $yearLevel = $enrolled_row['year_level'];
+                                    $semester = $enrolled_row['semester'];
+                                    ?>
+                                    <?php if ($yearLevel !== $currentYear || $semester !== $currentSemester) : ?>
+                                        <?php
+                                        if ($currentYear !== null && $currentSemester !== null) {
+                                            echo '</tbody></table>'; 
+                                        }
+                                        ?>
+                                        <h3 class="text-xl font-bold mb-2"><?= $yearLevel ?> - <?= $semester ?> Semester</h3>
+                                        <table class="min-w-full divide-y divide-gray-200">
+                                            <thead class="bg-blue-200">
+                                                <tr>
+                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Subject Code</th>
+                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Subject Name</th>
+                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Unit</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="bg-white divide-y divide-gray-200">
+                                            <?php
+                                            $currentYear = $yearLevel;
+                                            $currentSemester = $semester;
+                                            ?>
+                                    <?php endif; ?>
                                     <tr>
-                                        <td><?php echo htmlspecialchars($subject['code'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                        <td><?php echo htmlspecialchars($subject['name'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                        <td><?php echo htmlspecialchars($subject['unit'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                        <td class="px-6 py-4 whitespace-nowrap"><?= $enrolled_row['code'] ?></td>
+                                        <td class="px-6 py-4 whitespace-nowrap"><?= $enrolled_row['name'] ?></td>
+                                        <td class="px-6 py-4 whitespace-nowrap"><?= $enrolled_row['unit'] ?></td>
                                     </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
+                                <?php endwhile; ?>
+                                </tbody></table>
+                            </div>
+                        <?php else : ?>
+                            <p>No enrolled subjects found.</p>
+                        <?php endif; ?>
+                    </div>
                     </section>
                     <script src="../assets/js/studentSidebar.js"></script>
                     <!-- Your existing JavaScript and other scripts... -->

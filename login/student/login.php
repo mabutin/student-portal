@@ -31,23 +31,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
             $_SESSION['status'] = $row['status'];
 
             switch ($row['status']) {
-                case 'pre-registered':
+                case 'Pre-registered':
                     header("Location: ../../student/admission.php");
                     break;
 
-                case 'registered':
+                case 'Registered':
                     header("Location: ../../student/enrollment.php");
                     break;
 
-                case 'enrolled':
+                case 'Enrolled':
                     header("Location: ../../student/paymentReference.php");
                     break;
                     
-                case 'official-enrolled':
+                case 'Officially Enrolled':
                     header("Location: ../../student/dashboard.php");
                     break;
 
-                case 'not-enrolled':
+                case 'Not-enrolled':
                     header("Location: ../../student/enrollment.php");
                     break;
 

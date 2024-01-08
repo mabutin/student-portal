@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['saveSubjects'])) {
         JOIN student_information AS si ON ed.enrollment_details_id = si.enrollment_details_id
         JOIN students AS st ON si.student_id = st.student_id
         JOIN student_number AS sn ON st.student_number_id = sn.student_number_id
-        SET ed.course_id = ?, ed.year_level_id = ?, ed.semester_tbl_id = ?, ed.admission_type = ?, ed.school_year = ?, si.status = 'enrolled'
+        SET ed.course_id = ?, ed.year_level_id = ?, ed.semester_tbl_id = ?, ed.admission_type = ?, ed.school_year = ?, si.status = 'Enrolled'
         WHERE sn.student_number = ?";
 
     $updateStmt = $conn->prepare($updateSql);
@@ -125,8 +125,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['saveSubjects'])) {
 
     $enrolledSubjects = isset($_POST['enrolled_subjects']) ? $_POST['enrolled_subjects'] : [];
 
-    $insertSubjectsSql = "INSERT INTO enrolled_subjects (student_id, year_level_id, semester_tbl_id, subject_id, school_year, subject_status)
-                          VALUES (?, ?, ?, ?, ?, 'enrolled')";
+    $insertSubjectsSql = "INSERT INTO enrolled_subjects (student_id, year_level_id, semester_tbl_id, subject_id, school_year)
+                          VALUES (?, ?, ?, ?, ?)";
     $insertSubjectsStmt = $conn->prepare($insertSubjectsSql);
 
     if (!$insertSubjectsStmt) {

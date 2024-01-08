@@ -131,6 +131,16 @@ function updateReferenceNumber($conn, $enrollmentDetailsId, $referenceNumber) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <title>Payment Reference Number</title>
+    <style>
+        @media print {
+            body {
+                width: 80%; /* Adjust the width as needed for printing */
+                margin: auto; /* Center the content when printing */
+            }
+
+            /* Add any additional print-specific styles here */
+        }
+    </style>
 </head>
 
 <body class="font-serif"> 
@@ -138,8 +148,8 @@ function updateReferenceNumber($conn, $enrollmentDetailsId, $referenceNumber) {
         <?php include './topbar.php'; ?>
     </div>
     <div style="background: radial-gradient(at center, rgba(118, 163, 224, 0.5  ), #FFFFFF);">
-        <div class="w-full inline-flex justify-center">
-            <div class="w-1/2 p-4 border border-blue-800 border-opacity-20 p-2 my-4 rounded-md drop-shadow-md bg-white">
+        <div class="w-full inline-flex justify-center bg-white">
+            <div class="w-1/2 p-4 border border-blue-800 border-opacity-20 p-2 my-4 rounded-md drop-shadow-md bg-white" id='printable_div_id'>
                 <div class="flex justify-center mb-5">
                     <img src="../assets/svg/ollclogo.svg" class="h-20" alt="">
                 </div>
@@ -158,7 +168,24 @@ function updateReferenceNumber($conn, $enrollmentDetailsId, $referenceNumber) {
                     Our Lady of Lourdes College
             </div>
         </div>
+        <div class="grid w-full justify-center">
+            <button onClick="printStudentDetails();" class="p-2 bg-blue-500 rounded-md text-xs text-white hover:bg-blue-700">
+                Print
+            </button>
+        </div>
     <script src="../assets/js/studentSidebar.js"></script>
+    <script>
+        function printStudentDetails() {
+            var printContent = document.getElementById('printable_div_id').innerHTML;
+            var originalContent = document.body.innerHTML;
+
+            document.body.innerHTML = printContent;
+
+            window.print();
+
+            document.body.innerHTML = originalContent;
+        }
+    </script>
 </body>
 
 </html>

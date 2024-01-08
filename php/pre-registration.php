@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                         if ($conn->query($sqlSchoolAccount) === TRUE) {
                             $schoolAccountId = $conn->insert_id;
 
-                            $sqlStudentInformation = "INSERT INTO student_information (student_id, contact_information_id, enrollment_details_id, school_account_id, status) VALUES ('$studentId','$contactInformationId', '$enrollmentDetailsId', '$schoolAccountId','pre-registered')";
+                            $sqlStudentInformation = "INSERT INTO student_information (student_id, contact_information_id, enrollment_details_id, school_account_id, status) VALUES ('$studentId','$contactInformationId', '$enrollmentDetailsId', '$schoolAccountId','Pre-registered')";
                             if ($conn->query($sqlStudentInformation) === TRUE) {
                                 $result = [
                                     "studentNumber" => $studentNumber,
