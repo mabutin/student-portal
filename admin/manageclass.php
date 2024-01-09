@@ -6,7 +6,7 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-$usertype = $_SESSION['usertype'] ?? 'admin';
+$usertype = $_SESSION['usertype'] ?? 'Admin';
 
 // Include your database connection code
 include '../php/conn.php';
@@ -17,20 +17,34 @@ function createClass($classname, $yearlevelid, $schoolyearid)
     global $conn;
 
     $query = "INSERT INTO class (schoolyearid, classname, yearlevelid) VALUES (?, ?, ?)";
-    
+
     $statement = $conn->prepare($query);
 
     $statement->bind_param("iss", $schoolyearid, $classname, $yearlevelid);
 
     $result = $statement->execute();
 
-    if ($result) {
-
-    } else {
+    if (!$result) {
         echo "Error creating class: " . $conn->error;
     }
 
     $statement->close();
+}
+
+// Function to retrieve classes from the database
+function getClasses()
+{
+    global $conn;
+
+    $query = "SELECT id, classname, yearlevelid, schoolyearid FROM class";
+    $result = $conn->query($query);
+
+    if ($result) {
+        return $result->fetch_all(MYSQLI_ASSOC);
+    } else {
+        echo "Error fetching classes: " . $conn->error;
+        return [];
+    }
 }
 
 // Get year levels from the database
@@ -55,6 +69,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Set a flag to indicate successful form submission
     $result = true;
 }
+
+// Get the classes
+$classes = getClasses();
 ?>
 
 <!DOCTYPE html>
@@ -94,29 +111,112 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <!-- Your HTML content goes here -->
 
-            <!-- Assuming you have a form for creating a class -->
-            <form method="POST" action="">
-                <label for="classname">Class Name:</label>
-                <input type="text" name="classname" required>
+            <div class="w-full h-full flex gap-5 pb-10">
+                <!-- Start of left div -->
+                <div class="flex flex-col w-2/3">
+                    <!-- Assuming you have a form for creating a class -->
+                    <form method="POST" action="" class="mb-4">
+                        <section class="mt-8 font-sans">
+                            <h2 class="text-2xl font-bold mb-3 uppercase">Manage Class</h2>
 
-                <label for="yearlevelid">Year Level:</label>
-                <select name="yearlevelid" required>
-                    <?php foreach ($yearLevels as $id => $levelName) : ?>
-                        <option value="<?= $id ?>"><?= $levelName ?></option>
-                    <?php endforeach; ?>
-                </select>
+                            <div class="bg-blue-300 px-6 py-4 rounded-lg shadow-md w-full inline-flex gap-7">
+                                <div>
+                                    <label for="classname" class="mb-2 text-base font-medium text-gray-900">Class Name:</label>
+                                    <input type="text" name="classname" class="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-64 p-0.5" required>
+                                </div>
 
-                <label for="schoolyearid">School Year:</label>
-                <input type="number" name="schoolyearid" required>
+                                <div>
+                                    <label for="yearlevelid" class="mb-2 text-base font-medium text-gray-900">Year Level:</label>
+                                    <select name="yearlevelid" class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-0.5" required>
+                                        <?php foreach ($yearLevels as $id => $levelName) : ?>
+                                            <option value="<?= $id ?>"><?= $levelName ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
 
-                <button type="submit">Create Class</button>
-            </form>
+                                <div>
+                                    <label for="yearlevelid" class="mb-2 text-base font-medium text-gray-900">Year Level:</label>
+                                    <select name="yearlevelid" class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-0.5" required>
+                                        <?php foreach ($yearLevels as $id => $levelName) : ?>
+                                            <option value="<?= $id ?>"><?= $levelName ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="schoolyearid" class="mb-2 text-base font-medium text-gray-900">School Year:</label>
+                                    <input type="number" name="schoolyearid" class="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-0.5" required>
+                                </div>
+
+                                <div class="py-2 pl-10">
+                                    <button type="submit" class="inline-flex items-center gap-1.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 text-center inline-flex items-center">
+                                        <span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                            </svg>
+                                        </span>
+                                        Create Class
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+                    </form>
+
+                    <section class="border border-blue-300 font-sans relative overflow-x-auto shadow-md sm:rounded-lg">
+                        <div class="py-4 bg-blue-300">
+                            <h2 class="px-6 text-lg font-semibold">Class List</h2>
+                        </div>
+
+                        <!-- Display the classes in a table -->
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                <tr class="border-b border-blue-300">
+                                    <th scope="col" class="px-6 py-3 border-r border-blue-300">Class ID</th>
+                                    <th scope="col" class="px-6 py-3 border-r border-blue-300">Class Name</th>
+                                    <th scope="col" class="px-6 py-3 border-r border-blue-300">Year Level</th>
+                                    <th scope="col" class="px-6 py-3 border-r border-blue-300">School Year</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($classes as $class) : ?>
+                                    <tr class="bg-white hover:bg-gray-50">
+                                        <td class="px-6 py-3 border-b border-r border-blue-300"><?= $class['id'] ?></td>
+                                        <td class="px-6 py-3 border-b border-r border-blue-300"><?= $class['classname'] ?></td>
+                                        <td class="px-6 py-3 border-b border-r border-blue-300"><?= $yearLevels[$class['yearlevelid']] ?? 'Unknown' ?></td>
+                                        <td class="px-6 py-3 border-b border-r border-blue-300"><?= $class['schoolyearid'] ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+                <!-- End of left div -->
+
+                <div class="bg-white border border-blue-300 rounded-lg shadow-md w-1/3" style="margin-top: 75px;">
+                    <div class="bg-blue-300 px-6 py-4 rounded-t-lg">
+                        <h3 class="text-lg font-semibold">List of Students</h3>
+                    </div>
+
+                    <div class="h-auto p-4">
+                        <div class="flex">
+                            <p>No selected class</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
 
             <!-- Popup (modal) for success message -->
             <div id="successPopup" class="popup">
                 <p>Class created successfully!</p>
                 <button onclick="closePopup()">Close</button>
             </div>
+
+
 
             <!-- Include your scripts -->
             <script src="../assets/js/student-information-menu.js"></script>
@@ -133,7 +233,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
 
                 // Add an event listener to trigger the display of the popup when the form is submitted successfully
-                document.addEventListener('DOMContentLoaded', function () {
+                document.addEventListener('DOMContentLoaded', function() {
                     <?php if (isset($result) && $result) : ?>
                         displaySuccessPopup();
                     <?php endif; ?>

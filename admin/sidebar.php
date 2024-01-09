@@ -82,10 +82,11 @@ function hasAccess($allowedUserTypes, $currentUserType)
                                 </div>
                             </a>
 
-                            <div x-show="facultyDropdownOpen" @click.away="facultyDropdownOpen = false" class="absolute top-0 left-full mt-0 ml-2 w-48 bg-white border rounded shadow-lg">
+                            <div x-show="facultyDropdownOpen" @click.away="facultyDropdownOpen = false" class="z-50 absolute top-0 left-full mt-0 ml-2 w-48 bg-white border rounded shadow-lg">
                                 <div class="py-2">
                                     <a href="facultyAdvisory.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Faculty List</a>
                                     <a href="assignfaculty.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Advisory</a>
+                                    <a href="assignclass.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Assign Student Class</a>
                                 </div>
                             </div>
                         </div>

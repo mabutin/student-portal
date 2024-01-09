@@ -6,7 +6,7 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-$usertype = $_SESSION['usertype'] ?? 'guest';
+$usertype = $_SESSION['usertype'] ?? 'Admin';
 
 // Include your database connection code
 include '../php/conn.php';
