@@ -61,7 +61,7 @@ function getCurrentSchoolYearAndSemester() {
     $startYear = ($currentMonth >= 7) ? date('Y') : date('Y') - 1;
     $endYear = $startYear + 1;
 
-    $semester = ($currentMonth >= 7 && $currentMonth <= 12) ? 'First Semester' : 'Second Semester';
+    $semester = ($currentMonth >= 5 && $currentMonth <= 12) ? 'First Semester' : 'Second Semester';
 
     $schoolYear = $startYear . '-' . $endYear;
 
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['saveSubjects'])) {
     $admissionType = $_POST['admissionType'];
 
     $currentMonth = date('n');
-    $selectedSemester = ($currentMonth >= 7 && $currentMonth <= 12) ? 2 : 1;
+    $selectedSemester = ($currentMonth >= 5 && $currentMonth <= 12) ? 1 : 2;
 
     $updateSql = "UPDATE enrollment_details AS ed
         JOIN student_information AS si ON ed.enrollment_details_id = si.enrollment_details_id
@@ -201,6 +201,7 @@ if ($studentNumber) {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../assets/css/custom.css">
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <title>Admission Page</title>
     </head>
     <body>
@@ -229,7 +230,7 @@ if ($studentNumber) {
                                     <div class="text-md font-semibold">You're Applying: </div>
                                     <div class="flex  items-center gap-2">
                                         <span class="text-sm font-semibold">Course:</span>
-                                        <select name="course" class="text-sm p-1 border border-blue-200 rounded-md">
+                                        <select id="courseDropdown" name="course" class="text-sm p-1 border border-blue-200 rounded-md">
                                             <?php foreach ($courses as $courseId => $courseName) : ?>
                                                 <option value="<?= $courseId ?>" <?= ($selectedCourse == $courseId) ? 'selected' : '' ?>>
                                                     <?= $courseName ?>
@@ -239,7 +240,7 @@ if ($studentNumber) {
                                     </div>
                                     <div class="flex  items-center gap-2">
                                         <span class="text-sm font-semibold">Year Level:</span>
-                                        <select name="yearLevel" class="text-sm p-1 border border-blue-200 rounded-md">
+                                        <select id="yearLevelDropdown" name="yearLevel" class="text-sm p-1 border border-blue-200 rounded-md">
                                             <?php foreach ($yearLevels as $yearLevelId => $yearLevelName) : ?>
                                                 <option value="<?= $yearLevelId ?>" <?= ($selectedYearLevel == $yearLevelId) ? 'selected' : '' ?>>
                                                     <?= $yearLevelName ?>
@@ -262,7 +263,7 @@ if ($studentNumber) {
                                             <option value="Transferee">Transferee</option>
                                         </select>
                                     </div>
-                                    <div>
+                                    <div id="subjectTableContainer">
                                         <table class="table-auto w-full">
                                             <thead>
                                                 <tr class="justify-between bg-blue-200">
@@ -334,9 +335,9 @@ if ($studentNumber) {
                                                     ?>
                                             </tbody>
                                         </table>
-                                        <div class="flex items-center justify-center gap-4">
-                                            <button class="p-2 bg-blue-400 rounded-md text-xs text-white hover:text-white hover:bg-blue-700 my-4" type="submit" name="saveSubjects">Proceed to Payment</button>
-                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-center gap-4">
+                                        <button class="p-2 bg-blue-400 rounded-md text-xs text-white hover:text-white hover:bg-blue-700 my-4" type="submit" name="saveSubjects">Proceed to Payment</button>
                                     </div>
                                 </div>
                             </div>
@@ -345,7 +346,41 @@ if ($studentNumber) {
                 </form>
             </div>
         </div>
-        <script src="../assets/js/enrollment-menu.js"></script>
-    </script>
+        <script>
+            $(document).ready(function () {
+                // Event listener for course dropdown
+                $('#courseDropdown').on('change', function () {
+                    updateSubjectTable();
+                });
+
+                // Event listener for year level dropdown
+                $('#yearLevelDropdown').on('change', function () {
+                    updateSubjectTable();
+                });
+
+                // Function to update the subject table
+                function updateSubjectTable() {
+                    // Fetch selected values
+                    var selectedCourse = $('#courseDropdown').val();
+                    var selectedYearLevel = $('#yearLevelDropdown').val();
+
+                    // Make an AJAX request to update the subject table
+                    $.ajax({
+                        type: 'POST',
+                        url: 'update_subjects.php',
+                        data: { course: selectedCourse, yearLevel: selectedYearLevel },
+                        success: function (data) {
+                            console.log('Received data:', data); // Log the entire HTML content
+                            // Update the subject table container with the fetched data
+                            $('#subjectTableContainer').html(data);
+                        },
+                        error: function (error) {
+                            console.log('Error updating subject table:', error);
+                        }
+                    });
+                }
+            });
+        </script>
+
     </body>
     </html>

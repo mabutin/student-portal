@@ -173,7 +173,6 @@ function updateReferenceNumber($conn, $enrollmentDetailsId, $referenceNumber) {
                 Print
             </button>
         </div>
-    <script src="../assets/js/studentSidebar.js"></script>
     <script>
         function printStudentDetails() {
             var printContent = document.getElementById('printable_div_id').innerHTML;
