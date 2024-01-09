@@ -51,7 +51,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["requestSubmitTor"])) {
     $message = trim($_POST["message"]);
     $message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
 
-    $insertQuery = "INSERT INTO request_tor (student_number, message, request_datetime) VALUES (?, ?, NOW())";
+    // Assuming you have a separate table called 'request_letters'
+    $insertQuery = "INSERT INTO request_tor (student_number, document_type, message, request_datetime, release_date) VALUES (?, 'Transcript of Record', ?, NOW(), CURDATE() + INTERVAL 7 DAY)";
     $insertStmt = $conn->prepare($insertQuery);
 
     if (!$insertStmt) {
@@ -75,6 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["requestSubmitTor"])) {
 
     $insertStmt->close();
 }
+
 
 // Good Moral Request --- edit
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["requestSubmitGoodmoral"])) {
@@ -196,7 +198,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["requestSubmitHonorable
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                             <div class="flex items-center justify-between border-b rounded-t dark:border-gray-600 mb-3">
                                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                    Request of Document
+                                    Request of Document (Transcript of Record)
                                 </h3>
                             </div>
                             <p class="text-sm leading-relaxed text-gray-500">You are requesting for your Transcript of Record. </p>
@@ -228,7 +230,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["requestSubmitHonorable
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                             <div class="flex items-center justify-between border-b rounded-t dark:border-gray-600 mb-3">
                                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                    Request of Document
+                                    Request of Document (Good Moral)
                                 </h3>
                             </div>
 
@@ -262,7 +264,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["requestSubmitHonorable
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                             <div class="flex items-center justify-between border-b rounded-t dark:border-gray-600 mb-3">
                                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                    Request of Document
+                                    Request of Document (Honorable Dismissal)
                                 </h3>
                             </div>
 
@@ -285,6 +287,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["requestSubmitHonorable
             </div>
         </div>
     </div>
+
+
 </body>
 
 </html>
