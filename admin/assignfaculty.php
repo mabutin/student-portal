@@ -352,7 +352,7 @@ if ($resultAssignments->num_rows > 0) {
 
 
 
-    <script src="../assets/js/studentSidebar.js"></script>
 </body>
 
+<script src="../assets/js/adminSidebar.js" defer></script>
 </html>

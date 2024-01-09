@@ -86,6 +86,7 @@ function hasAccess($allowedUserTypes, $currentUserType)
                                 <div class="py-2">
                                     <a href="facultyAdvisory.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Faculty List</a>
                                     <a href="assignfaculty.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Advisory</a>
+                                    <a href="assignclass.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Assign Student Class</a>
                                 </div>
                             </div>
                         </div>
