@@ -279,7 +279,7 @@ if ($resultAssignments->num_rows > 0) {
                     <h2 class="px-6 text-lg font-semibold">Assigned Faculty</h2>
                 </div>
 
-                <table id="assignments_table" class=" w-full text-sm text-left">
+                <table id="assignments_table" class="w-full text-sm text-left">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr class="border-b border-blue-300">
                             <th scope="col" class="px-6 py-3 border-r border-blue-300">
@@ -305,47 +305,47 @@ if ($resultAssignments->num_rows > 0) {
                     </thead>
 
                     <tbody>
-            <?php foreach ($assignments as $assignment) : ?>
-                <tr class="bg-white hover:bg-gray-50">
-                    <td class="px-6 py-3 border-b border-r border-blue-300"><?= $assignment['assignment_id'] ?></td>
-                    <td class="px-6 py-3 border-b border-r border-blue-300">
-                        <?php
-                        // Fetch subject name from the database using subject_id
-                        $subjectId = $assignment['subject_id'];
-                        $sqlSubjectName = "SELECT name FROM subjects WHERE subject_id = ?";
-                        $stmtSubjectName = $conn->prepare($sqlSubjectName);
-                        $stmtSubjectName->bind_param("s", $subjectId);
-                        $stmtSubjectName->execute();
-                        $stmtSubjectName->bind_result($subjectName);
-                        $stmtSubjectName->fetch();
-                        $stmtSubjectName->close();
+                        <?php foreach ($assignments as $assignment) : ?>
+                            <tr class="bg-white hover:bg-gray-50">
+                                <td class="px-6 py-3 border-b border-r border-blue-300"><?= $assignment['assignment_id'] ?></td>
+                                <td class="px-6 py-3 border-b border-r border-blue-300">
+                                    <?php
+                                    // Fetch subject name from the database using subject_id
+                                    $subjectId = $assignment['subject_id'];
+                                    $sqlSubjectName = "SELECT name FROM subjects WHERE subject_id = ?";
+                                    $stmtSubjectName = $conn->prepare($sqlSubjectName);
+                                    $stmtSubjectName->bind_param("s", $subjectId);
+                                    $stmtSubjectName->execute();
+                                    $stmtSubjectName->bind_result($subjectName);
+                                    $stmtSubjectName->fetch();
+                                    $stmtSubjectName->close();
 
-                        echo $subjectName;
-                        ?>
-                   </td>
-                    <td class="px-6 py-3 border-b border-r border-blue-300"><?= $assignment['year_level_id'] ?></td>
-                    <td class="px-6 py-3 border-b border-r border-blue-300"><?= $assignment['class'] ?></td>
-                    <td class="px-6 py-3 border-b border-r border-blue-300"><?= $assignment['semester'] ?></td>
-                    <td class="px-6 py-3 border-b border-r border-blue-300">
-                        <?php
-                        // Fetch faculty details from the database using faculty_id
-                        $facultyId = $assignment['faculty_id'];
-                        $sqlFacultyDetails = "SELECT surname, first_name, middle_name FROM professor_details WHERE professor_details_id = ?";
-                        $stmtFacultyDetails = $conn->prepare($sqlFacultyDetails);
-                        $stmtFacultyDetails->bind_param("s", $facultyId);
-                        $stmtFacultyDetails->execute();
-                        $stmtFacultyDetails->bind_result($surname, $firstName, $middleName);
-                        $stmtFacultyDetails->fetch();
-                        $stmtFacultyDetails->close();
+                                    echo $subjectName;
+                                    ?>
+                                </td>
+                                <td class="px-6 py-3 border-b border-r border-blue-300"><?= $assignment['year_level_id'] ?></td>
+                                <td class="px-6 py-3 border-b border-r border-blue-300"><?= $assignment['class'] ?></td>
+                                <td class="px-6 py-3 border-b border-r border-blue-300"><?= $assignment['semester'] ?></td>
+                                <td class="px-6 py-3 border-b border-r border-blue-300">
+                                    <?php
+                                    // Fetch faculty details from the database using faculty_id
+                                    $facultyId = $assignment['faculty_id'];
+                                    $sqlFacultyDetails = "SELECT surname, first_name, middle_name FROM professor_details WHERE professor_details_id = ?";
+                                    $stmtFacultyDetails = $conn->prepare($sqlFacultyDetails);
+                                    $stmtFacultyDetails->bind_param("s", $facultyId);
+                                    $stmtFacultyDetails->execute();
+                                    $stmtFacultyDetails->bind_result($surname, $firstName, $middleName);
+                                    $stmtFacultyDetails->fetch();
+                                    $stmtFacultyDetails->close();
 
-                        echo "$surname, $firstName $middleName";
-                        ?>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</section>
+                                    echo "$surname, $firstName $middleName";
+                                    ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </section>
         </div>
     </div>
 
