@@ -19,8 +19,8 @@ function getCurrentSchoolYearAndSemester() {
 }
 
 $schoolInfo = getCurrentSchoolYearAndSemester();
-echo "Debug: School Year Info - ";
-print_r($schoolInfo);
+// echo "Debug: School Year Info - ";
+// print_r($schoolInfo);
 
 $schoolYear = $schoolInfo['schoolYear'];
 $semester = $schoolInfo['semester'];
@@ -50,12 +50,9 @@ if (isset($_POST['saveSubjects'])) {
         
             if ($insertStmt) {
                 mysqli_stmt_bind_param($insertStmt, 'iiiss', $studentId, $subjectId, $yearlevelId, $semesterId, $schoolYear);
-                echo "Debug: Inserting subject with school year - $schoolYear<br>";
         
-                echo "Debug: Before insertion - School Year: $schoolYear, Subject ID: $subjectId, etc.<br>";
         
                 if (mysqli_stmt_execute($insertStmt)) {
-                    echo "Debug: Insertion successful<br>";
                     header("Location: enrollment-list.php");
                     exit(); // Added exit to stop further execution after header redirect
                 } else {
